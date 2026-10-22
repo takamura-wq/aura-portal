@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA PORTAL | Pusat Panduan</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+                    colors: { cyber: { 400: '#facc15', 500: '#f59e0b', 600: '#d97706', dark: '#050508' } },
+                    animation: { 
+                        'fade-up': 'fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        fadeUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #030305; color: #e2e8f0; min-height: 100vh; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+        
+        .bg-ambient { position: fixed; inset: 0; background: radial-gradient(circle at 50% 0%, rgba(245, 158, 11, 0.05) 0%, transparent 60%); z-index: -2; pointer-events: none; }
+        .bg-grid { position: fixed; inset: 0; background-size: 30px 30px; background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px); z-index: -3; mask-image: linear-gradient(to bottom, black 20%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%); }
+
+        .glass-panel { background: rgba(10, 10, 14, 0.5); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .glass-panel:hover { border-color: rgba(255, 255, 255, 0.12); background: rgba(255, 255, 255, 0.02); transform: translateY(-2px); }
+
+        .btn-primary { background: linear-gradient(135deg, #f59e0b, #facc15); color: #000; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2); transition: all 0.3s; }
+        .btn-primary:hover { box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4); transform: translateY(-1px); filter: brightness(1.1); }
+        .btn-primary:active { transform: translateY(1px) scale(0.98); }
+
+        .btn-secondary { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; transition: all 0.3s; }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); }
+        .btn-secondary:active { transform: scale(0.98); }
+
+        .protected-img { pointer-events: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; -webkit-user-drag: none; }
+        
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+    </style>
+</head>
+
+<body class="flex justify-center">
+    <div class="bg-ambient"></div>
+    <div class="bg-grid"></div>
+
+    <div class="w-full max-w-[480px] min-h-screen bg-cyber-dark/80 backdrop-blur-3xl border-x border-white/5 relative z-10 flex flex-col shadow-2xl">
+        
+        <!-- Header -->
+        <header class="sticky top-0 z-50 bg-cyber-dark/90 backdrop-blur-md border-b border-white/5 px-5 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white shadow-inner">
+                    <i class="fas fa-compass text-lg"></i>
+                </div>
+                <div class="flex flex-col">
+                    <h1 class="font-extrabold text-white text-base tracking-tight leading-none">AURA PORTAL</h1>
+                    <span class="text-[10px] text-slate-400 mt-0.5 font-medium">
+                        Pusat Panduan & Akses
+                    </span>
+                </div>
+            </div>
+            <!-- Mengganti kata "Brankas" dengan "Buka Web" agar selaras dengan skenario penyamaran -->
+            <a href="https://aura-assets-nine.vercel.app/" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-lg text-[10px] font-bold transition-all flex items-center gap-1.5">
+                <i class="fas fa-globe"></i> BUKA WEB
+            </a>
+        </header>
+
+        <div class="p-5 flex flex-col gap-7 pb-16">
+
+            <!-- Section 1: Community Network -->
+            <section class="opacity-0 animate-fade-up">
+                <h2 class="text-[10px] font-bold text-slate-500 mb-3 tracking-widest uppercase flex items-center gap-2">
+                    <i class="fas fa-users text-slate-400"></i> Komunitas Kreator
+                </h2>
+                <div class="grid grid-cols-2 gap-3">
+                    <a href="https://chat.whatsapp.com/LINK_GRUP_KAMU" target="_blank" class="glass-panel p-4 rounded-2xl flex flex-col items-center gap-3 group">
+                        <div class="w-12 h-12 rounded-full bg-green-500/10 border border-green-500/20 text-green-500 flex items-center justify-center text-2xl group-hover:scale-110 group-hover:bg-green-500 group-hover:text-black transition-all duration-300">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="text-xs font-bold text-white">WhatsApp</h3>
+                            <p class="text-[9px] text-slate-400 mt-1">Grup Diskusi Utama</p>
+                        </div>
+                    </a>
+                    
+                    <a href="https://t.me/LINK_CHANNEL_KAMU" target="_blank" class="glass-panel p-4 rounded-2xl flex flex-col items-center gap-3 group">
+                        <div class="w-12 h-12 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center text-2xl group-hover:scale-110 group-hover:bg-blue-500 group-hover:text-black transition-all duration-300">
+                            <i class="fab fa-telegram-plane"></i>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="text-xs font-bold text-white">Telegram</h3>
+                            <p class="text-[9px] text-slate-400 mt-1">Info & Update</p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Section 2: Tutorials -->
+            <section class="opacity-0 animate-fade-up" style="animation-delay: 100ms;">
+                <h2 class="text-[10px] font-bold text-slate-500 mb-3 tracking-widest uppercase flex items-center gap-2">
+                    <i class="fas fa-play-circle text-slate-400"></i> Video Panduan
+                </h2>
+                <div class="flex flex-col gap-2">
+                    <a href="https://youtube.com/link-videomu-1" target="_blank" class="glass-panel p-3.5 rounded-xl flex items-center justify-between group cursor-pointer">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-10 h-10 rounded-lg bg-black/40 border border-white/5 flex items-center justify-center text-slate-300 shadow-inner group-hover:bg-white/10 group-hover:text-white transition-colors">
+                                <i class="fas fa-link text-sm"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-white text-xs mb-0.5">Cara Melewati Tautan</h3>
+                                <p class="text-[10px] text-slate-400">Tutorial mendapatkan key / token</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-slate-600 text-xs group-hover:translate-x-1 group-hover:text-white transition-all"></i>
+                    </a>
+                    
+                    <a href="https://youtube.com/link-videomu-2" target="_blank" class="glass-panel p-3.5 rounded-xl flex items-center justify-between group cursor-pointer">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-10 h-10 rounded-lg bg-black/40 border border-white/5 flex items-center justify-center text-slate-300 shadow-inner group-hover:bg-white/10 group-hover:text-white transition-colors">
+                                <i class="fas fa-folder-open text-sm"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-white text-xs mb-0.5">Cara Membuka Akses Premium</h3>
+                                <p class="text-[10px] text-slate-400">Panduan menggunakan key di website</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-right text-slate-600 text-xs group-hover:translate-x-1 group-hover:text-white transition-all"></i>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Section 3: Database -->
+            <section class="opacity-0 animate-fade-up" style="animation-delay: 200ms;">
+                <div class="flex items-center justify-between mb-3">
+                    <h2 class="text-[10px] font-bold text-slate-500 tracking-widest uppercase flex items-center gap-2">
+                        <i class="fas fa-layer-group text-slate-400"></i> Katalog Aset
+                    </h2>
+                    <span class="text-[9px] font-bold text-green-400 bg-green-500/10 px-2 py-0.5 rounded border border-green-500/20">LIVE</span>
+                </div>
+
+                <div class="flex flex-col gap-3">
+                    
+                    <!-- ITEM 1 -->
+                    <div class="glass-panel rounded-2xl p-3 flex gap-3.5">
+                        <div class="w-[88px] h-[88px] rounded-xl overflow-hidden shrink-0 border border-white/10 relative shadow-inner">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+                            <img src="https://placehold.co/400x400/0a0a0c/ffffff?text=Editor" alt="Editor" class="w-full h-full object-cover protected-img">
+                        </div>
+                        <div class="flex flex-col flex-1 justify-between py-0.5">
+                            <div>
+                                <h3 class="text-sm font-bold text-white leading-tight">Alat Editor Pro</h3>
+                                <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">Aplikasi mod premium & tools esensial untuk editing mobile.</p>
+                            </div>
+                            <div class="flex gap-2 mt-2">
+                                <a href="https://shortlinkmu.com/editor" target="_blank" class="flex-1 py-1.5 btn-primary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
+                                    <i class="fas fa-key text-[9px]"></i> AMBIL KEY
+                                </a>
+                                <a href="https://aura-assets-nine.vercel.app/" class="flex-1 py-1.5 btn-secondary rounded-lg text-[10px] font-bold text-center">
+                                    BUKA WEB
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ITEM 2 -->
+                    <div class="glass-panel rounded-2xl p-3 flex gap-3.5">
+                        <div class="w-[88px] h-[88px] rounded-xl overflow-hidden shrink-0 border border-white/10 relative shadow-inner">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+                            <img src="https://placehold.co/400x400/0a0a0c/ffffff?text=Effect" alt="Effect" class="w-full h-full object-cover protected-img">
+                        </div>
+                        <div class="flex flex-col flex-1 justify-between py-0.5">
+                            <div>
+                                <h3 class="text-sm font-bold text-white leading-tight">Bahan Effect Visual</h3>
+                                <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">Kumpulan overlay, partikel & mentahan transisi video.</p>
+                            </div>
+                            <div class="flex gap-2 mt-2">
+                                <a href="https://shortlinkmu.com/effect" target="_blank" class="flex-1 py-1.5 btn-primary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
+                                    <i class="fas fa-key text-[9px]"></i> AMBIL KEY
+                                </a>
+                                <a href="https://aura-assets-nine.vercel.app/" class="flex-1 py-1.5 btn-secondary rounded-lg text-[10px] font-bold text-center">
+                                    BUKA WEB
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ITEM 3 -->
+                    <div class="glass-panel rounded-2xl p-3 flex gap-3.5">
+                        <div class="w-[88px] h-[88px] rounded-xl overflow-hidden shrink-0 border border-white/10 relative shadow-inner">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+                            <img src="https://placehold.co/400x400/0a0a0c/ffffff?text=LUTs" alt="LUTs" class="w-full h-full object-cover protected-img">
+                        </div>
+                        <div class="flex flex-col flex-1 justify-between py-0.5">
+                            <div>
+                                <h3 class="text-sm font-bold text-white leading-tight">Color Grading LUTs</h3>
+                                <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">Preset warna cinematic .cube untuk CapCut & Premiere.</p>
+                            </div>
+                            <div class="flex gap-2 mt-2">
+                                <a href="https://shortlinkmu.com/luts" target="_blank" class="flex-1 py-1.5 btn-primary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
+                                    <i class="fas fa-key text-[9px]"></i> AMBIL KEY
+                                </a>
+                                <a href="https://aura-assets-nine.vercel.app/" class="flex-1 py-1.5 btn-secondary rounded-lg text-[10px] font-bold text-center">
+                                    BUKA WEB
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ITEM 4 -->
+                    <div class="glass-panel rounded-2xl p-3 flex gap-3.5">
+                        <div class="w-[88px] h-[88px] rounded-xl overflow-hidden shrink-0 border border-white/10 relative shadow-inner">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
+                            <img src="https://placehold.co/400x400/0a0a0c/ffffff?text=SFX" alt="SFX" class="w-full h-full object-cover protected-img">
+                        </div>
+                        <div class="flex flex-col flex-1 justify-between py-0.5">
+                            <div>
+                                <h3 class="text-sm font-bold text-white leading-tight">Cyberpunk SFX</h3>
+                                <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">Audio desain futuristik, bass drop, glitch & UI sounds.</p>
+                            </div>
+                            <div class="flex gap-2 mt-2">
+                                <a href="https://shortlinkmu.com/sfx" target="_blank" class="flex-1 py-1.5 btn-primary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
+                                    <i class="fas fa-key text-[9px]"></i> AMBIL KEY
+                                </a>
+                                <a href="https://aura-assets-nine.vercel.app/" class="flex-1 py-1.5 btn-secondary rounded-lg text-[10px] font-bold text-center">
+                                    BUKA WEB
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+            
+            <footer class="mt-6 text-center opacity-0 animate-fade-up" style="animation-delay: 300ms;">
+                <p class="text-[10px] text-slate-600 font-mono tracking-widest uppercase">© 2026 AURA PORTAL</p>
+            </footer>
+
+        </div>
+    </div>
+</body>
+</html>
