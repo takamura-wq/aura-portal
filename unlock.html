@@ -91,14 +91,14 @@
             </button>
 
             <!-- Task 2: Watch & Like YouTube -->
-            <button id="task-watch" onclick="startTask('watch', 35000)" class="task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10">
+            <button id="task-watch" onclick="startTask('watch', 20000)" class="task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 rounded-lg bg-pink-500/10 text-pink-400 flex items-center justify-center text-lg">
                         <i class="fas fa-thumbs-up"></i>
                     </div>
                     <div class="text-left">
                         <h3 class="text-xs font-bold text-white">Tonton & Like Video</h3>
-                        <p class="text-[9px] text-slate-400">Tonton minimal 35 detik</p>
+                        <p class="text-[9px] text-slate-400">Tonton minimal 20 detik</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-2">
@@ -207,7 +207,7 @@
         
         let tasks = {
             'sub': { done: false, minTime: 15000 },    
-            'watch': { done: false, minTime: 35000 }, 
+            'watch': { done: false, minTime: 20000 }, 
             'wa': { done: false, minTime: 12000 },     
             'tg': { done: false, minTime: 12000 }      
         };
@@ -326,6 +326,12 @@
                 
                 setTimeout(() => {
                     window.location.href = FINAL_URL;
+                    
+                    // Reset tombol setelah 1.5 detik agar jika user 'back' dari Bicolink, tombol tidak freeze/muter terus
+                    setTimeout(() => {
+                        unlockBtn.innerHTML = '<i class="fas fa-unlock text-lg"></i> AMBIL LINK SEKARANG';
+                    }, 1500);
+                    
                 }, 1000);
             } else {
                 showToast("Selesaikan semua tugas yang tersisa!", "error");
