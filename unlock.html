@@ -43,8 +43,8 @@
         #toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); opacity: 0; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 100; }
         #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
         
-        .spinner { border: 2px solid rgba(255,255,255,0.1); border-left-color: currentColor; border-radius: 50%; width: 14px; height: 14px; animation: spin 1s linear infinite; display: none; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .task-btn.locked { opacity: 0.5; filter: grayscale(80%); pointer-events: none; }
+        .task-btn.processing { border-color: rgba(234, 179, 8, 0.4); background: rgba(234, 179, 8, 0.05); }
         
         /* Custom Scrollbar for mobile fit */
         ::-webkit-scrollbar { width: 4px; }
@@ -69,10 +69,10 @@
             <i class="fas fa-shield-alt"></i>
         </div>
         <h1 class="text-lg font-extrabold text-white mb-1">Keamanan Tautan</h1>
-        <p class="text-[11px] text-slate-400 text-center mb-6 leading-relaxed">Verifikasi bahwa Anda adalah manusia & pendukung kreator dengan menyelesaikan <b class="text-white">4 tugas</b> di bawah.</p>
+        <p class="text-[11px] text-slate-400 text-center mb-6 leading-relaxed">Verifikasi bahwa Anda adalah manusia & pendukung kreator dengan menyelesaikan <b class="text-white">4 tugas berurutan</b> di bawah.</p>
 
         <!-- Task List -->
-        <div class="w-full flex flex-col gap-2.5 mb-8">
+        <div class="w-full flex flex-col gap-2.5 mb-8" id="task-container">
             
             <!-- Task 1: Subscribe YouTube -->
             <button id="task-sub" onclick="startTask('sub', 8000)" class="task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10">
@@ -85,9 +85,8 @@
                         <p class="text-[9px] text-slate-400">Dukung kreator</p>
                     </div>
                 </div>
-                <div class="flex items-center gap-2 text-slate-500 text-sm">
-                    <div class="spinner"></div>
-                    <i class="status-icon fas fa-chevron-right group-hover:translate-x-1 transition-transform"></i>
+                <div class="flex items-center gap-2">
+                    <span class="status-badge text-[9px] font-bold px-2.5 py-1.5 rounded bg-cyber-500 text-white tracking-wider">MULAI</span>
                 </div>
             </button>
 
@@ -102,9 +101,8 @@
                         <p class="text-[9px] text-slate-400">Tonton minimal 20 detik</p>
                     </div>
                 </div>
-                <div class="flex items-center gap-2 text-slate-500 text-sm">
-                    <div class="spinner"></div>
-                    <i class="status-icon fas fa-chevron-right group-hover:translate-x-1 transition-transform"></i>
+                <div class="flex items-center gap-2">
+                    <span class="status-badge text-[9px] font-bold px-2.5 py-1.5 rounded bg-black/50 text-slate-500"><i class="fas fa-lock"></i></span>
                 </div>
             </button>
 
@@ -119,9 +117,8 @@
                         <p class="text-[9px] text-slate-400">Join untuk info terbaru</p>
                     </div>
                 </div>
-                <div class="flex items-center gap-2 text-slate-500 text-sm">
-                    <div class="spinner"></div>
-                    <i class="status-icon fas fa-chevron-right group-hover:translate-x-1 transition-transform"></i>
+                <div class="flex items-center gap-2">
+                    <span class="status-badge text-[9px] font-bold px-2.5 py-1.5 rounded bg-black/50 text-slate-500"><i class="fas fa-lock"></i></span>
                 </div>
             </button>
 
@@ -136,9 +133,8 @@
                         <p class="text-[9px] text-slate-400">Join komunitas diskusi</p>
                     </div>
                 </div>
-                <div class="flex items-center gap-2 text-slate-500 text-sm">
-                    <div class="spinner"></div>
-                    <i class="status-icon fas fa-chevron-right group-hover:translate-x-1 transition-transform"></i>
+                <div class="flex items-center gap-2">
+                    <span class="status-badge text-[9px] font-bold px-2.5 py-1.5 rounded bg-black/50 text-slate-500"><i class="fas fa-lock"></i></span>
                 </div>
             </button>
 
@@ -173,7 +169,7 @@
         // 2. Setup link default (Global) untuk Channel, WA, dan Telegram
         const defaultLinks = {
             final: "https://bicolink.com/LinkDefaultAnda",
-            sub: "https://youtube.com/@kanaalikesleeping",
+            sub: "https://youtube.com/@ChannelAnda",
             watch: "https://youtube.com/watch?v=VideoDefault", // Video cadangan
             wa: "https://whatsapp.com/channel/0029Vb9egHN1NCrZEt9JKO28",
             tg: "https://t.me/kanaalikesleeping"
@@ -205,81 +201,115 @@
         
         const FINAL_URL = currentData.final; 
 
-        // State Management 4 Tugas
-        // minTime = waktu (ms) minimal user harus keluar dari web
+        // State Management Urutan & Timer
+        const taskSequence = ['sub', 'watch', 'wa', 'tg'];
+        let currentTaskIndex = 0;
+        
         let tasks = {
-            'sub': { done: false, minTime: 8000, clickTime: 0 },    
-            'watch': { done: false, minTime: 20000, clickTime: 0 }, 
-            'wa': { done: false, minTime: 6000, clickTime: 0 },     
-            'tg': { done: false, minTime: 6000, clickTime: 0 }      
+            'sub': { done: false, minTime: 8000 },    
+            'watch': { done: false, minTime: 20000 }, 
+            'wa': { done: false, minTime: 6000 },     
+            'tg': { done: false, minTime: 6000 }      
         };
         
         let activeTask = null;
-        let totalTasks = Object.keys(tasks).length;
+        let clickTime = 0;
+        let checkInterval = null;
+        let totalTasks = taskSequence.length;
 
-        // Fungsi Memulai Tugas
-        function startTask(taskId, requiredTimeMs) {
-            if (tasks[taskId].done) return;
-
-            // Ambil URL yang sesuai dari currentData (sub, watch, wa, tg)
-            let url = currentData[taskId];
-
-            let btn = document.getElementById('task-' + taskId);
-            let icon = btn.querySelector('.status-icon');
-            let spinner = btn.querySelector('.spinner');
-
-            // Set state UI jadi "Memproses"
-            icon.style.display = 'none';
-            spinner.style.display = 'block';
-            
-            // Catat waktu klik
-            tasks[taskId].clickTime = Date.now();
-            
-            // Antisipasi jika user mengubah parameter di HTML inspector
-            tasks[taskId].minTime = requiredTimeMs; 
-            
-            activeTask = taskId;
-
-            // Buka link di tab/aplikasi baru
-            window.open(url, '_blank');
+        // Inisialisasi Tampilan Awal Berurutan (Lock/Unlock)
+        function initTasksUI() {
+            taskSequence.forEach((taskId, index) => {
+                let btn = document.getElementById('task-' + taskId);
+                let badge = btn.querySelector('.status-badge');
+                
+                if (tasks[taskId].done) {
+                    btn.className = 'task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between completed';
+                    badge.innerHTML = '<i class="fas fa-check text-sm"></i>';
+                    badge.className = 'status-badge text-[9px] font-bold px-2.5 py-1.5 rounded bg-green-500/10 text-green-500';
+                } else if (index === currentTaskIndex) {
+                    // Tugas yang saat ini harus dikerjakan
+                    btn.className = 'task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10 cursor-pointer';
+                    badge.innerHTML = 'MULAI';
+                    badge.className = 'status-badge text-[9px] font-bold px-2.5 py-1.5 rounded bg-cyber-500 text-white tracking-wider shadow-[0_0_10px_rgba(168,85,247,0.4)]';
+                } else if (index > currentTaskIndex) {
+                    // Tugas selanjutnya (Masih terkunci)
+                    btn.className = 'task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between locked';
+                    badge.innerHTML = '<i class="fas fa-lock"></i>';
+                    badge.className = 'status-badge text-[9px] font-bold px-2.5 py-1.5 rounded bg-black/50 text-slate-500';
+                }
+            });
         }
 
-        // Pantau saat user kembali ke tab ini
+        // Panggil saat web pertama dibuka untuk menyusun gembok
+        initTasksUI();
+
+        // Fungsi Memulai Tugas & Menjalankan Animasi Timer
+        function startTask(taskId, requiredTimeMs) {
+            // Tolak jika bukan urutannya atau sedang ada tugas yang berjalan
+            if (taskId !== taskSequence[currentTaskIndex]) {
+                showToast("Selesaikan tugas sebelumnya terlebih dahulu!", "error");
+                return;
+            }
+            if (activeTask) return;
+
+            let url = currentData[taskId];
+            let btn = document.getElementById('task-' + taskId);
+            let badge = btn.querySelector('.status-badge');
+
+            activeTask = taskId;
+            clickTime = Date.now();
+            
+            // Ubah UI jadi mode hitung mundur (kuning)
+            btn.classList.add('processing');
+            
+            // Buka link tab baru
+            window.open(url, '_blank');
+
+            // Jalankan Timer Animasi langsung di tombol
+            checkInterval = setInterval(() => {
+                let elapsed = Date.now() - clickTime;
+                let timeLeft = Math.ceil((requiredTimeMs - elapsed) / 1000);
+                
+                if (timeLeft > 0) {
+                    badge.innerHTML = `${timeLeft} DETIK`;
+                    badge.className = 'status-badge text-[9px] font-bold px-2.5 py-1.5 rounded bg-yellow-500 text-black tracking-wider shadow-[0_0_10px_rgba(234,179,8,0.3)]';
+                } else {
+                    badge.innerHTML = 'KEMBALI!';
+                    badge.className = 'status-badge text-[9px] font-bold px-2.5 py-1.5 rounded bg-blue-500 text-white tracking-wider animate-pulse';
+                    clearInterval(checkInterval);
+                }
+            }, 500);
+        }
+
+        // Pantau saat user kembali ke tab web ini
         document.addEventListener("visibilitychange", () => {
             if (document.visibilityState === "visible" && activeTask) {
+                let elapsed = Date.now() - clickTime;
+                let reqTime = tasks[activeTask].minTime;
                 let btn = document.getElementById('task-' + activeTask);
-                let icon = btn.querySelector('.status-icon');
-                let spinner = btn.querySelector('.spinner');
                 
-                // Animasi seolah-olah mengecek server API
-                showToast("Memverifikasi aktivitas Anda...", "info");
-                
-                setTimeout(() => {
-                    let timeSpent = Date.now() - tasks[activeTask].clickTime;
+                if (elapsed >= reqTime) {
+                    // SUKSES
+                    tasks[activeTask].done = true;
+                    showToast("Tugas berhasil! Lanjut ke tahap berikutnya.", "success");
                     
-                    // Cek apakah waktu sesuai standar kita
-                    if (timeSpent >= tasks[activeTask].minTime) {
-                        // SUKSES
-                        tasks[activeTask].done = true;
-                        btn.classList.add('completed');
-                        
-                        spinner.style.display = 'none';
-                        icon.className = 'status-icon fas fa-check-circle text-cyber-success text-lg';
-                        icon.style.display = 'block';
-                        
-                        showToast("Verifikasi tugas berhasil!", "success");
-                        updateProgress();
-                    } else {
-                        // GAGAL - Terlalu cepat kembali
-                        spinner.style.display = 'none';
-                        icon.style.display = 'block';
-                        
-                        let sisaDetik = Math.ceil((tasks[activeTask].minTime - timeSpent) / 1000);
-                        showToast(`Gagal! Anda terlalu cepat. Tonton/cek setidaknya ${sisaDetik} detik lagi.`, "error");
-                    }
+                    activeTask = null;
+                    clearInterval(checkInterval);
                     
-                    activeTask = null; // Reset aktif task
-                }, 1800); // Jeda buatan agar terlihat "real" mikir
+                    currentTaskIndex++; // Buka gembok tugas selanjutnya
+                    updateProgress();
+                    initTasksUI(); // Perbarui tampilan semua tombol
+                } else {
+                    // GAGAL - Terlalu cepat kembali
+                    let sisa = Math.ceil((reqTime - elapsed) / 1000);
+                    showToast(`Gagal! Anda kembali terlalu cepat. Tunggu sampai timer habis!`, "error");
+                    
+                    // Reset tugas ini agar wajib diulangi dari awal
+                    activeTask = null;
+                    clearInterval(checkInterval);
+                    initTasksUI(); // Kembalikan tombol ke tulisan 'MULAI'
+                }
             }
         });
 
