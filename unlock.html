@@ -169,7 +169,7 @@
         // 2. Setup link default (Global) untuk Channel, WA, dan Telegram
         const defaultLinks = {
             final: "https://bicolink.com/LinkDefaultAnda",
-            sub: "https://youtube.com/@kanaalikesleeping",
+            sub: "https://youtube.com/@ChannelAnda",
             watch: "https://youtube.com/watch?v=VideoDefault", // Video cadangan
             wa: "https://whatsapp.com/channel/0029Vb9egHN1NCrZEt9JKO28",
             tg: "https://t.me/kanaalikesleeping"
@@ -272,46 +272,31 @@
                 let timeLeft = Math.ceil((requiredTimeMs - elapsed) / 1000);
                 
                 if (timeLeft > 0) {
+                    // Update tulisan timer (contoh: "8 DETIK")
                     badge.innerHTML = `${timeLeft} DETIK`;
                     badge.className = 'status-badge text-[9px] font-bold px-2.5 py-1.5 rounded bg-yellow-500 text-black tracking-wider shadow-[0_0_10px_rgba(234,179,8,0.3)]';
                 } else {
-                    badge.innerHTML = 'KEMBALI!';
-                    badge.className = 'status-badge text-[9px] font-bold px-2.5 py-1.5 rounded bg-blue-500 text-white tracking-wider animate-pulse';
+                    // Waktu habis, otomatis sukses!
                     clearInterval(checkInterval);
+                    completeTask(taskId);
                 }
             }, 500);
         }
 
-        // Pantau saat user kembali ke tab web ini
-        document.addEventListener("visibilitychange", () => {
-            if (document.visibilityState === "visible" && activeTask) {
-                let elapsed = Date.now() - clickTime;
-                let reqTime = tasks[activeTask].minTime;
-                let btn = document.getElementById('task-' + activeTask);
-                
-                if (elapsed >= reqTime) {
-                    // SUKSES
-                    tasks[activeTask].done = true;
-                    showToast("Tugas berhasil! Lanjut ke tahap berikutnya.", "success");
-                    
-                    activeTask = null;
-                    clearInterval(checkInterval);
-                    
-                    currentTaskIndex++; // Buka gembok tugas selanjutnya
-                    updateProgress();
-                    initTasksUI(); // Perbarui tampilan semua tombol
-                } else {
-                    // GAGAL - Terlalu cepat kembali
-                    let sisa = Math.ceil((reqTime - elapsed) / 1000);
-                    showToast(`Gagal! Anda kembali terlalu cepat. Tunggu sampai timer habis!`, "error");
-                    
-                    // Reset tugas ini agar wajib diulangi dari awal
-                    activeTask = null;
-                    clearInterval(checkInterval);
-                    initTasksUI(); // Kembalikan tombol ke tulisan 'MULAI'
-                }
-            }
-        });
+        // Fungsi untuk menyelesaikan tugas
+        function completeTask(taskId) {
+            tasks[taskId].done = true;
+            activeTask = null;
+            
+            showToast("Tugas berhasil! Lanjut ke tahap berikutnya.", "success");
+            
+            currentTaskIndex++; // Buka gembok tugas selanjutnya
+            updateProgress();
+            initTasksUI(); // Perbarui tampilan semua tombol
+        }
+
+        // HAPUS ATAU TIMPA fungsi document.addEventListener("visibilitychange") YANG LAMA.
+        // Kita tidak memakai auto-fail lagi agar user bisa melihat timer berjalan di layar.
 
         // Update Progress Bar
         function updateProgress() {
