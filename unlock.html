@@ -75,7 +75,7 @@
         <div class="w-full flex flex-col gap-2.5 mb-8" id="task-container">
             
             <!-- Task 1: Subscribe YouTube -->
-            <button id="task-sub" onclick="startTask('sub', 8000)" class="task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10">
+            <button id="task-sub" onclick="startTask('sub', 15000)" class="task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 rounded-lg bg-red-500/10 text-red-500 flex items-center justify-center text-lg">
                         <i class="fab fa-youtube"></i>
@@ -91,14 +91,14 @@
             </button>
 
             <!-- Task 2: Watch & Like YouTube -->
-            <button id="task-watch" onclick="startTask('watch', 20000)" class="task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10">
+            <button id="task-watch" onclick="startTask('watch', 35000)" class="task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 rounded-lg bg-pink-500/10 text-pink-400 flex items-center justify-center text-lg">
                         <i class="fas fa-thumbs-up"></i>
                     </div>
                     <div class="text-left">
                         <h3 class="text-xs font-bold text-white">Tonton & Like Video</h3>
-                        <p class="text-[9px] text-slate-400">Tonton minimal 20 detik</p>
+                        <p class="text-[9px] text-slate-400">Tonton minimal 35 detik</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-2">
@@ -107,7 +107,7 @@
             </button>
 
             <!-- Task 3: Join WhatsApp -->
-            <button id="task-wa" onclick="startTask('wa', 6000)" class="task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10">
+            <button id="task-wa" onclick="startTask('wa', 12000)" class="task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 rounded-lg bg-green-500/10 text-green-400 flex items-center justify-center text-lg">
                         <i class="fab fa-whatsapp"></i>
@@ -123,7 +123,7 @@
             </button>
 
             <!-- Task 4: Join Telegram -->
-            <button id="task-tg" onclick="startTask('tg', 6000)" class="task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10">
+            <button id="task-tg" onclick="startTask('tg', 12000)" class="task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center text-lg">
                         <i class="fab fa-telegram-plane"></i>
@@ -206,10 +206,10 @@
         let currentTaskIndex = 0;
         
         let tasks = {
-            'sub': { done: false, minTime: 8000 },    
-            'watch': { done: false, minTime: 20000 }, 
-            'wa': { done: false, minTime: 6000 },     
-            'tg': { done: false, minTime: 6000 }      
+            'sub': { done: false, minTime: 15000 },    
+            'watch': { done: false, minTime: 35000 }, 
+            'wa': { done: false, minTime: 12000 },     
+            'tg': { done: false, minTime: 12000 }      
         };
         
         let activeTask = null;
