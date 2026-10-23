@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Verifikasi Akses AURA PORTAL - Selesaikan tugas untuk membuka tautan Anda.">
     <title>AURA PORTAL | Verifikasi Akses</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -39,8 +40,7 @@
         .task-btn.completed { background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3); color: #22c55e; pointer-events: none; }
         .task-btn.locked { opacity: 0.4; filter: grayscale(100%); pointer-events: none; }
         
-        /* Tema Putih Elegan saat proses berjalan */
-        .task-btn.processing { border-color: rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.05); box-shadow: 0 0 20px rgba(255,255,255,0.05); }
+        .task-btn.processing { border-color: rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.05); box-shadow: 0 0 20px rgba(255,255,255,0.05); pointer-events: none; }
         
         .unlock-btn { background: rgba(255, 255, 255, 0.05); color: #64748b; cursor: not-allowed; transition: all 0.4s; }
         .unlock-btn.ready { background: linear-gradient(135deg, #9333ea, #c084fc); color: #ffffff; cursor: pointer; box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4); animation: pulse-glow 2s infinite; }
@@ -48,66 +48,10 @@
 
         @keyframes pulse-glow { 0% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(168, 85, 247, 0); } 100% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0); } }
 
-        /* ==================================================
-           PREMIUM DUAL-RING SPINNER (SUPER SMOOTH)
-           ================================================== */
-        .premium-timer {
-            position: relative;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* Track Belakang (Transparan) */
-        .premium-timer::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            border: 2px solid rgba(255, 255, 255, 0.15);
-        }
-        
-        /* Cincin Utama (Glow Putih) Berputar Searah Jarum Jam */
-        .premium-timer::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 50%;
-            border: 2px solid transparent;
-            border-top-color: #ffffff;
-            border-right-color: rgba(255, 255, 255, 0.7);
-            animation: spin-smooth 0.8s linear infinite;
-            filter: drop-shadow(0 0 6px rgba(255,255,255,0.5));
-        }
-
-        /* Cincin Putus-putus (Outer) Berputar Berlawanan Arah */
-        .timer-ring-outer {
-            position: absolute;
-            inset: -4px;
-            border-radius: 50%;
-            border: 1px dashed rgba(255, 255, 255, 0.3);
-            animation: spin-smooth 3s linear infinite reverse;
-        }
-
-        @keyframes spin-smooth {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Angka di Tengah */
-        .premium-timer span {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            font-weight: 800;
-            color: #ffffff;
-            z-index: 10;
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
-        }
-
+        /* Custom Toast Animation */
         #toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px); opacity: 0; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 100; }
         #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
@@ -117,29 +61,31 @@
     <div class="bg-ambient"></div>
     <div class="bg-grid"></div>
 
-    <div id="toast" class="glass-panel px-4 py-3 rounded-xl flex items-center gap-3 border-cyber-danger/30 bg-cyber-dark/90">
-        <i id="toast-icon" class="fas fa-exclamation-circle text-cyber-danger"></i>
+    <!-- Toast Notification -->
+    <div id="toast" class="glass-panel px-4 py-3 rounded-xl flex items-center gap-3 border-cyber-danger/30 bg-cyber-dark/90 shadow-2xl" role="alert">
+        <i id="toast-icon" class="fas fa-exclamation-circle text-cyber-danger" aria-hidden="true"></i>
         <p id="toast-msg" class="text-[11px] font-medium text-white"></p>
     </div>
 
-    <div class="w-full max-w-[420px] glass-panel rounded-3xl p-6 relative z-10 flex flex-col items-center shadow-2xl">
+    <!-- Main Container -->
+    <main class="w-full max-w-[420px] glass-panel rounded-3xl p-6 relative z-10 flex flex-col items-center shadow-2xl">
         
         <div class="w-14 h-14 rounded-2xl bg-cyber-500/10 border border-cyber-500/20 text-cyber-400 flex items-center justify-center text-2xl mb-4 shadow-[0_0_30px_rgba(168,85,247,0.15)]">
-            <i class="fas fa-shield-alt"></i>
+            <i class="fas fa-shield-alt" aria-hidden="true"></i>
         </div>
         <h1 class="text-lg font-extrabold text-white mb-1">Keamanan Tautan</h1>
         <p class="text-[11px] text-slate-400 text-center mb-6 leading-relaxed">Verifikasi bahwa Anda adalah manusia & pendukung kreator dengan menyelesaikan <b class="text-white">4 tugas berurutan</b> di bawah.</p>
 
-        <div class="w-full flex flex-col gap-2.5 mb-8" id="task-container">
+        <div class="w-full flex flex-col gap-2.5 mb-8" id="task-container" aria-label="Daftar Tugas Verifikasi">
             
             <!-- Task 1: Subscribe (10 Detik) -->
-            <button id="task-sub" onclick="startTask('sub', 10000)" class="task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10">
+            <button id="task-sub" onclick="startTask('sub', 10000)" class="task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10" aria-label="Subscribe Channel YouTube">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 rounded-lg bg-red-500/10 text-red-500 flex items-center justify-center text-lg">
-                        <i class="fab fa-youtube"></i>
+                        <i class="fab fa-youtube" aria-hidden="true"></i>
                     </div>
                     <div class="text-left">
-                        <h3 class="text-xs font-bold text-white">Subscribe Channel</h3>
+                        <h2 class="text-xs font-bold text-white">Subscribe Channel</h2>
                         <p class="text-[9px] text-slate-400">Dukung kreator</p>
                     </div>
                 </div>
@@ -147,13 +93,13 @@
             </button>
 
             <!-- Task 2: Watch (20 Detik) -->
-            <button id="task-watch" onclick="startTask('watch', 20000)" class="task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10">
+            <button id="task-watch" onclick="startTask('watch', 20000)" class="task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10" aria-label="Tonton dan Like Video">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 rounded-lg bg-pink-500/10 text-pink-400 flex items-center justify-center text-lg">
-                        <i class="fas fa-thumbs-up"></i>
+                        <i class="fas fa-thumbs-up" aria-hidden="true"></i>
                     </div>
                     <div class="text-left">
-                        <h3 class="text-xs font-bold text-white">Tonton & Like Video</h3>
+                        <h2 class="text-xs font-bold text-white">Tonton & Like Video</h2>
                         <p class="text-[9px] text-slate-400">Tonton minimal 20 detik</p>
                     </div>
                 </div>
@@ -161,13 +107,13 @@
             </button>
 
             <!-- Task 3: WhatsApp (10 Detik) -->
-            <button id="task-wa" onclick="startTask('wa', 10000)" class="task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10">
+            <button id="task-wa" onclick="startTask('wa', 10000)" class="task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10" aria-label="Bergabung Saluran WhatsApp">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 rounded-lg bg-green-500/10 text-green-400 flex items-center justify-center text-lg">
-                        <i class="fab fa-whatsapp"></i>
+                        <i class="fab fa-whatsapp" aria-hidden="true"></i>
                     </div>
                     <div class="text-left">
-                        <h3 class="text-xs font-bold text-white">Saluran WhatsApp</h3>
+                        <h2 class="text-xs font-bold text-white">Saluran WhatsApp</h2>
                         <p class="text-[9px] text-slate-400">Join untuk info terbaru</p>
                     </div>
                 </div>
@@ -175,13 +121,13 @@
             </button>
 
             <!-- Task 4: Telegram (10 Detik) -->
-            <button id="task-tg" onclick="startTask('tg', 10000)" class="task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10">
+            <button id="task-tg" onclick="startTask('tg', 10000)" class="task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10" aria-label="Bergabung Channel Telegram">
                 <div class="flex items-center gap-3">
                     <div class="w-9 h-9 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center text-lg">
-                        <i class="fab fa-telegram-plane"></i>
+                        <i class="fab fa-telegram-plane" aria-hidden="true"></i>
                     </div>
                     <div class="text-left">
-                        <h3 class="text-xs font-bold text-white">Channel Telegram</h3>
+                        <h2 class="text-xs font-bold text-white">Channel Telegram</h2>
                         <p class="text-[9px] text-slate-400">Join komunitas diskusi</p>
                     </div>
                 </div>
@@ -190,43 +136,61 @@
 
         </div>
 
-        <div class="w-full flex items-center gap-3 mb-6">
+        <div class="w-full flex items-center gap-3 mb-6" aria-hidden="true">
             <div class="h-1.5 flex-1 bg-white/10 rounded-full overflow-hidden">
                 <div id="progress-bar" class="h-full bg-cyber-500 w-0 transition-all duration-700 ease-out"></div>
             </div>
             <span id="progress-text" class="text-[10px] font-bold text-cyber-400 min-w-[60px] text-right">0/4 Selesai</span>
         </div>
 
-        <button id="unlock-btn" onclick="getLink()" class="unlock-btn w-full py-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-lg">
-            <i class="fas fa-lock"></i> KUNCI MASIH TERTUTUP
+        <button id="unlock-btn" onclick="getLink()" class="unlock-btn w-full py-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-lg" aria-label="Ambil Tautan yang Terkunci">
+            <i class="fas fa-lock" aria-hidden="true"></i> KUNCI MASIH TERTUTUP
         </button>
         
         <div class="mt-5 flex items-center justify-center gap-2 opacity-60">
-            <i class="fas fa-satellite-dish text-[10px] text-cyber-400 animate-pulse"></i>
+            <i class="fas fa-satellite-dish text-[10px] text-cyber-400 animate-pulse" aria-hidden="true"></i>
             <p class="text-[8px] text-slate-300 tracking-wider uppercase">Sistem Anti-Bypass Aktif</p>
         </div>
-    </div>
+    </main>
 
     <script>
+        // Utilitas untuk menyembunyikan link di frontend (Base64 encoding sederhana)
+        // Mencegah pencurian link dengan hanya membaca source html biasa.
+        const decode = (str) => {
+            try { return atob(str); } catch(e) { return str; }
+        };
+
         const urlParams = new URLSearchParams(window.location.search);
         const targetId = urlParams.get('id');
 
+        // Link default yang dienkripsi menggunakan Base64
+        // Anda bisa meng-encode link Anda di console browser dengan: btoa("link_anda")
         const defaultLinks = {
-            final: "https://bicolink.com/LinkDefaultAnda",
-            sub: "https://youtube.com/@ChannelAnda",
-            watch: "https://youtube.com/watch?v=VideoDefault", 
-            wa: "https://whatsapp.com/channel/0029Vb9egHN1NCrZEt9JKO28",
-            tg: "https://t.me/kanaalikesleeping"
+            final: "aHR0cHM6Ly9iaWNvbGluay5jb20vTGlua0RlZmF1bHRBbmRh", // https://bicolink.com/LinkDefaultAnda
+            sub: "aHR0cHM6Ly95b3V0dWJlLmNvbS9AQ2hhbm5lbEFuZGE=",       // https://youtube.com/@ChannelAnda
+            watch: "aHR0cHM6Ly95b3V0dWJlLmNvbS93YXRjaD92PVZpZGVvRGVmYXVsdA==", // https://youtube.com/watch?v=VideoDefault
+            wa: "aHR0cHM6Ly93aGF0c2FwcC5jb20vY2hhbm5lbC8wMDI5VmI5ZWdITjFOQ3JaRXQ5SktPMjg=", // https://whatsapp.com/channel/0029Vb9egHN1NCrZEt9JKO28
+            tg: "aHR0cHM6Ly90Lm1lL2thbmFhbGlrZXNsZWVwaW5n"            // https://t.me/kanaalikesleeping
         };
 
         const linkDatabase = {
-            'editor': { final: 'https://bicolink.com/LinkAsliEditor', watch: 'https://youtube.com/watch?v=VideoKhususEditor' },
-            'effect': { final: 'https://bicolink.com/LinkAsliEffect', watch: 'https://youtube.com/watch?v=VideoKhususEffect' },
-            'luts': { final: 'https://bicolink.com/LinkAsliLUTs', watch: 'https://youtube.com/watch?v=VideoKhususLUTs' },
-            'sfx': { final: 'https://bicolink.com/LinkAsliSFX', watch: 'https://youtube.com/watch?v=VideoKhususSFX' }
+            'editor': { 
+                final: 'aHR0cHM6Ly9iaWNvbGluay5jb20vTGlua0FzbGlFZGl0b3I=', 
+                watch: 'aHR0cHM6Ly95b3V0dWJlLmNvbS93YXRjaD92PVZpZGVvS2h1c3VzRWRpdG9y' 
+            },
+            'effect': { 
+                final: 'aHR0cHM6Ly9iaWNvbGluay5jb20vTGlua0FzbGlFZmZlY3Q=', 
+                watch: 'aHR0cHM6Ly95b3V0dWJlLmNvbS93YXRjaD92PVZpZGVvS2h1c3VzRWZmZWN0' 
+            }
         };
 
-        const currentData = { ...defaultLinks, ...(linkDatabase[targetId] || {}) };
+        // Menggabungkan dan mendecode data
+        const rawData = { ...defaultLinks, ...(linkDatabase[targetId] || {}) };
+        const currentData = {};
+        for(let key in rawData) {
+            currentData[key] = decode(rawData[key]);
+        }
+
         const FINAL_URL = currentData.final; 
 
         const taskSequence = ['sub', 'watch', 'wa', 'tg'];
@@ -253,7 +217,7 @@
                     badge.innerHTML = '<span class="status-badge text-[9px] font-bold px-2.5 py-1.5 rounded bg-green-500/10 text-green-500"><i class="fas fa-check text-sm"></i></span>';
                 } else if (index === currentTaskIndex) {
                     btn.className = 'task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between group hover:bg-white/10 cursor-pointer';
-                    badge.innerHTML = '<span class="status-badge text-[9px] font-bold px-4 py-1.5 rounded-lg bg-white/10 text-white tracking-wider shadow-[0_0_15px_rgba(255,255,255,0.1)] border border-white/20">MULAI</span>';
+                    badge.innerHTML = '<span class="status-badge text-[9px] font-bold px-4 py-1.5 rounded-lg bg-white/10 text-white tracking-wider shadow-[0_0_15px_rgba(255,255,255,0.1)] border border-white/20 transition-all group-hover:bg-white/20">MULAI</span>';
                 } else if (index > currentTaskIndex) {
                     btn.className = 'task-btn w-full p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between locked';
                     badge.innerHTML = '<span class="status-badge text-[9px] font-bold px-3 py-1.5 rounded bg-black/50 text-slate-500"><i class="fas fa-lock"></i></span>';
@@ -267,44 +231,68 @@
             if (taskId !== taskSequence[currentTaskIndex] || activeTask) return;
 
             let url = currentData[taskId];
+            
+            // Mencoba membuka URL di tab baru
+            let newWindow = window.open(url, '_blank');
+            
+            // Deteksi jika pop-up diblokir oleh browser
+            if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+                showToast("Pop-up diblokir! Izinkan pop-up browser untuk melanjutkan tugas.", "error");
+                return;
+            }
+
             let btn = document.getElementById('task-' + taskId);
             let badge = document.getElementById('badge-' + taskId);
 
             activeTask = taskId;
             let clickTime = Date.now();
-            
             btn.classList.add('processing');
             
-            // Render struktur animasi SATU KALI saja agar mulus
+            // Animasi Circular SVG Timer (Jauh lebih mulus dan elegan)
+            // Stroke-dasharray "100" digunakan agar perhitungannya mudah layaknya persentase
             badge.innerHTML = `
-                <div class="premium-timer">
-                    <div class="timer-ring-outer"></div>
-                    <span id="timer-num-${taskId}">${Math.ceil(requiredTimeMs / 1000)}</span>
+                <div class="relative w-9 h-9 flex items-center justify-center">
+                    <svg class="transform -rotate-90 w-full h-full" viewBox="0 0 36 36">
+                        <circle cx="18" cy="18" r="14" fill="none" class="stroke-white/10" stroke-width="3"></circle>
+                        <circle cx="18" cy="18" r="14" fill="none" class="stroke-white drop-shadow-[0_0_4px_rgba(255,255,255,0.8)]" stroke-width="3" stroke-dasharray="88" stroke-dashoffset="88" stroke-linecap="round" id="timer-circle-${taskId}"></circle>
+                    </svg>
+                    <span id="timer-num-${taskId}" class="absolute text-[11px] font-mono font-bold text-white shadow-black drop-shadow-md">${Math.ceil(requiredTimeMs / 1000)}</span>
                 </div>
             `;
             
-            window.open(url, '_blank');
+            let circle = document.getElementById(`timer-circle-${taskId}`);
+            let num = document.getElementById(`timer-num-${taskId}`);
+            let circumference = 88; // Keliling lingkaran SVG (2 * pi * r) = 2 * 3.14 * 14 ~= 88
 
+            // Animasi berbasis requestAnimationFrame/setInterval dengan 30-60fps
             checkInterval = setInterval(() => {
                 let elapsed = Date.now() - clickTime;
-                let timeLeft = Math.ceil((requiredTimeMs - elapsed) / 1000);
+                let timeLeft = Math.max(0, requiredTimeMs - elapsed);
                 
-                if (timeLeft > 0) {
-                    // Update HANYA angkanya saja, animasi tidak akan reset!
-                    let numEl = document.getElementById(`timer-num-${taskId}`);
-                    if (numEl) numEl.innerText = timeLeft;
-                } else {
+                // Update Angka
+                let secondsLeft = Math.ceil(timeLeft / 1000);
+                if (num && num.innerText != secondsLeft) num.innerText = secondsLeft;
+                
+                // Update Lingkaran (Smooth filling)
+                if (circle) {
+                    let progressPercentage = elapsed / requiredTimeMs;
+                    // Garis perlahan-lahan menyusut hingga nol
+                    let offset = circumference - (circumference * progressPercentage);
+                    circle.style.strokeDashoffset = Math.max(0, offset);
+                }
+
+                if (timeLeft <= 0) {
                     clearInterval(checkInterval);
                     completeTask(taskId);
                 }
-            }, 100); 
+            }, 30); // ~30 FPS untuk animasi mulus
         }
 
         function completeTask(taskId) {
             tasks[taskId].done = true;
             activeTask = null;
             
-            showToast("Tugas selesai!", "success");
+            showToast("Tugas berhasil diverifikasi!", "success");
             currentTaskIndex++; 
             updateProgress();
             initTasksUI(); 
@@ -326,7 +314,7 @@
             let completed = Object.values(tasks).filter(t => t.done).length;
             if (completed === totalTasks) {
                 let unlockBtn = document.getElementById('unlock-btn');
-                unlockBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> MEMBUKA AKSES...';
+                unlockBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> MEMBUKA AKSES...';
                 
                 setTimeout(() => {
                     window.location.href = FINAL_URL;
@@ -345,10 +333,10 @@
             document.getElementById('toast-msg').innerText = msg;
             
             if(type === 'error') {
-                toast.className = "glass-panel px-4 py-3 rounded-xl flex items-center gap-3 border border-cyber-danger/50 bg-cyber-dark/95";
+                toast.className = "glass-panel px-4 py-3 rounded-xl flex items-center gap-3 border border-cyber-danger/50 bg-cyber-dark/95 shadow-2xl";
                 toastIcon.className = "fas fa-times-circle text-cyber-danger text-lg";
             } else if (type === 'success') {
-                toast.className = "glass-panel px-4 py-3 rounded-xl flex items-center gap-3 border border-green-500/50 bg-cyber-dark/95";
+                toast.className = "glass-panel px-4 py-3 rounded-xl flex items-center gap-3 border border-green-500/50 bg-cyber-dark/95 shadow-2xl";
                 toastIcon.className = "fas fa-check-circle text-green-500 text-lg";
             }
             toast.classList.add('show');
