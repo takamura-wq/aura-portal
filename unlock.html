@@ -33,7 +33,8 @@
         .bg-ambient { position: fixed; inset: 0; background: radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.08) 0%, transparent 60%); z-index: -2; pointer-events: none; }
         .bg-grid { position: fixed; inset: 0; background-size: 30px 30px; background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px); z-index: -3; mask-image: linear-gradient(to bottom, black 20%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%); }
 
-        .glass-panel { background: rgba(10, 10, 14, 0.5); backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); transition: all 0.3s ease; }
+        /* OPTIMASI: Blur diubah dari 24px ke 12px agar tidak lag saat animasi timer SVG berjalan */
+        .glass-panel { background: rgba(10, 10, 14, 0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); transition: all 0.3s ease; }
         
         .task-btn { transition: all 0.3s; }
         .task-btn:active { transform: scale(0.98); }
