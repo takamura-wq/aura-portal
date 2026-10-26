@@ -165,7 +165,6 @@
         const targetId = urlParams.get('id');
 
         // Link default yang dienkripsi menggunakan Base64
-        // Anda bisa meng-encode link Anda di console browser dengan: btoa("link_anda")
         const defaultLinks = {
             final: "aHR0cHM6Ly9pLnBpbmltZy5jb20vNzM2eC8xNi8zOC9lOC8xNjM4ZThkYjIwZmI0ODllOWRkZjgxNTRiYzRmMjM1Ny5qcGc=", // https://bicolink.com/LinkDefaultAnda
             sub: "aHR0cHM6Ly95b3V0dWJlLmNvbS9Aa2FuYWFsaWtlc2xlZXBpbmc=",       // https://youtube.com/@ChannelAnda
@@ -174,14 +173,35 @@
             tg: "aHR0cHM6Ly90Lm1lL2thbmFhbGlrZXNsZWVwaW5n"            // https://t.me/kanaalikesleeping
         };
 
+        // DATABASE LINK BERDASARKAN ID
+        // Anda hanya perlu mengganti teks acak Base64 di bawah ini dengan link Anda.
         const linkDatabase = {
             '1': { 
                 final: 'aHR0cHM6Ly9iaWNvbGluay5jb20vS2V5', 
                 watch: 'aHR0cHM6Ly95b3V0dS5iZS9BLXJkNGtoQV9Mdw==' 
             },
-            'effect': { 
+            '2': { 
+                // Ganti dengan Base64 link final ke-2 Anda
+                final: 'aHR0cHM6Ly9jb250b2gtd2Vic2l0ZS5jb20=', 
+                // Ganti dengan Base64 link watch ke-2 Anda
+                watch: 'aHR0cHM6Ly95b3V0dS5iZS9jb250b2gtdmlkZW8=' 
+            },
+            '3': { 
+                // Ini sebelumnya adalah 'effect'
                 final: 'aHR0cHM6Ly9iaWNvbGluay5jb20vTGlua0FzbGlFZmZlY3Q=', 
                 watch: 'aHR0cHM6Ly95b3V0dWJlLmNvbS93YXRjaD92PVZpZGVvS2h1c3VzRWZmZWN0' 
+            },
+            '4': { 
+                // Ganti dengan Base64 link final ke-4 Anda
+                final: 'aHR0cHM6Ly9jb250b2gtd2Vic2l0ZS5jb20=', 
+                // Ganti dengan Base64 link watch ke-4 Anda
+                watch: 'aHR0cHM6Ly95b3V0dS5iZS9jb250b2gtdmlkZW8=' 
+            },
+            '5': { 
+                // Ganti dengan Base64 link final ke-5 Anda
+                final: 'aHR0cHM6Ly9jb250b2gtd2Vic2l0ZS5jb20=', 
+                // Ganti dengan Base64 link watch ke-5 Anda
+                watch: 'aHR0cHM6Ly95b3V0dS5iZS9jb250b2gtdmlkZW8=' 
             }
         };
 
@@ -249,8 +269,7 @@
             let clickTime = Date.now();
             btn.classList.add('processing');
             
-            // Animasi Circular SVG Timer (Jauh lebih mulus dan elegan)
-            // Stroke-dasharray "100" digunakan agar perhitungannya mudah layaknya persentase
+            // Animasi Circular SVG Timer
             badge.innerHTML = `
                 <div class="relative w-9 h-9 flex items-center justify-center">
                     <svg class="transform -rotate-90 w-full h-full" viewBox="0 0 36 36">
@@ -263,21 +282,18 @@
             
             let circle = document.getElementById(`timer-circle-${taskId}`);
             let num = document.getElementById(`timer-num-${taskId}`);
-            let circumference = 88; // Keliling lingkaran SVG (2 * pi * r) = 2 * 3.14 * 14 ~= 88
+            let circumference = 88; 
 
-            // Animasi berbasis requestAnimationFrame/setInterval dengan 30-60fps
+            // Animasi timer
             checkInterval = setInterval(() => {
                 let elapsed = Date.now() - clickTime;
                 let timeLeft = Math.max(0, requiredTimeMs - elapsed);
                 
-                // Update Angka
                 let secondsLeft = Math.ceil(timeLeft / 1000);
                 if (num && num.innerText != secondsLeft) num.innerText = secondsLeft;
                 
-                // Update Lingkaran (Smooth filling)
                 if (circle) {
                     let progressPercentage = elapsed / requiredTimeMs;
-                    // Garis perlahan-lahan menyusut hingga nol
                     let offset = circumference - (circumference * progressPercentage);
                     circle.style.strokeDashoffset = Math.max(0, offset);
                 }
@@ -286,7 +302,7 @@
                     clearInterval(checkInterval);
                     completeTask(taskId);
                 }
-            }, 30); // ~30 FPS untuk animasi mulus
+            }, 30); 
         }
 
         function completeTask(taskId) {
