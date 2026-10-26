@@ -117,23 +117,23 @@
                     <i class="fas fa-play-circle text-cyber-400"></i> Video Panduan
                 </h2>
                 <div class="flex flex-col gap-2">
-                    <div class="glass-panel p-3.5 rounded-xl flex flex-col gap-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-lg bg-cyber-500/20 border border-cyber-500/30 flex items-center justify-center text-cyber-400 shadow-inner">
-                                <i class="fas fa-video text-sm"></i>
-                            </div>
-                            <div>
-                                <h3 class="font-bold text-white text-xs mb-0.5">Cara Membuka Akses Video</h3>
-                                <p class="text-[10px] text-slate-400">Panduan Melewati Bicolink & Menggunakan Key.</p>
+                    <!-- Trigger/Tombol Buka Video -->
+                    <div onclick="openVideoModal()" class="glass-panel p-3 rounded-2xl flex items-center gap-4 cursor-pointer group relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-r from-cyber-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        
+                        <div class="w-14 h-16 rounded-xl shrink-0 border border-cyber-500/30 relative overflow-hidden flex items-center justify-center bg-black shadow-[0_0_15px_rgba(168,85,247,0.2)] group-hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-shadow">
+                            <img src="https://placehold.co/200x350/0a0a0c/a855f7?text=Tutor" alt="Thumbnail" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-110 transition-transform duration-500">
+                            <div class="w-8 h-8 rounded-full bg-cyber-500/80 backdrop-blur-sm flex items-center justify-center z-10 text-white pl-0.5 group-hover:bg-cyber-400 transition-colors">
+                                <i class="fas fa-play text-[10px]"></i>
                             </div>
                         </div>
                         
-                        <!-- Video Player -->
-                        <div class="w-full bg-black/60 rounded-lg overflow-hidden border border-white/10 shadow-inner mt-1">
-                            <video controls playsinline preload="metadata" class="w-full aspect-[9/16] max-h-[450px] object-contain" poster="https://placehold.co/400x711/0a0a0c/a855f7?text=Play+Video">
-                                <source src="panduan.mp4" type="video/mp4">
-                                Browser Anda tidak mendukung tag video. Silakan buka browser versi terbaru.
-                            </video>
+                        <div class="flex-col relative z-10 flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="text-[8px] font-bold text-cyber-dark bg-cyber-400 px-1.5 py-0.5 rounded shadow-[0_0_10px_rgba(192,132,252,0.4)] animate-pulse">PENTING</span>
+                            </div>
+                            <h3 class="font-bold text-white text-xs mb-0.5 group-hover:text-cyber-400 transition-colors">Cara Membuka Akses</h3>
+                            <p class="text-[10px] text-slate-400">Klik untuk memutar video</p>
                         </div>
                     </div>
                 </div>
@@ -246,5 +246,70 @@
 
         </div>
     </div>
+
+    <!-- Video Modal Popup -->
+    <div id="videoModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 transition-opacity duration-300">
+        <!-- Backdrop/Background Gelap -->
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeVideoModal()"></div>
+        
+        <!-- Modal Content -->
+        <div class="relative w-full max-w-sm bg-cyber-dark/95 border border-white/10 rounded-2xl overflow-hidden shadow-2xl flex flex-col transform transition-all duration-300 scale-95 opacity-0" id="videoModalContent">
+            
+            <!-- Header Modal -->
+            <div class="flex justify-between items-center p-3 border-b border-white/5 bg-white/5">
+                <h3 class="text-xs font-bold text-white flex items-center gap-2">
+                    <i class="fas fa-play-circle text-cyber-400"></i> Panduan Akses
+                </h3>
+                <button onclick="closeVideoModal()" class="w-7 h-7 rounded-lg bg-white/10 hover:bg-red-500/80 text-white/70 hover:text-white flex items-center justify-center transition-colors">
+                    <i class="fas fa-times text-xs"></i>
+                </button>
+            </div>
+            
+            <!-- Video Player -->
+            <div class="w-full bg-black flex justify-center">
+                <video id="tutorialVideo" controls playsinline preload="metadata" class="w-full max-h-[70vh] aspect-[9/16] object-contain">
+                    <source src="panduan.mp4" type="video/mp4">
+                    Browser Anda tidak mendukung tag video.
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script untuk Modal Video -->
+    <script>
+        const modal = document.getElementById('videoModal');
+        const modalContent = document.getElementById('videoModalContent');
+        const video = document.getElementById('tutorialVideo');
+
+        function openVideoModal() {
+            // Tampilkan modal
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Animasi pop-up
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+            
+            // Putar video otomatis saat dibuka
+            video.play();
+        }
+
+        function closeVideoModal() {
+            // Hentikan video
+            video.pause();
+            
+            // Animasi tutup
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            
+            // Sembunyikan modal setelah animasi selesai
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }, 300);
+        }
+    </script>
 </body>
 </html>
