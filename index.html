@@ -128,28 +128,6 @@
         </div>
     </div>
 
-    <!-- 0. POP-UP PENGUMUMAN MELAYANG (Muncul Saat Web Dibuka) -->
-    <div id="onload-modal" class="modal-overlay z-[150]">
-        <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[320px] border-t-2 border-t-yellow-500 shadow-[0_0_40px_rgba(234,179,8,0.15)] relative">
-            <div class="flex items-center gap-3 mb-4">
-                <div class="w-10 h-10 rounded-full bg-yellow-500/10 text-yellow-500 flex items-center justify-center text-lg border border-yellow-500/20">
-                    <i class="fas fa-tools"></i>
-                </div>
-                <div>
-                    <h3 class="font-bold text-white text-sm">Pembaruan Sistem</h3>
-                    <p class="text-[9px] text-yellow-500">Info Penting</p>
-                </div>
-            </div>
-            <p class="text-[11px] text-slate-300 leading-relaxed mb-5">
-                Halo semuanya! Sistem website saat ini sedang <b>dirombak total</b> agar ke depannya akses jauh lebih MUDAH dan TIDAK RIBET.<br><br>
-                Anda tetap bisa berkeliling website, namun fitur buka video sementara ditangguhkan. Tunggu update terbarunya ya! 🙏
-            </p>
-            <button onclick="closeOnloadModal()" class="w-full py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold transition-colors border border-white/5">
-                SAYA MENGERTI
-            </button>
-        </div>
-    </div>
-
     <!-- 1. Modal Brankas (Input Password) -->
     <div id="vault-modal" class="modal-overlay z-[110]">
         <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[340px] border-t-2 border-t-cyber-500">
@@ -222,37 +200,9 @@
         </div>
     </div>
 
-    <!-- 3. Modal Maintenance -->
-    <div id="maintenance-modal" class="modal-overlay z-[130]">
-        <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[320px] text-center border-t-2 border-t-yellow-500 shadow-[0_0_40px_rgba(234,179,8,0.15)]">
-            <div class="w-14 h-14 rounded-full bg-yellow-500/10 text-yellow-500 flex items-center justify-center text-2xl mx-auto mb-4 border border-yellow-500/20">
-                <i class="fas fa-tools"></i>
-            </div>
-            <h3 class="font-bold text-white text-sm mb-2">Sedang Diperbaiki</h3>
-            <p class="text-[11px] text-slate-300 leading-relaxed mb-6">
-                Mohon maaf, sistem pembukaan video sedang dalam perbaikan sementara untuk memudahkan kalian kedepannya.<br><br>Tunggu update berikutnya!
-            </p>
-            <button onclick="closeMaintenanceModal()" class="w-full py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold transition-colors border border-white/5">
-                KEMBALI
-            </button>
-        </div>
-    </div>
-
     <script>
         // ==========================================
-        // 1. POPUP SAAT PERTAMA DIBUKA
-        // ==========================================
-        window.onload = function() {
-            setTimeout(() => {
-                document.getElementById('onload-modal').classList.add('active');
-            }, 500);
-        };
-        function closeOnloadModal() {
-            document.getElementById('onload-modal').classList.remove('active');
-        }
-
-        // ==========================================
-        // 2. DATABASE VIDEO
+        // 1. DATABASE VIDEO
         // Tidak perlu tulis password disini lagi! 100% AMAN.
         // ==========================================
         const videoData = [
@@ -390,26 +340,22 @@
         }
 
         // ==========================================
-        // 4. LOGIKA TOMBOL AKSI & MAINTENANCE
+        // 3. LOGIKA TOMBOL AKSI
         // ==========================================
         function closeActionModal() {
             document.getElementById('action-modal').classList.remove('active');
         }
 
         function handleWatchClick() {
-    closeChoiceModal();
-    // Membuka tab baru untuk link nonton
-    window.open(decryptedWatchLink, '_blank');
-}
+            closeActionModal();
+            // Langsung buka link nonton di tab yang sama atau tab baru
+            window.location.href = decryptedWatchLink;
+        }
 
-function handleDownloadClick() {
-    closeChoiceModal();
-    // Membuka tab baru untuk link download
-    window.open(decryptedDownloadLink, '_blank');
-}
-
-        function closeMaintenanceModal() {
-            document.getElementById('maintenance-modal').classList.remove('active');
+        function handleDownloadClick() {
+            closeActionModal();
+            // Langsung buka link download di tab baru
+            window.open(decryptedDownloadLink, '_blank');
         }
     </script>
 </body>
