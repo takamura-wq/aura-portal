@@ -38,8 +38,9 @@
         .glass-panel:hover { border-color: rgba(168, 85, 247, 0.3); background: rgba(255, 255, 255, 0.02); transform: translateY(-2px); }
 
         .btn-primary { background: linear-gradient(135deg, #ef4444, #dc2626); color: #ffffff; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.25); transition: all 0.3s; }
-        .btn-primary:hover { box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5); transform: translateY(-1px); filter: brightness(1.1); }
-        .btn-primary:active { transform: translateY(1px) scale(0.98); }
+        .btn-primary:hover:not(:disabled) { box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5); transform: translateY(-1px); filter: brightness(1.1); }
+        .btn-primary:active:not(:disabled) { transform: translateY(1px) scale(0.98); }
+        .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
 
         .btn-secondary { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; transition: all 0.3s; }
         .btn-secondary:hover { background: rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.4); color: #c084fc; }
@@ -116,10 +117,8 @@
                     <span class="text-[9px] font-bold text-cyber-400 bg-cyber-500/10 px-2 py-0.5 rounded border border-cyber-500/20">TERENKRIPSI</span>
                 </div>
 
-                <!-- Kontainer 10 Video (Di-generate via JavaScript) -->
-                <div id="video-list-container" class="flex flex-col gap-3">
-                    <!-- Video Cards akan muncul di sini -->
-                </div>
+                <!-- Kontainer Video (Di-generate via JavaScript) -->
+                <div id="video-list-container" class="flex flex-col gap-3"></div>
             </section>
             
             <footer class="mt-6 text-center opacity-0 animate-fade-up" style="animation-delay: 300ms;">
@@ -159,9 +158,9 @@
                     <i class="fas fa-lock"></i>
                 </div>
                 <h3 class="font-bold text-white text-sm">Buka Brankas Video</h3>
-                <p class="text-[10px] text-slate-400 mt-1 bg-white/5 p-2 rounded-lg border border-white/10 mt-3 inline-flex items-center gap-2">
-                    <i class="fas fa-info-circle text-cyber-400"></i>
-                    Petunjuk: Password ada di dalam video YouTube.
+                <p class="text-[10px] text-slate-400 mt-1 bg-white/5 p-2 rounded-lg border border-white/10 mt-3 inline-flex items-center gap-2 text-left">
+                    <i class="fas fa-info-circle text-cyber-400 text-lg"></i>
+                    <span>Petunjuk: Tonton video YouTube dan cari Password di dalamnya.</span>
                 </p>
             </div>
             
@@ -172,7 +171,7 @@
                 <button onclick="closeVault()" class="flex-1 py-3 bg-white/5 text-slate-300 rounded-xl text-xs font-bold hover:bg-white/10 transition-colors">
                     BATAL
                 </button>
-                <button onclick="verifyPassword()" class="flex-1 py-3 bg-gradient-to-r from-cyber-600 to-cyber-400 text-white rounded-xl text-xs font-bold shadow-[0_0_15px_rgba(168,85,247,0.4)] hover:brightness-110 transition-all">
+                <button id="verify-btn" onclick="verifyPassword()" class="flex-1 py-3 bg-gradient-to-r from-cyber-600 to-cyber-400 text-white rounded-xl text-xs font-bold shadow-[0_0_15px_rgba(168,85,247,0.4)] hover:brightness-110 transition-all">
                     BUKA
                 </button>
             </div>
@@ -192,7 +191,7 @@
             
             <div class="flex flex-col gap-3">
                 <!-- Tombol Nonton -->
-                <button onclick="showMaintenanceAlert()" class="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-left group">
+                <button onclick="handleWatchClick()" class="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-left group">
                     <div class="flex items-center gap-4">
                         <div class="w-10 h-10 rounded-full bg-cyber-500/20 text-cyber-400 flex items-center justify-center text-lg group-hover:text-white transition-colors">
                             <i class="fas fa-play"></i>
@@ -206,15 +205,15 @@
                 </button>
 
                 <!-- Tombol Download -->
-                <button onclick="showMaintenanceAlert()" class="flex items-center justify-between p-4 rounded-xl border border-cyber-500/30 bg-cyber-500/10 hover:bg-cyber-500/20 transition-all text-left group relative overflow-hidden">
+                <button onclick="handleDownloadClick()" class="flex items-center justify-between p-4 rounded-xl border border-cyber-500/30 bg-cyber-500/10 hover:bg-cyber-500/20 transition-all text-left group relative overflow-hidden">
                     <div class="absolute inset-0 bg-gradient-to-r from-cyber-500/0 via-cyber-500/10 to-cyber-500/0 opacity-0 group-hover:opacity-100 transition-opacity translate-x-[-100%] group-hover:translate-x-[100%] duration-1000"></div>
                     <div class="flex items-center gap-4 relative z-10">
                         <div class="w-10 h-10 rounded-full bg-cyber-500/20 text-cyber-400 flex items-center justify-center text-lg shadow-[0_0_15px_rgba(168,85,247,0.3)]">
                             <i class="fas fa-download"></i>
                         </div>
                         <div>
-                            <div class="text-sm font-bold text-cyber-400 mb-0.5">Download File (.enc)</div>
-                            <div class="text-[10px] text-slate-300">Kualitas original (Full HD)</div>
+                            <div class="text-sm font-bold text-cyber-400 mb-0.5">Download File</div>
+                            <div class="text-[10px] text-slate-300">Simpan ke penyimpanan HP</div>
                         </div>
                     </div>
                     <i class="fas fa-chevron-right text-cyber-400 relative z-10"></i>
@@ -223,7 +222,7 @@
         </div>
     </div>
 
-    <!-- 3. Modal Maintenance (Muncul saat tombol aksi diklik) -->
+    <!-- 3. Modal Maintenance -->
     <div id="maintenance-modal" class="modal-overlay z-[130]">
         <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[320px] text-center border-t-2 border-t-yellow-500 shadow-[0_0_40px_rgba(234,179,8,0.15)]">
             <div class="w-14 h-14 rounded-full bg-yellow-500/10 text-yellow-500 flex items-center justify-center text-2xl mx-auto mb-4 border border-yellow-500/20">
@@ -233,7 +232,7 @@
             <p class="text-[11px] text-slate-300 leading-relaxed mb-6">
                 Mohon maaf, sistem pembukaan video sedang dalam perbaikan sementara untuk memudahkan kalian kedepannya.<br><br>Tunggu update berikutnya!
             </p>
-            <button onclick="closeMaintenanceModal()" class="w-full py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold transition-colors">
+            <button onclick="closeMaintenanceModal()" class="w-full py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold transition-colors border border-white/5">
                 KEMBALI
             </button>
         </div>
@@ -241,35 +240,34 @@
 
     <script>
         // ==========================================
-        // TAMPILKAN POPUP KETIKA WEB PERTAMA DIBUKA
+        // 1. POPUP SAAT PERTAMA DIBUKA
         // ==========================================
         window.onload = function() {
             setTimeout(() => {
                 document.getElementById('onload-modal').classList.add('active');
-            }, 500); // Muncul setengah detik setelah web terbuka
+            }, 500);
         };
-
         function closeOnloadModal() {
             document.getElementById('onload-modal').classList.remove('active');
         }
 
         // ==========================================
-        // DATABASE 10 VIDEO
+        // 2. DATABASE VIDEO
+        // Tidak perlu tulis password disini lagi! 100% AMAN.
         // ==========================================
         const videoData = [
-            { id: 'video1', title: 'VIDEO #1', desc: 'Anak Lagi Tidur DiGas Ayah Malam Malam', img: '1.jpg', yt: 'https://youtube.com/watch?v=VIDEO1', pass: 'tidur' },
-            { id: 'video2', title: 'VIDEO #2', desc: 'Ayah Ga Tahan Liat Anak Tidur Langsung DiPake', img: '2.jpg', yt: 'https://youtube.com/watch?v=VIDEO2', pass: 'ayah' },
-            { id: 'video3', title: 'VIDEO #3', desc: 'Kk Diem Diem Buka Celana Adek Pas Lagi Tidur', img: '3.jpg', yt: 'https://youtube.com/watch?v=VIDEO3', pass: 'kakak' },
-            { id: 'video4', title: 'VIDEO #4', desc: 'Deskripsi untuk video rahasia keempat disini', img: '4.jpg', yt: 'https://youtube.com/watch?v=VIDEO4', pass: 'pass4' },
-            { id: 'video5', title: 'VIDEO #5', desc: 'Deskripsi untuk video rahasia kelima disini', img: '5.jpg', yt: 'https://youtube.com/watch?v=VIDEO5', pass: 'pass5' },
-            { id: 'video6', title: 'VIDEO #6', desc: 'Deskripsi untuk video rahasia keenam disini', img: '6.jpg', yt: 'https://youtube.com/watch?v=VIDEO6', pass: 'pass6' },
-            { id: 'video7', title: 'VIDEO #7', desc: 'Deskripsi untuk video rahasia ketujuh disini', img: '7.jpg', yt: 'https://youtube.com/watch?v=VIDEO7', pass: 'pass7' },
-            { id: 'video8', title: 'VIDEO #8', desc: 'Deskripsi untuk video rahasia kedelapan disini', img: '8.jpg', yt: 'https://youtube.com/watch?v=VIDEO8', pass: 'pass8' },
-            { id: 'video9', title: 'VIDEO #9', desc: 'Deskripsi untuk video rahasia kesembilan disini', img: '9.jpg', yt: 'https://youtube.com/watch?v=VIDEO9', pass: 'pass9' },
-            { id: 'video10', title: 'VIDEO #10', desc: 'Deskripsi untuk video rahasia kesepuluh disini', img: '10.jpg', yt: 'https://youtube.com/watch?v=VIDEO10', pass: 'pass10' }
+            { id: 'v1', title: 'VIDEO #1', desc: 'Anak Lagi Tidur DiGas Ayah Malam Malam', img: '1.jpg', yt: 'https://youtube.com/watch?v=VIDEO1' },
+            { id: 'v2', title: 'VIDEO #2', desc: 'Ayah Ga Tahan Liat Anak Tidur Langsung DiPake', img: '2.jpg', yt: 'https://youtube.com/watch?v=VIDEO2' },
+            { id: 'v3', title: 'VIDEO #3', desc: 'Kk Diem Diem Buka Celana Adek Pas Lagi Tidur', img: '3.jpg', yt: 'https://youtube.com/watch?v=VIDEO3' },
+            { id: 'v4', title: 'VIDEO #4', desc: 'Deskripsi untuk video rahasia keempat', img: '4.jpg', yt: 'https://youtube.com/watch?v=VIDEO4' },
+            { id: 'v5', title: 'VIDEO #5', desc: 'Deskripsi untuk video rahasia kelima', img: '5.jpg', yt: 'https://youtube.com/watch?v=VIDEO5' },
+            { id: 'v6', title: 'VIDEO #6', desc: 'Deskripsi untuk video rahasia keenam', img: '6.jpg', yt: 'https://youtube.com/watch?v=VIDEO6' },
+            { id: 'v7', title: 'VIDEO #7', desc: 'Deskripsi untuk video rahasia ketujuh', img: '7.jpg', yt: 'https://youtube.com/watch?v=VIDEO7' },
+            { id: 'v8', title: 'VIDEO #8', desc: 'Deskripsi untuk video rahasia kedelapan', img: '8.jpg', yt: 'https://youtube.com/watch?v=VIDEO8' },
+            { id: 'v9', title: 'VIDEO #9', desc: 'Deskripsi untuk video rahasia kesembilan', img: '9.jpg', yt: 'https://youtube.com/watch?v=VIDEO9' },
+            { id: 'v10', title: 'VIDEO #10', desc: 'Deskripsi untuk video rahasia kesepuluh', img: '10.jpg', yt: 'https://youtube.com/watch?v=VIDEO10' }
         ];
 
-        // Generate 10 Video Cards Otomatis
         const container = document.getElementById('video-list-container');
         container.innerHTML = videoData.map(v => `
             <div class="glass-panel rounded-2xl p-3 flex gap-3.5">
@@ -288,21 +286,22 @@
                         <a href="${v.yt}" target="_blank" class="flex-1 py-1.5 btn-primary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
                             <i class="fab fa-youtube text-[11px]"></i> AMBIL KEY
                         </a>
-                        <button onclick="openVault('${v.id}')" class="flex-1 py-1.5 btn-secondary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
-                            <i class="fas fa-key text-[9px]"></i> BUKA WEB
+                        <button onclick="openVault()" class="flex-1 py-1.5 btn-secondary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
+                            <i class="fas fa-key text-[9px]"></i> MASUKKAN KEY
                         </button>
                     </div>
                 </div>
             </div>
         `).join('');
 
-        // ==========================================
-        // LOGIKA BRANKAS & POPUP AKSI
-        // ==========================================
-        let currentTargetId = null;
+        // Variabel penampung hasil dekripsi
+        let decryptedWatchLink = '';
+        let decryptedDownloadLink = '';
 
-        function openVault(id) {
-            currentTargetId = id;
+        // ==========================================
+        // 3. LOGIKA BRANKAS & DEKRIPSI
+        // ==========================================
+        function openVault() {
             document.getElementById('password-input').value = '';
             document.getElementById('error-msg').classList.add('hidden');
             
@@ -316,41 +315,103 @@
 
         function closeVault() {
             document.getElementById('vault-modal').classList.remove('active');
-            currentTargetId = null;
         }
 
-        function verifyPassword() {
-            const input = document.getElementById('password-input').value.trim().toLowerCase();
+        async function verifyPassword() {
+            const input = document.getElementById('password-input').value.trim();
             const errorMsg = document.getElementById('error-msg');
+            const btn = document.getElementById('verify-btn');
             
-            const targetVideo = videoData.find(v => v.id === currentTargetId);
-            if (!targetVideo) return;
+            if (!input) return;
 
-            if (input === targetVideo.pass.toLowerCase()) {
+            // Efek loading tombol
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> MEMERIKSA...';
+            btn.disabled = true;
+            errorMsg.classList.add('hidden');
+
+            try {
+                // 1. Hash password untuk mencari nama file (Misal: tidur -> 3a8f...enc)
+                const encoder = new TextEncoder();
+                const keyBytes = encoder.encode(input);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', keyBytes);
+                const hashHex = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+                
+                // 2. Fetch/Download file .enc tersebut dari hosting
+                const response = await fetch(`${hashHex}.enc`);
+                if (!response.ok) {
+                    throw new Error("File tidak ditemukan. Password salah.");
+                }
+                
+                // 3. Jika file ada, Dekripsi isinya menggunakan AES-GCM
+                const encryptedPayload = await response.arrayBuffer();
+                const salt = encryptedPayload.slice(0, 16);
+                const iv = encryptedPayload.slice(16, 28);
+                const ciphertext = encryptedPayload.slice(28);
+
+                const baseKey = await crypto.subtle.importKey('raw', keyBytes, { name: 'PBKDF2' }, false, ['deriveKey']);
+                const cryptoKey = await crypto.subtle.deriveKey(
+                    { name: 'PBKDF2', salt: new Uint8Array(salt), iterations: 100000, hash: 'SHA-256' },
+                    baseKey, { name: 'AES-GCM', length: 256 }, false, ['decrypt']
+                );
+
+                const rawBuffer = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: new Uint8Array(iv) }, cryptoKey, ciphertext);
+                const dataArray = new Uint8Array(rawBuffer);
+                const extLen = dataArray[0];
+                const fileContent = dataArray.slice(1 + extLen);
+                
+                // Hasil dekripsi berupa teks (LinkNonton|LinkDownload)
+                const textContent = new TextDecoder().decode(fileContent).trim();
+
+                // Memisahkan kedua link
+                const links = textContent.split('|');
+                decryptedWatchLink = links[0];
+                decryptedDownloadLink = links[1] || links[0]; // Jaga-jaga jika cuma 1 link
+
+                // Sukses! Buka pop-up pilihan aksi
                 closeVault();
-                // Buka pop-up pilihan Nonton/Download
                 document.getElementById('action-modal').classList.add('active');
-            } else {
+
+            } catch (err) {
+                // Gagal dekripsi (Password salah atau file tidak ada)
                 errorMsg.classList.remove('hidden');
-                // Efek getar
+                
+                // Animasi Getar (Shake Effect)
                 const modalContent = document.querySelector('#vault-modal .modal-content');
                 modalContent.style.transform = 'scale(0.95) translateX(10px)';
                 setTimeout(() => modalContent.style.transform = 'scale(0.95) translateX(-10px)', 50);
                 setTimeout(() => modalContent.style.transform = 'scale(0.95) translateX(10px)', 100);
                 setTimeout(() => modalContent.style.transform = 'scale(1) translateX(0)', 150);
+            } finally {
+                // Kembalikan tombol ke semula
+                btn.innerHTML = originalText;
+                btn.disabled = false;
             }
         }
 
+        // ==========================================
+        // 4. LOGIKA TOMBOL AKSI & MAINTENANCE
+        // ==========================================
         function closeActionModal() {
             document.getElementById('action-modal').classList.remove('active');
         }
 
-        // Fungsi ini dipanggil kalau milih Nonton atau Download
-        function showMaintenanceAlert() {
+        function handleWatchClick() {
+            // -- TAMPILKAN MAINTENANCE SEMENTARA --
             closeActionModal();
-            setTimeout(() => {
-                document.getElementById('maintenance-modal').classList.add('active');
-            }, 300);
+            setTimeout(() => { document.getElementById('maintenance-modal').classList.add('active'); }, 300);
+            
+            // !! NANTI KETIKA SUDAH SIAP, HAPUS 2 BARIS DI ATAS, DAN HAPUS TANDA "//" DI BAWAH INI !!
+            // window.location.href = decryptedWatchLink;
+        }
+
+        function handleDownloadClick() {
+            // -- TAMPILKAN MAINTENANCE SEMENTARA --
+            closeActionModal();
+            setTimeout(() => { document.getElementById('maintenance-modal').classList.add('active'); }, 300);
+            
+            // !! NANTI KETIKA SUDAH SIAP, HAPUS 2 BARIS DI ATAS, DAN HAPUS TANDA "//" DI BAWAH INI !!
+            // window.open(decryptedDownloadLink, '_blank');
         }
 
         function closeMaintenanceModal() {
