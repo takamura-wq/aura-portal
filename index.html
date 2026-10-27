@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AURA PORTAL | Pusat Akses VIP</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -66,6 +66,7 @@
     <div class="bg-ambient"></div>
     <div class="bg-grid"></div>
 
+    <!-- Wrapper utama dibuat seperti ukuran smartphone (max-w-[480px]) agar rapi di HP maupun PC -->
     <div class="w-full max-w-[480px] min-h-screen bg-cyber-dark/80 backdrop-blur-3xl border-x border-white/5 relative z-10 flex flex-col shadow-2xl">
         
         <header class="sticky top-0 z-50 bg-cyber-dark/90 backdrop-blur-md border-b border-white/5 px-5 py-4 flex justify-between items-center">
@@ -80,7 +81,7 @@
             </div>
         </header>
 
-        <div class="p-5 flex flex-col gap-7 pb-16">
+        <div class="p-4 sm:p-5 flex flex-col gap-7 pb-16">
 
             <section class="opacity-0 animate-fade-up">
                 <h2 class="text-[10px] font-bold text-slate-500 mb-3 tracking-widest uppercase flex items-center gap-2">
@@ -110,7 +111,7 @@
             </section>
 
             <section class="opacity-0 animate-fade-up" style="animation-delay: 200ms;">
-                <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center justify-between mb-4">
                     <h2 class="text-[10px] font-bold text-slate-500 tracking-widest uppercase flex items-center gap-2">
                         <i class="fas fa-layer-group text-cyber-400"></i> Katalog Video VIP
                     </h2>
@@ -203,41 +204,41 @@
     <script>
         // ==========================================
         // 1. DATABASE VIDEO
-        // Tidak perlu tulis password disini lagi! 100% AMAN.
+        // Judul lebih keren, berurutan, tanpa deskripsi
         // ==========================================
         const videoData = [
-            { id: 'v1', title: 'VIDEO #1', desc: 'Anak Lagi Tidur DiGas Ayah Malam Malam', img: '1.jpg', yt: 'https://youtube.com/watch?v=VIDEO1' },
-            { id: 'v2', title: 'VIDEO #2', desc: 'Ayah Ga Tahan Liat Anak Tidur Langsung DiPake', img: '2.jpg', yt: 'https://youtube.com/watch?v=VIDEO2' },
-            { id: 'v3', title: 'VIDEO #3', desc: 'Kk Diem Diem Buka Celana Adek Pas Lagi Tidur', img: '3.jpg', yt: 'https://youtube.com/watch?v=VIDEO3' },
-            { id: 'v4', title: 'VIDEO #4', desc: 'Deskripsi untuk video rahasia keempat', img: '4.jpg', yt: 'https://youtube.com/watch?v=VIDEO4' },
-            { id: 'v5', title: 'VIDEO #5', desc: 'Deskripsi untuk video rahasia kelima', img: '5.jpg', yt: 'https://youtube.com/watch?v=VIDEO5' },
-            { id: 'v6', title: 'VIDEO #6', desc: 'Deskripsi untuk video rahasia keenam', img: '6.jpg', yt: 'https://youtube.com/watch?v=VIDEO6' },
-            { id: 'v7', title: 'VIDEO #7', desc: 'Deskripsi untuk video rahasia ketujuh', img: '7.jpg', yt: 'https://youtube.com/watch?v=VIDEO7' },
-            { id: 'v8', title: 'VIDEO #8', desc: 'Deskripsi untuk video rahasia kedelapan', img: '8.jpg', yt: 'https://youtube.com/watch?v=VIDEO8' },
-            { id: 'v9', title: 'VIDEO #9', desc: 'Deskripsi untuk video rahasia kesembilan', img: '9.jpg', yt: 'https://youtube.com/watch?v=VIDEO9' },
-            { id: 'v10', title: 'VIDEO #10', desc: 'Deskripsi untuk video rahasia kesepuluh', img: '10.jpg', yt: 'https://youtube.com/watch?v=VIDEO10' }
+            { id: 'v1', title: 'Private Record 01', img: '1.jpg', yt: 'https://youtube.com/watch?v=VIDEO1' },
+            { id: 'v2', title: 'Private Record 02', img: '2.jpg', yt: 'https://youtube.com/watch?v=VIDEO2' },
+            { id: 'v3', title: 'Private Record 03', img: '3.jpg', yt: 'https://youtube.com/watch?v=VIDEO3' },
+            { id: 'v4', title: 'Private Record 04', img: '4.jpg', yt: 'https://youtube.com/watch?v=VIDEO4' },
+            { id: 'v5', title: 'Private Record 05', img: '5.jpg', yt: 'https://youtube.com/watch?v=VIDEO5' },
+            { id: 'v6', title: 'Private Record 06', img: '6.jpg', yt: 'https://youtube.com/watch?v=VIDEO6' },
+            { id: 'v7', title: 'Private Record 07', img: '7.jpg', yt: 'https://youtube.com/watch?v=VIDEO7' },
+            { id: 'v8', title: 'Private Record 08', img: '8.jpg', yt: 'https://youtube.com/watch?v=VIDEO8' },
+            { id: 'v9', title: 'Private Record 09', img: '9.jpg', yt: 'https://youtube.com/watch?v=VIDEO9' },
+            { id: 'v10', title: 'Private Record 10', img: '10.jpg', yt: 'https://youtube.com/watch?v=VIDEO10' }
         ];
 
         const container = document.getElementById('video-list-container');
         container.innerHTML = videoData.map(v => `
-            <div class="glass-panel rounded-2xl p-3 flex gap-3.5">
-                <div class="w-[88px] h-[88px] rounded-xl overflow-hidden shrink-0 border border-white/10 relative shadow-inner">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10 flex items-end p-2">
-                        <i class="fas fa-lock text-white/50 text-xs"></i>
+            <div class="glass-panel rounded-2xl p-3 flex items-center gap-3.5">
+                <div class="w-[75px] h-[75px] sm:w-[85px] sm:h-[85px] rounded-xl overflow-hidden shrink-0 border border-white/10 relative shadow-inner">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10 flex items-end justify-center pb-1">
+                        <i class="fas fa-lock text-white/50 text-[10px]"></i>
                     </div>
                     <img src="${v.img}" alt="${v.title}" onerror="this.src='https://placehold.co/100x100/1a1a2e/a855f7?text=Vid'" class="w-full h-full object-cover protected-img">
                 </div>
-                <div class="flex flex-col flex-1 justify-between py-0.5">
-                    <div>
-                        <h3 class="text-sm font-bold text-white leading-tight">${v.title}</h3>
-                        <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">${v.desc}</p>
+                <div class="flex flex-col flex-1 gap-2">
+                    <div class="flex items-center gap-2">
+                        <span class="px-1.5 py-0.5 bg-cyber-500/20 text-cyber-400 border border-cyber-500/30 text-[8px] font-bold rounded shadow-sm">VIP</span>
+                        <h3 class="text-[13px] sm:text-sm font-bold text-white tracking-wide truncate">${v.title}</h3>
                     </div>
-                    <div class="flex gap-2 mt-2">
-                        <a href="${v.yt}" target="_blank" class="flex-1 py-1.5 btn-primary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
+                    <div class="flex gap-2">
+                        <a href="${v.yt}" target="_blank" class="flex-1 py-1.5 btn-primary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1.5">
                             <i class="fab fa-youtube text-[11px]"></i> AMBIL KEY
                         </a>
-                        <button onclick="openVault()" class="flex-1 py-1.5 btn-secondary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
-                            <i class="fas fa-key text-[9px]"></i> MASUKKAN KEY
+                        <button onclick="openVault()" class="flex-1 py-1.5 btn-secondary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1.5">
+                            <i class="fas fa-key text-[10px]"></i> BUKA
                         </button>
                     </div>
                 </div>
@@ -281,7 +282,7 @@
             errorMsg.classList.add('hidden');
 
             try {
-                // 1. Hash password untuk mencari nama file (Misal: tidur -> 3a8f...enc)
+                // 1. Hash password untuk mencari nama file
                 const encoder = new TextEncoder();
                 const keyBytes = encoder.encode(input);
                 const hashBuffer = await crypto.subtle.digest('SHA-256', keyBytes);
@@ -348,7 +349,7 @@
 
         function handleWatchClick() {
             closeActionModal();
-            // Langsung buka link nonton di tab yang sama atau tab baru
+            // Langsung buka link nonton
             window.location.href = decryptedWatchLink;
         }
 
