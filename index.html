@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURA PORTAL | Pusat Panduan</title>
+    <title>AURA PORTAL | Pusat Akses VIP</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,17 +34,24 @@
         .bg-ambient { position: fixed; inset: 0; background: radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.08) 0%, transparent 60%); z-index: -2; pointer-events: none; }
         .bg-grid { position: fixed; inset: 0; background-size: 30px 30px; background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px); z-index: -3; mask-image: linear-gradient(to bottom, black 20%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%); }
 
-        /* OPTIMASI: Blur diubah dari 24px ke 12px agar tidak lag di HP */
         .glass-panel { background: rgba(10, 10, 14, 0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         .glass-panel:hover { border-color: rgba(168, 85, 247, 0.3); background: rgba(255, 255, 255, 0.02); transform: translateY(-2px); }
 
-        .btn-primary { background: linear-gradient(135deg, #9333ea, #c084fc); color: #ffffff; box-shadow: 0 4px 15px rgba(168, 85, 247, 0.25); transition: all 0.3s; }
-        .btn-primary:hover { box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5); transform: translateY(-1px); filter: brightness(1.1); }
+        .btn-primary { background: linear-gradient(135deg, #ef4444, #dc2626); color: #ffffff; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.25); transition: all 0.3s; }
+        .btn-primary:hover { box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5); transform: translateY(-1px); filter: brightness(1.1); }
         .btn-primary:active { transform: translateY(1px) scale(0.98); }
 
         .btn-secondary { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; transition: all 0.3s; }
-        .btn-secondary:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.2); }
+        .btn-secondary:hover { background: rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.4); color: #c084fc; }
         .btn-secondary:active { transform: scale(0.98); }
+
+        .premium-input { background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 12px 14px; width: 100%; border-radius: 10px; font-family: 'JetBrains Mono', monospace; outline: none; transition: all 0.3s; }
+        .premium-input:focus { border-color: #a855f7; background: rgba(168, 85, 247, 0.05); }
+
+        .modal-overlay { position: fixed; inset: 0; background: rgba(3, 3, 5, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 20px; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content { transform: scale(0.95); opacity: 0; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .modal-overlay.active .modal-content { transform: scale(1); opacity: 1; }
 
         .protected-img { pointer-events: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; -webkit-user-drag: none; }
         
@@ -52,10 +59,7 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
         
-        /* Custom Video Styling */
-        video::-webkit-media-controls-panel {
-            background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-        }
+        video::-webkit-media-controls-panel { background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.8)); }
     </style>
 </head>
 
@@ -72,14 +76,9 @@
                 </div>
                 <div class="flex flex-col">
                     <h1 class="font-extrabold text-white text-base tracking-tight leading-none">AURA PORTAL</h1>
-                    <span class="text-[10px] text-slate-400 mt-0.5 font-medium">
-                        Pusat Panduan & Akses
-                    </span>
+                    <span class="text-[10px] text-slate-400 mt-0.5 font-medium">VIP Video Access</span>
                 </div>
             </div>
-            <a href="https://aura-assets-nine.vercel.app/" class="px-4 py-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-lg text-[10px] font-bold transition-all flex items-center gap-1.5">
-                <i class="fas fa-globe"></i> BUKA WEB
-            </a>
         </header>
 
         <div class="p-5 flex flex-col gap-7 pb-16">
@@ -111,40 +110,12 @@
                 </div>
             </section>
 
-            <!-- BAGIAN VIDEO PANDUAN YANG DIPERBARUI -->
-            <section class="opacity-0 animate-fade-up" style="animation-delay: 100ms;">
-                <h2 class="text-[10px] font-bold text-slate-500 mb-3 tracking-widest uppercase flex items-center gap-2">
-                    <i class="fas fa-play-circle text-cyber-400"></i> Video Panduan
-                </h2>
-                <div class="flex flex-col gap-2">
-                    <!-- Trigger/Tombol Buka Video -->
-                    <div onclick="openVideoModal()" class="glass-panel p-3 rounded-2xl flex items-center gap-4 cursor-pointer group relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-r from-cyber-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        
-                        <div class="w-14 h-16 rounded-xl shrink-0 border border-cyber-500/30 relative overflow-hidden flex items-center justify-center bg-black shadow-[0_0_15px_rgba(168,85,247,0.2)] group-hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] transition-shadow">
-                            <img src="https://placehold.co/200x350/0a0a0c/a855f7?text=Tutor" alt="Thumbnail" class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:scale-110 transition-transform duration-500">
-                            <div class="w-8 h-8 rounded-full bg-cyber-500/80 backdrop-blur-sm flex items-center justify-center z-10 text-white pl-0.5 group-hover:bg-cyber-400 transition-colors">
-                                <i class="fas fa-play text-[10px]"></i>
-                            </div>
-                        </div>
-                        
-                        <div class="flex-col relative z-10 flex-1">
-                            <div class="flex items-center gap-2 mb-1">
-                                <span class="text-[8px] font-bold text-cyber-dark bg-cyber-400 px-1.5 py-0.5 rounded shadow-[0_0_10px_rgba(192,132,252,0.4)] animate-pulse">PENTING</span>
-                            </div>
-                            <h3 class="font-bold text-white text-xs mb-0.5 group-hover:text-cyber-400 transition-colors">Cara Membuka Akses</h3>
-                            <p class="text-[10px] text-slate-400">Klik untuk memutar video</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
             <section class="opacity-0 animate-fade-up" style="animation-delay: 200ms;">
                 <div class="flex items-center justify-between mb-3">
                     <h2 class="text-[10px] font-bold text-slate-500 tracking-widest uppercase flex items-center gap-2">
-                        <i class="fas fa-layer-group text-cyber-400"></i> Katalog Aset
+                        <i class="fas fa-layer-group text-cyber-400"></i> Katalog Video VIP
                     </h2>
-                    <span class="text-[9px] font-bold text-cyber-400 bg-cyber-500/10 px-2 py-0.5 rounded border border-cyber-500/20">LIVE</span>
+                    <span class="text-[9px] font-bold text-cyber-400 bg-cyber-500/10 px-2 py-0.5 rounded border border-cyber-500/20">TERENKRIPSI</span>
                 </div>
 
                 <div class="flex flex-col gap-3">
@@ -152,8 +123,10 @@
                     <!-- ITEM 1 -->
                     <div class="glass-panel rounded-2xl p-3 flex gap-3.5">
                         <div class="w-[88px] h-[88px] rounded-xl overflow-hidden shrink-0 border border-white/10 relative shadow-inner">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
-                            <img src="1.jpg" alt="Video #1" class="w-full h-full object-cover protected-img">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10 flex items-end p-2">
+                                <i class="fas fa-lock text-white/50 text-xs"></i>
+                            </div>
+                            <img src="1.jpg" alt="Video #1" onerror="this.src='https://placehold.co/100x100/1a1a2e/ffffff?text=Vid+1'" class="w-full h-full object-cover protected-img">
                         </div>
                         <div class="flex flex-col flex-1 justify-between py-0.5">
                             <div>
@@ -161,12 +134,12 @@
                                 <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">Anak Lagi Tidur DiGas Ayah Malam Malam</p>
                             </div>
                             <div class="flex gap-2 mt-2">
-                                <a href="https://aura-portal-two.vercel.app/unlock.html?id=1" target="_blank" class="flex-1 py-1.5 btn-primary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
-                                    <i class="fas fa-key text-[9px]"></i> AMBIL KEY
+                                <a href="https://youtube.com/watch?v=VIDEO_ANDA_1" target="_blank" class="flex-1 py-1.5 btn-primary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
+                                    <i class="fab fa-youtube text-[11px]"></i> AMBIL KEY
                                 </a>
-                                <a href="https://aura-assets-nine.vercel.app/" class="flex-1 py-1.5 btn-secondary rounded-lg text-[10px] font-bold text-center">
-                                    BUKA WEB
-                                </a>
+                                <button onclick="openVault('video1')" class="flex-1 py-1.5 btn-secondary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
+                                    <i class="fas fa-key text-[9px]"></i> MASUKKAN PASSWORD
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -174,8 +147,10 @@
                     <!-- ITEM 2 -->
                     <div class="glass-panel rounded-2xl p-3 flex gap-3.5">
                         <div class="w-[88px] h-[88px] rounded-xl overflow-hidden shrink-0 border border-white/10 relative shadow-inner">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
-                            <img src="2.jpg" alt="2" class="w-full h-full object-cover protected-img">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10 flex items-end p-2">
+                                <i class="fas fa-lock text-white/50 text-xs"></i>
+                            </div>
+                            <img src="2.jpg" alt="2" onerror="this.src='https://placehold.co/100x100/1a1a2e/ffffff?text=Vid+2'" class="w-full h-full object-cover protected-img">
                         </div>
                         <div class="flex flex-col flex-1 justify-between py-0.5">
                             <div>
@@ -183,12 +158,12 @@
                                 <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">Ayah Ga Tahan Liat Anak Tidur Langsung DiPake</p>
                             </div>
                             <div class="flex gap-2 mt-2">
-                                <a href="https://aura-portal-two.vercel.app/unlock.html?id=2" target="_blank" class="flex-1 py-1.5 btn-primary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
-                                    <i class="fas fa-key text-[9px]"></i> AMBIL KEY
+                                <a href="https://youtube.com/watch?v=VIDEO_ANDA_2" target="_blank" class="flex-1 py-1.5 btn-primary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
+                                    <i class="fab fa-youtube text-[11px]"></i> AMBIL KEY
                                 </a>
-                                <a href="https://aura-assets-nine.vercel.app/" class="flex-1 py-1.5 btn-secondary rounded-lg text-[10px] font-bold text-center">
-                                    BUKA WEB
-                                </a>
+                                <button onclick="openVault('video2')" class="flex-1 py-1.5 btn-secondary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
+                                    <i class="fas fa-key text-[9px]"></i> MASUKKAN PASSWORD
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -196,8 +171,10 @@
                     <!-- ITEM 3 -->
                     <div class="glass-panel rounded-2xl p-3 flex gap-3.5">
                         <div class="w-[88px] h-[88px] rounded-xl overflow-hidden shrink-0 border border-white/10 relative shadow-inner">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
-                            <img src="3.jpg" alt="3" class="w-full h-full object-cover protected-img">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10 flex items-end p-2">
+                                <i class="fas fa-lock text-white/50 text-xs"></i>
+                            </div>
+                            <img src="3.jpg" alt="3" onerror="this.src='https://placehold.co/100x100/1a1a2e/ffffff?text=Vid+3'" class="w-full h-full object-cover protected-img">
                         </div>
                         <div class="flex flex-col flex-1 justify-between py-0.5">
                             <div>
@@ -205,34 +182,12 @@
                                 <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">Kk Diem Diem Buka Celana Adek Pas Lagi Tidur</p>
                             </div>
                             <div class="flex gap-2 mt-2">
-                                <a href="https://aura-portal-two.vercel.app/unlock.html?id=3" target="_blank" class="flex-1 py-1.5 btn-primary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
-                                    <i class="fas fa-key text-[9px]"></i> AMBIL KEY
+                                <a href="https://youtube.com/watch?v=VIDEO_ANDA_3" target="_blank" class="flex-1 py-1.5 btn-primary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
+                                    <i class="fab fa-youtube text-[11px]"></i> AMBIL KEY
                                 </a>
-                                <a href="https://aura-assets-nine.vercel.app/" class="flex-1 py-1.5 btn-secondary rounded-lg text-[10px] font-bold text-center">
-                                    BUKA WEB
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- ITEM 4 -->
-                    <div class="glass-panel rounded-2xl p-3 flex gap-3.5">
-                        <div class="w-[88px] h-[88px] rounded-xl overflow-hidden shrink-0 border border-white/10 relative shadow-inner">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
-                            <img src="4.jpg" alt="4" class="w-full h-full object-cover protected-img">
-                        </div>
-                        <div class="flex flex-col flex-1 justify-between py-0.5">
-                            <div>
-                                <h3 class="text-sm font-bold text-white leading-tight">Cyberpunk SFX</h3>
-                                <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">Audio desain futuristik, bass drop, glitch & UI sounds.</p>
-                            </div>
-                            <div class="flex gap-2 mt-2">
-                                <a href="https://aura-portal-two.vercel.app/unlock.html?id=4" target="_blank" class="flex-1 py-1.5 btn-primary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
-                                    <i class="fas fa-key text-[9px]"></i> AMBIL KEY
-                                </a>
-                                <a href="https://aura-assets-nine.vercel.app" class="flex-1 py-1.5 btn-secondary rounded-lg text-[10px] font-bold text-center">
-                                    BUKA WEB
-                                </a>
+                                <button onclick="openVault('video3')" class="flex-1 py-1.5 btn-secondary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
+                                    <i class="fas fa-key text-[9px]"></i> MASUKKAN PASSWORD
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -247,67 +202,162 @@
         </div>
     </div>
 
-    <!-- Video Modal Popup -->
-    <div id="videoModal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4 transition-opacity duration-300">
-        <!-- Backdrop/Background Gelap -->
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-md" onclick="closeVideoModal()"></div>
-        
-        <!-- Modal Content -->
-        <div class="relative w-full max-w-sm bg-cyber-dark/95 border border-white/10 rounded-2xl overflow-hidden shadow-2xl flex flex-col transform transition-all duration-300 scale-95 opacity-0" id="videoModalContent">
-            
-            <!-- Header Modal -->
-            <div class="flex justify-between items-center p-3 border-b border-white/5 bg-white/5">
-                <h3 class="text-xs font-bold text-white flex items-center gap-2">
-                    <i class="fas fa-play-circle text-cyber-400"></i> Panduan Akses
-                </h3>
-                <button onclick="closeVideoModal()" class="w-7 h-7 rounded-lg bg-white/10 hover:bg-red-500/80 text-white/70 hover:text-white flex items-center justify-center transition-colors">
-                    <i class="fas fa-times text-xs"></i>
-                </button>
+    <!-- 1. Modal Brankas (Input Password) -->
+    <div id="vault-modal" class="modal-overlay">
+        <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[340px] border-t-2 border-t-cyber-500">
+            <div class="flex flex-col items-center text-center mb-5">
+                <div class="w-12 h-12 rounded-xl bg-cyber-500/10 text-cyber-400 flex items-center justify-center text-xl mb-3 border border-cyber-500/30">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h3 class="font-bold text-white text-sm">Buka Brankas Video</h3>
+                <p class="text-[10px] text-slate-400 mt-1 bg-white/5 p-2 rounded-lg border border-white/10 mt-3 inline-flex items-center gap-2">
+                    <i class="fas fa-info-circle text-cyber-400"></i>
+                    Petunjuk: Cek password di dalam video YouTube / kolom komentar (Pin).
+                </p>
             </div>
             
-            <!-- Video Player -->
-            <div class="w-full bg-black flex justify-center">
-                <video id="tutorialVideo" controls playsinline preload="metadata" class="w-full max-h-[70vh] aspect-[9/16] object-contain">
-                    <source src="panduan.mp4" type="video/mp4">
-                    Browser Anda tidak mendukung tag video.
-                </video>
+            <input type="text" id="password-input" class="premium-input mb-5 text-center text-sm font-bold tracking-widest" placeholder="Masukkan Password Disini..." autocomplete="off">
+            <div id="error-msg" class="text-[10px] text-red-400 text-center mb-3 hidden"><i class="fas fa-times-circle"></i> Password salah, silakan coba lagi!</div>
+            
+            <div class="flex gap-3">
+                <button onclick="closeVault()" class="flex-1 py-3 bg-white/5 text-slate-300 rounded-xl text-xs font-bold hover:bg-white/10 transition-colors">
+                    BATAL
+                </button>
+                <button onclick="verifyPassword()" class="flex-1 py-3 bg-gradient-to-r from-cyber-600 to-cyber-400 text-white rounded-xl text-xs font-bold shadow-[0_0_15px_rgba(168,85,247,0.4)] hover:brightness-110 transition-all">
+                    BUKA
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Script untuk Modal Video -->
-    <script>
-        const modal = document.getElementById('videoModal');
-        const modalContent = document.getElementById('videoModalContent');
-        const video = document.getElementById('tutorialVideo');
+    <!-- 2. Modal Pemutar Video (Tampil jika password benar) -->
+    <div id="player-modal" class="fixed inset-0 z-[110] hidden items-center justify-center p-4 transition-opacity duration-300 bg-black/95 backdrop-blur-xl">
+        <div class="relative w-full max-w-lg bg-cyber-dark/95 border border-white/10 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(168,85,247,0.2)] flex flex-col">
+            
+            <!-- Header Player -->
+            <div class="flex justify-between items-center p-4 border-b border-white/5 bg-white/5">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center text-xs">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <h3 class="text-xs font-bold text-white tracking-wide uppercase">Akses Terbuka</h3>
+                </div>
+                <button onclick="closePlayer()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-red-500/80 text-white flex items-center justify-center transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Video Container -->
+            <div class="w-full bg-black flex justify-center relative aspect-video" id="video-container">
+                <!-- Video tag atau Iframe akan di-inject kesini oleh Javascript -->
+            </div>
+        </div>
+    </div>
 
-        function openVideoModal() {
-            // Tampilkan modal
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+    <script>
+        // ==========================================
+        // DATABASE PASSWORD & LINK VIDEO
+        // ==========================================
+        const videoDatabase = {
+            'video1': {
+                password: 'tidur', // Password untuk Video 1
+                // Link video langsung (MP4) atau embed link
+                videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4' 
+            },
+            'video2': {
+                password: 'ayah', // Password untuk Video 2
+                videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4'
+            },
+            'video3': {
+                password: 'kakak', // Password untuk Video 3
+                videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4'
+            }
+        };
+
+        // ==========================================
+        // LOGIKA SISTEM BRANKAS
+        // ==========================================
+        let currentTargetId = null;
+
+        // Buka Pop-up Password
+        function openVault(id) {
+            currentTargetId = id;
+            document.getElementById('password-input').value = '';
+            document.getElementById('error-msg').classList.add('hidden');
             
-            // Animasi pop-up
-            setTimeout(() => {
-                modalContent.classList.remove('scale-95', 'opacity-0');
-                modalContent.classList.add('scale-100', 'opacity-100');
-            }, 10);
+            document.getElementById('vault-modal').classList.add('active');
+            setTimeout(() => document.getElementById('password-input').focus(), 100);
             
-            // Putar video otomatis saat dibuka
-            video.play();
+            // Enter key trigger
+            document.getElementById('password-input').onkeydown = (e) => { 
+                if(e.key === 'Enter') verifyPassword(); 
+            };
         }
 
-        function closeVideoModal() {
-            // Hentikan video
-            video.pause();
+        // Tutup Pop-up Password
+        function closeVault() {
+            document.getElementById('vault-modal').classList.remove('active');
+            currentTargetId = null;
+        }
+
+        // Cek Password
+        function verifyPassword() {
+            const input = document.getElementById('password-input').value.trim().toLowerCase();
+            const errorMsg = document.getElementById('error-msg');
             
-            // Animasi tutup
-            modalContent.classList.remove('scale-100', 'opacity-100');
-            modalContent.classList.add('scale-95', 'opacity-0');
+            if (!currentTargetId || !videoDatabase[currentTargetId]) return;
+
+            const correctPassword = videoDatabase[currentTargetId].password.toLowerCase();
+
+            if (input === correctPassword) {
+                // Password Benar! Tutup vault, buka player
+                closeVault();
+                openPlayer(videoDatabase[currentTargetId].videoUrl);
+            } else {
+                // Password Salah
+                errorMsg.classList.remove('hidden');
+                // Efek getar
+                const modalContent = document.querySelector('#vault-modal .modal-content');
+                modalContent.style.transform = 'scale(0.95) translateX(10px)';
+                setTimeout(() => modalContent.style.transform = 'scale(0.95) translateX(-10px)', 50);
+                setTimeout(() => modalContent.style.transform = 'scale(0.95) translateX(10px)', 100);
+                setTimeout(() => modalContent.style.transform = 'scale(1) translateX(0)', 150);
+            }
+        }
+
+        // Buka Pemutar Video
+        function openPlayer(url) {
+            const playerModal = document.getElementById('player-modal');
+            const container = document.getElementById('video-container');
             
-            // Sembunyikan modal setelah animasi selesai
+            // Render elemen video
+            // Jika Anda menggunakan link MP4 biasa:
+            container.innerHTML = `
+                <video controls autoplay playsinline class="w-full h-full object-contain">
+                    <source src="${url}" type="video/mp4">
+                    Browser Anda tidak mendukung pemutar video.
+                </video>
+            `;
+            
+            // Tampilkan modal
+            playerModal.classList.remove('hidden');
+            playerModal.classList.add('flex');
+            document.body.style.overflow = 'hidden'; // Kunci scroll background
+        }
+
+        // Tutup Pemutar Video
+        function closePlayer() {
+            const playerModal = document.getElementById('player-modal');
+            const container = document.getElementById('video-container');
+            
+            // Sembunyikan modal
+            playerModal.classList.remove('flex');
+            playerModal.classList.add('hidden');
+            document.body.style.overflow = 'auto'; // Buka scroll background
+            
+            // Hapus elemen video agar suara video terhenti
             setTimeout(() => {
-                modal.classList.remove('flex');
-                modal.classList.add('hidden');
+                container.innerHTML = '';
             }, 300);
         }
     </script>
