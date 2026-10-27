@@ -397,22 +397,16 @@
         }
 
         function handleWatchClick() {
-            // -- TAMPILKAN MAINTENANCE SEMENTARA --
-            closeActionModal();
-            setTimeout(() => { document.getElementById('maintenance-modal').classList.add('active'); }, 300);
-            
-            // !! NANTI KETIKA SUDAH SIAP, HAPUS 2 BARIS DI ATAS, DAN HAPUS TANDA "//" DI BAWAH INI !!
-            // window.location.href = decryptedWatchLink;
-        }
+    closeChoiceModal();
+    // Membuka tab baru untuk link nonton
+    window.open(decryptedWatchLink, '_blank');
+}
 
-        function handleDownloadClick() {
-            // -- TAMPILKAN MAINTENANCE SEMENTARA --
-            closeActionModal();
-            setTimeout(() => { document.getElementById('maintenance-modal').classList.add('active'); }, 300);
-            
-            // !! NANTI KETIKA SUDAH SIAP, HAPUS 2 BARIS DI ATAS, DAN HAPUS TANDA "//" DI BAWAH INI !!
-            // window.open(decryptedDownloadLink, '_blank');
-        }
+function handleDownloadClick() {
+    closeChoiceModal();
+    // Membuka tab baru untuk link download
+    window.open(decryptedDownloadLink, '_blank');
+}
 
         function closeMaintenanceModal() {
             document.getElementById('maintenance-modal').classList.remove('active');
