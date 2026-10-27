@@ -48,7 +48,7 @@
         .premium-input { background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 12px 14px; width: 100%; border-radius: 10px; font-family: 'JetBrains Mono', monospace; outline: none; transition: all 0.3s; }
         .premium-input:focus { border-color: #a855f7; background: rgba(168, 85, 247, 0.05); }
 
-        .modal-overlay { position: fixed; inset: 0; background: rgba(3, 3, 5, 0.85); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 20px; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(3, 3, 5, 0.7); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 20px; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-content { transform: scale(0.95); opacity: 0; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         .modal-overlay.active .modal-content { transform: scale(1); opacity: 1; }
@@ -58,8 +58,6 @@
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
-        
-        video::-webkit-media-controls-panel { background-image: linear-gradient(transparent, rgba(0, 0, 0, 0.8)); }
     </style>
 </head>
 
@@ -118,80 +116,9 @@
                     <span class="text-[9px] font-bold text-cyber-400 bg-cyber-500/10 px-2 py-0.5 rounded border border-cyber-500/20">TERENKRIPSI</span>
                 </div>
 
-                <div class="flex flex-col gap-3">
-                    
-                    <!-- ITEM 1 -->
-                    <div class="glass-panel rounded-2xl p-3 flex gap-3.5">
-                        <div class="w-[88px] h-[88px] rounded-xl overflow-hidden shrink-0 border border-white/10 relative shadow-inner">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10 flex items-end p-2">
-                                <i class="fas fa-lock text-white/50 text-xs"></i>
-                            </div>
-                            <img src="1.jpg" alt="Video #1" onerror="this.src='https://placehold.co/100x100/1a1a2e/ffffff?text=Vid+1'" class="w-full h-full object-cover protected-img">
-                        </div>
-                        <div class="flex flex-col flex-1 justify-between py-0.5">
-                            <div>
-                                <h3 class="text-sm font-bold text-white leading-tight">VIDEO #1</h3>
-                                <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">Anak Lagi Tidur DiGas Ayah Malam Malam</p>
-                            </div>
-                            <div class="flex gap-2 mt-2">
-                                <a href="https://youtube.com/watch?v=VIDEO_ANDA_1" target="_blank" class="flex-1 py-1.5 btn-primary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
-                                    <i class="fab fa-youtube text-[11px]"></i> AMBIL KEY
-                                </a>
-                                <button onclick="openVault('video1')" class="flex-1 py-1.5 btn-secondary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
-                                    <i class="fas fa-key text-[9px]"></i> MASUKKAN PASSWORD
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ITEM 2 -->
-                    <div class="glass-panel rounded-2xl p-3 flex gap-3.5">
-                        <div class="w-[88px] h-[88px] rounded-xl overflow-hidden shrink-0 border border-white/10 relative shadow-inner">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10 flex items-end p-2">
-                                <i class="fas fa-lock text-white/50 text-xs"></i>
-                            </div>
-                            <img src="2.jpg" alt="2" onerror="this.src='https://placehold.co/100x100/1a1a2e/ffffff?text=Vid+2'" class="w-full h-full object-cover protected-img">
-                        </div>
-                        <div class="flex flex-col flex-1 justify-between py-0.5">
-                            <div>
-                                <h3 class="text-sm font-bold text-white leading-tight">VIDEO #2</h3>
-                                <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">Ayah Ga Tahan Liat Anak Tidur Langsung DiPake</p>
-                            </div>
-                            <div class="flex gap-2 mt-2">
-                                <a href="https://youtube.com/watch?v=VIDEO_ANDA_2" target="_blank" class="flex-1 py-1.5 btn-primary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
-                                    <i class="fab fa-youtube text-[11px]"></i> AMBIL KEY
-                                </a>
-                                <button onclick="openVault('video2')" class="flex-1 py-1.5 btn-secondary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
-                                    <i class="fas fa-key text-[9px]"></i> MASUKKAN PASSWORD
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ITEM 3 -->
-                    <div class="glass-panel rounded-2xl p-3 flex gap-3.5">
-                        <div class="w-[88px] h-[88px] rounded-xl overflow-hidden shrink-0 border border-white/10 relative shadow-inner">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10 flex items-end p-2">
-                                <i class="fas fa-lock text-white/50 text-xs"></i>
-                            </div>
-                            <img src="3.jpg" alt="3" onerror="this.src='https://placehold.co/100x100/1a1a2e/ffffff?text=Vid+3'" class="w-full h-full object-cover protected-img">
-                        </div>
-                        <div class="flex flex-col flex-1 justify-between py-0.5">
-                            <div>
-                                <h3 class="text-sm font-bold text-white leading-tight">VIDEO #3</h3>
-                                <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">Kk Diem Diem Buka Celana Adek Pas Lagi Tidur</p>
-                            </div>
-                            <div class="flex gap-2 mt-2">
-                                <a href="https://youtube.com/watch?v=VIDEO_ANDA_3" target="_blank" class="flex-1 py-1.5 btn-primary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
-                                    <i class="fab fa-youtube text-[11px]"></i> AMBIL KEY
-                                </a>
-                                <button onclick="openVault('video3')" class="flex-1 py-1.5 btn-secondary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
-                                    <i class="fas fa-key text-[9px]"></i> MASUKKAN PASSWORD
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
+                <!-- Kontainer 10 Video (Di-generate via JavaScript) -->
+                <div id="video-list-container" class="flex flex-col gap-3">
+                    <!-- Video Cards akan muncul di sini -->
                 </div>
             </section>
             
@@ -202,8 +129,30 @@
         </div>
     </div>
 
+    <!-- 0. POP-UP PENGUMUMAN MELAYANG (Muncul Saat Web Dibuka) -->
+    <div id="onload-modal" class="modal-overlay z-[150]">
+        <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[320px] border-t-2 border-t-yellow-500 shadow-[0_0_40px_rgba(234,179,8,0.15)] relative">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-full bg-yellow-500/10 text-yellow-500 flex items-center justify-center text-lg border border-yellow-500/20">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <div>
+                    <h3 class="font-bold text-white text-sm">Pembaruan Sistem</h3>
+                    <p class="text-[9px] text-yellow-500">Info Penting</p>
+                </div>
+            </div>
+            <p class="text-[11px] text-slate-300 leading-relaxed mb-5">
+                Halo semuanya! Sistem website saat ini sedang <b>dirombak total</b> agar ke depannya akses jauh lebih MUDAH dan TIDAK RIBET.<br><br>
+                Anda tetap bisa berkeliling website, namun fitur buka video sementara ditangguhkan. Tunggu update terbarunya ya! 🙏
+            </p>
+            <button onclick="closeOnloadModal()" class="w-full py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold transition-colors border border-white/5">
+                SAYA MENGERTI
+            </button>
+        </div>
+    </div>
+
     <!-- 1. Modal Brankas (Input Password) -->
-    <div id="vault-modal" class="modal-overlay">
+    <div id="vault-modal" class="modal-overlay z-[110]">
         <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[340px] border-t-2 border-t-cyber-500">
             <div class="flex flex-col items-center text-center mb-5">
                 <div class="w-12 h-12 rounded-xl bg-cyber-500/10 text-cyber-400 flex items-center justify-center text-xl mb-3 border border-cyber-500/30">
@@ -212,11 +161,11 @@
                 <h3 class="font-bold text-white text-sm">Buka Brankas Video</h3>
                 <p class="text-[10px] text-slate-400 mt-1 bg-white/5 p-2 rounded-lg border border-white/10 mt-3 inline-flex items-center gap-2">
                     <i class="fas fa-info-circle text-cyber-400"></i>
-                    Petunjuk: Cek password di dalam video YouTube / kolom komentar (Pin).
+                    Petunjuk: Password ada di dalam video YouTube.
                 </p>
             </div>
             
-            <input type="text" id="password-input" class="premium-input mb-5 text-center text-sm font-bold tracking-widest" placeholder="Masukkan Password Disini..." autocomplete="off">
+            <input type="text" id="password-input" class="premium-input mb-5 text-center text-sm font-bold tracking-widest" placeholder="Masukkan Password..." autocomplete="off">
             <div id="error-msg" class="text-[10px] text-red-400 text-center mb-3 hidden"><i class="fas fa-times-circle"></i> Password salah, silakan coba lagi!</div>
             
             <div class="flex gap-3">
@@ -230,56 +179,128 @@
         </div>
     </div>
 
-    <!-- 2. Modal Pemutar Video (Tampil jika password benar) -->
-    <div id="player-modal" class="fixed inset-0 z-[110] hidden items-center justify-center p-4 transition-opacity duration-300 bg-black/95 backdrop-blur-xl">
-        <div class="relative w-full max-w-lg bg-cyber-dark/95 border border-white/10 rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(168,85,247,0.2)] flex flex-col">
-            
-            <!-- Header Player -->
-            <div class="flex justify-between items-center p-4 border-b border-white/5 bg-white/5">
-                <div class="flex items-center gap-2">
-                    <div class="w-8 h-8 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center text-xs">
-                        <i class="fas fa-check"></i>
-                    </div>
-                    <h3 class="text-xs font-bold text-white tracking-wide uppercase">Akses Terbuka</h3>
-                </div>
-                <button onclick="closePlayer()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-red-500/80 text-white flex items-center justify-center transition-colors">
+    <!-- 2. Modal Pilihan Aksi (Nonton / Download) -->
+    <div id="action-modal" class="modal-overlay z-[120]">
+        <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[340px] border-t-2 border-t-cyber-400">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-white text-base">Akses Terbuka</h3>
+                <button onclick="closeActionModal()" class="text-slate-400 hover:text-white transition-colors">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
+            <p class="text-xs text-slate-400 mb-5">Pilih metode untuk mengakses file rahasia ini.</p>
             
-            <!-- Video Container -->
-            <div class="w-full bg-black flex justify-center relative aspect-video" id="video-container">
-                <!-- Video tag atau Iframe akan di-inject kesini oleh Javascript -->
+            <div class="flex flex-col gap-3">
+                <!-- Tombol Nonton -->
+                <button onclick="showMaintenanceAlert()" class="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-left group">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 rounded-full bg-cyber-500/20 text-cyber-400 flex items-center justify-center text-lg group-hover:text-white transition-colors">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        <div>
+                            <div class="text-sm font-bold text-white mb-0.5">Tonton Video</div>
+                            <div class="text-[10px] text-slate-400">Streaming langsung tanpa lag</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-right text-slate-500"></i>
+                </button>
+
+                <!-- Tombol Download -->
+                <button onclick="showMaintenanceAlert()" class="flex items-center justify-between p-4 rounded-xl border border-cyber-500/30 bg-cyber-500/10 hover:bg-cyber-500/20 transition-all text-left group relative overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-r from-cyber-500/0 via-cyber-500/10 to-cyber-500/0 opacity-0 group-hover:opacity-100 transition-opacity translate-x-[-100%] group-hover:translate-x-[100%] duration-1000"></div>
+                    <div class="flex items-center gap-4 relative z-10">
+                        <div class="w-10 h-10 rounded-full bg-cyber-500/20 text-cyber-400 flex items-center justify-center text-lg shadow-[0_0_15px_rgba(168,85,247,0.3)]">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <div>
+                            <div class="text-sm font-bold text-cyber-400 mb-0.5">Download File (.enc)</div>
+                            <div class="text-[10px] text-slate-300">Kualitas original (Full HD)</div>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-right text-cyber-400 relative z-10"></i>
+                </button>
             </div>
+        </div>
+    </div>
+
+    <!-- 3. Modal Maintenance (Muncul saat tombol aksi diklik) -->
+    <div id="maintenance-modal" class="modal-overlay z-[130]">
+        <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[320px] text-center border-t-2 border-t-yellow-500 shadow-[0_0_40px_rgba(234,179,8,0.15)]">
+            <div class="w-14 h-14 rounded-full bg-yellow-500/10 text-yellow-500 flex items-center justify-center text-2xl mx-auto mb-4 border border-yellow-500/20">
+                <i class="fas fa-tools"></i>
+            </div>
+            <h3 class="font-bold text-white text-sm mb-2">Sedang Diperbaiki</h3>
+            <p class="text-[11px] text-slate-300 leading-relaxed mb-6">
+                Mohon maaf, sistem pembukaan video sedang dalam perbaikan sementara untuk memudahkan kalian kedepannya.<br><br>Tunggu update berikutnya!
+            </p>
+            <button onclick="closeMaintenanceModal()" class="w-full py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold transition-colors">
+                KEMBALI
+            </button>
         </div>
     </div>
 
     <script>
         // ==========================================
-        // DATABASE PASSWORD & LINK VIDEO
+        // TAMPILKAN POPUP KETIKA WEB PERTAMA DIBUKA
         // ==========================================
-        const videoDatabase = {
-            'video1': {
-                password: 'tidur', // Password untuk Video 1
-                // Link video langsung (MP4) atau embed link
-                videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4' 
-            },
-            'video2': {
-                password: 'ayah', // Password untuk Video 2
-                videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4'
-            },
-            'video3': {
-                password: 'kakak', // Password untuk Video 3
-                videoUrl: 'https://www.w3schools.com/html/mov_bbb.mp4'
-            }
+        window.onload = function() {
+            setTimeout(() => {
+                document.getElementById('onload-modal').classList.add('active');
+            }, 500); // Muncul setengah detik setelah web terbuka
         };
 
+        function closeOnloadModal() {
+            document.getElementById('onload-modal').classList.remove('active');
+        }
+
         // ==========================================
-        // LOGIKA SISTEM BRANKAS
+        // DATABASE 10 VIDEO
+        // ==========================================
+        const videoData = [
+            { id: 'video1', title: 'VIDEO #1', desc: 'Anak Lagi Tidur DiGas Ayah Malam Malam', img: '1.jpg', yt: 'https://youtube.com/watch?v=VIDEO1', pass: 'tidur' },
+            { id: 'video2', title: 'VIDEO #2', desc: 'Ayah Ga Tahan Liat Anak Tidur Langsung DiPake', img: '2.jpg', yt: 'https://youtube.com/watch?v=VIDEO2', pass: 'ayah' },
+            { id: 'video3', title: 'VIDEO #3', desc: 'Kk Diem Diem Buka Celana Adek Pas Lagi Tidur', img: '3.jpg', yt: 'https://youtube.com/watch?v=VIDEO3', pass: 'kakak' },
+            { id: 'video4', title: 'VIDEO #4', desc: 'Deskripsi untuk video rahasia keempat disini', img: '4.jpg', yt: 'https://youtube.com/watch?v=VIDEO4', pass: 'pass4' },
+            { id: 'video5', title: 'VIDEO #5', desc: 'Deskripsi untuk video rahasia kelima disini', img: '5.jpg', yt: 'https://youtube.com/watch?v=VIDEO5', pass: 'pass5' },
+            { id: 'video6', title: 'VIDEO #6', desc: 'Deskripsi untuk video rahasia keenam disini', img: '6.jpg', yt: 'https://youtube.com/watch?v=VIDEO6', pass: 'pass6' },
+            { id: 'video7', title: 'VIDEO #7', desc: 'Deskripsi untuk video rahasia ketujuh disini', img: '7.jpg', yt: 'https://youtube.com/watch?v=VIDEO7', pass: 'pass7' },
+            { id: 'video8', title: 'VIDEO #8', desc: 'Deskripsi untuk video rahasia kedelapan disini', img: '8.jpg', yt: 'https://youtube.com/watch?v=VIDEO8', pass: 'pass8' },
+            { id: 'video9', title: 'VIDEO #9', desc: 'Deskripsi untuk video rahasia kesembilan disini', img: '9.jpg', yt: 'https://youtube.com/watch?v=VIDEO9', pass: 'pass9' },
+            { id: 'video10', title: 'VIDEO #10', desc: 'Deskripsi untuk video rahasia kesepuluh disini', img: '10.jpg', yt: 'https://youtube.com/watch?v=VIDEO10', pass: 'pass10' }
+        ];
+
+        // Generate 10 Video Cards Otomatis
+        const container = document.getElementById('video-list-container');
+        container.innerHTML = videoData.map(v => `
+            <div class="glass-panel rounded-2xl p-3 flex gap-3.5">
+                <div class="w-[88px] h-[88px] rounded-xl overflow-hidden shrink-0 border border-white/10 relative shadow-inner">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10 flex items-end p-2">
+                        <i class="fas fa-lock text-white/50 text-xs"></i>
+                    </div>
+                    <img src="${v.img}" alt="${v.title}" onerror="this.src='https://placehold.co/100x100/1a1a2e/a855f7?text=Vid'" class="w-full h-full object-cover protected-img">
+                </div>
+                <div class="flex flex-col flex-1 justify-between py-0.5">
+                    <div>
+                        <h3 class="text-sm font-bold text-white leading-tight">${v.title}</h3>
+                        <p class="text-[10px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">${v.desc}</p>
+                    </div>
+                    <div class="flex gap-2 mt-2">
+                        <a href="${v.yt}" target="_blank" class="flex-1 py-1.5 btn-primary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
+                            <i class="fab fa-youtube text-[11px]"></i> AMBIL KEY
+                        </a>
+                        <button onclick="openVault('${v.id}')" class="flex-1 py-1.5 btn-secondary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1">
+                            <i class="fas fa-key text-[9px]"></i> BUKA WEB
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+
+        // ==========================================
+        // LOGIKA BRANKAS & POPUP AKSI
         // ==========================================
         let currentTargetId = null;
 
-        // Buka Pop-up Password
         function openVault(id) {
             currentTargetId = id;
             document.getElementById('password-input').value = '';
@@ -288,33 +309,28 @@
             document.getElementById('vault-modal').classList.add('active');
             setTimeout(() => document.getElementById('password-input').focus(), 100);
             
-            // Enter key trigger
             document.getElementById('password-input').onkeydown = (e) => { 
                 if(e.key === 'Enter') verifyPassword(); 
             };
         }
 
-        // Tutup Pop-up Password
         function closeVault() {
             document.getElementById('vault-modal').classList.remove('active');
             currentTargetId = null;
         }
 
-        // Cek Password
         function verifyPassword() {
             const input = document.getElementById('password-input').value.trim().toLowerCase();
             const errorMsg = document.getElementById('error-msg');
             
-            if (!currentTargetId || !videoDatabase[currentTargetId]) return;
+            const targetVideo = videoData.find(v => v.id === currentTargetId);
+            if (!targetVideo) return;
 
-            const correctPassword = videoDatabase[currentTargetId].password.toLowerCase();
-
-            if (input === correctPassword) {
-                // Password Benar! Tutup vault, buka player
+            if (input === targetVideo.pass.toLowerCase()) {
                 closeVault();
-                openPlayer(videoDatabase[currentTargetId].videoUrl);
+                // Buka pop-up pilihan Nonton/Download
+                document.getElementById('action-modal').classList.add('active');
             } else {
-                // Password Salah
                 errorMsg.classList.remove('hidden');
                 // Efek getar
                 const modalContent = document.querySelector('#vault-modal .modal-content');
@@ -325,40 +341,20 @@
             }
         }
 
-        // Buka Pemutar Video
-        function openPlayer(url) {
-            const playerModal = document.getElementById('player-modal');
-            const container = document.getElementById('video-container');
-            
-            // Render elemen video
-            // Jika Anda menggunakan link MP4 biasa:
-            container.innerHTML = `
-                <video controls autoplay playsinline class="w-full h-full object-contain">
-                    <source src="${url}" type="video/mp4">
-                    Browser Anda tidak mendukung pemutar video.
-                </video>
-            `;
-            
-            // Tampilkan modal
-            playerModal.classList.remove('hidden');
-            playerModal.classList.add('flex');
-            document.body.style.overflow = 'hidden'; // Kunci scroll background
+        function closeActionModal() {
+            document.getElementById('action-modal').classList.remove('active');
         }
 
-        // Tutup Pemutar Video
-        function closePlayer() {
-            const playerModal = document.getElementById('player-modal');
-            const container = document.getElementById('video-container');
-            
-            // Sembunyikan modal
-            playerModal.classList.remove('flex');
-            playerModal.classList.add('hidden');
-            document.body.style.overflow = 'auto'; // Buka scroll background
-            
-            // Hapus elemen video agar suara video terhenti
+        // Fungsi ini dipanggil kalau milih Nonton atau Download
+        function showMaintenanceAlert() {
+            closeActionModal();
             setTimeout(() => {
-                container.innerHTML = '';
+                document.getElementById('maintenance-modal').classList.add('active');
             }, 300);
+        }
+
+        function closeMaintenanceModal() {
+            document.getElementById('maintenance-modal').classList.remove('active');
         }
     </script>
 </body>
