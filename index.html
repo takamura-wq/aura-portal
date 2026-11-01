@@ -66,7 +66,6 @@
     <div class="bg-ambient"></div>
     <div class="bg-grid"></div>
 
-    <!-- Wrapper utama dibuat seperti ukuran smartphone (max-w-[480px]) agar rapi di HP maupun PC -->
     <div class="w-full max-w-[480px] min-h-screen bg-cyber-dark/80 backdrop-blur-3xl border-x border-white/5 relative z-10 flex flex-col shadow-2xl">
         
         <header class="sticky top-0 z-50 bg-cyber-dark/90 backdrop-blur-md border-b border-white/5 px-5 py-4 flex justify-between items-center">
@@ -118,7 +117,6 @@
                     <span class="text-[9px] font-bold text-cyber-400 bg-cyber-500/10 px-2 py-0.5 rounded border border-cyber-500/20">TERENKRIPSI</span>
                 </div>
 
-                <!-- Kontainer Video (Di-generate via JavaScript) -->
                 <div id="video-list-container" class="flex flex-col gap-3"></div>
             </section>
             
@@ -169,7 +167,6 @@
             <p class="text-xs text-slate-400 mb-5">Pilih metode untuk mengakses file rahasia ini.</p>
             
             <div class="flex flex-col gap-3">
-                <!-- Tombol Nonton -->
                 <button onclick="handleWatchClick()" class="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition-all text-left group">
                     <div class="flex items-center gap-4">
                         <div class="w-10 h-10 rounded-full bg-cyber-500/20 text-cyber-400 flex items-center justify-center text-lg group-hover:text-white transition-colors">
@@ -183,7 +180,6 @@
                     <i class="fas fa-chevron-right text-slate-500"></i>
                 </button>
 
-                <!-- Tombol Download -->
                 <button onclick="handleDownloadClick()" class="flex items-center justify-between p-4 rounded-xl border border-cyber-500/30 bg-cyber-500/10 hover:bg-cyber-500/20 transition-all text-left group relative overflow-hidden">
                     <div class="absolute inset-0 bg-gradient-to-r from-cyber-500/0 via-cyber-500/10 to-cyber-500/0 opacity-0 group-hover:opacity-100 transition-opacity translate-x-[-100%] group-hover:translate-x-[100%] duration-1000"></div>
                     <div class="flex items-center gap-4 relative z-10">
@@ -203,20 +199,19 @@
 
     <script>
         // ==========================================
-        // 1. DATABASE VIDEO
-        // Judul lebih keren, berurutan, tanpa deskripsi
+        // 1. DATABASE VIDEO (UPDATED PATHS to images/)
         // ==========================================
         const videoData = [
-            { id: 'v1', title: 'Private Record 01', img: '1.jpg', yt: 'https://youtu.be/uABjcDlNmeU' },
-            { id: 'v2', title: 'Private Record 02', img: '2.jpg', yt: 'https://youtu.be/HNPSGfxmkaM' },
-            { id: 'v3', title: 'Private Record 03', img: '3.jpg', yt: 'https://youtu.be/LNwtPZd_UZY' },
-            { id: 'v4', title: 'Private Record 04', img: '4.jpg', yt: 'https://youtu.be/CPiPFr2DBVU' },
-            { id: 'v5', title: 'Private Record 05', img: '5.jpg', yt: 'https://youtu.be/1q_LKJiu0SE' },
-            { id: 'v6', title: 'Private Record 06', img: '6.jpg', yt: 'https://youtu.be/PsOYz9yBrAY' },
-            { id: 'v7', title: 'Private Record 07', img: '7.jpg', yt: 'https://youtu.be/gDhM_QOXuTw' },
-            { id: 'v8', title: 'Private Record 08', img: '8.jpg', yt: 'https://youtu.be/tpdbX7wWDvk' },
-            { id: 'v9', title: 'Private Record 09', img: '9.jpg', yt: 'https://youtube.com/watch?v=VIDEO9' },
-            { id: 'v10', title: 'Private Record 10', img: '10.jpg', yt: 'https://youtube.com/watch?v=VIDEO10' }
+            { id: 'v1', title: 'Private Record 01', img: 'images/1.jpg', yt: 'https://youtu.be/uABjcDlNmeU' },
+            { id: 'v2', title: 'Private Record 02', img: 'images/2.jpg', yt: 'https://youtu.be/HNPSGfxmkaM' },
+            { id: 'v3', title: 'Private Record 03', img: 'images/3.jpg', yt: 'https://youtu.be/LNwtPZd_UZY' },
+            { id: 'v4', title: 'Private Record 04', img: 'images/4.jpg', yt: 'https://youtu.be/CPiPFr2DBVU' },
+            { id: 'v5', title: 'Private Record 05', img: 'images/5.jpg', yt: 'https://youtu.be/1q_LKJiu0SE' },
+            { id: 'v6', title: 'Private Record 06', img: 'images/6.jpg', yt: 'https://youtu.be/PsOYz9yBrAY' },
+            { id: 'v7', title: 'Private Record 07', img: 'images/7.jpg', yt: 'https://youtu.be/gDhM_QOXuTw' },
+            { id: 'v8', title: 'Private Record 08', img: 'images/8.jpg', yt: 'https://youtu.be/tpdbX7wWDvk' },
+            { id: 'v9', title: 'Private Record 09', img: 'images/9.jpg', yt: 'https://youtube.com/watch?v=VIDEO9' },
+            { id: 'v10', title: 'Private Record 10', img: 'images/10.jpg', yt: 'https://youtube.com/watch?v=VIDEO10' }
         ];
 
         const container = document.getElementById('video-list-container');
@@ -245,12 +240,11 @@
             </div>
         `).join('');
 
-        // Variabel penampung hasil dekripsi
         let decryptedWatchLink = '';
         let decryptedDownloadLink = '';
 
         // ==========================================
-        // 3. LOGIKA BRANKAS & DEKRIPSI
+        // 3. LOGIKA BRANKAS & DEKRIPSI (UPDATED FETCH PATH)
         // ==========================================
         function openVault() {
             document.getElementById('password-input').value = '';
@@ -275,26 +269,23 @@
             
             if (!input) return;
 
-            // Efek loading tombol
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> MEMERIKSA...';
             btn.disabled = true;
             errorMsg.classList.add('hidden');
 
             try {
-                // 1. Hash password untuk mencari nama file
                 const encoder = new TextEncoder();
                 const keyBytes = encoder.encode(input);
                 const hashBuffer = await crypto.subtle.digest('SHA-256', keyBytes);
                 const hashHex = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
                 
-                // 2. Fetch/Download file .enc tersebut dari hosting
-                const response = await fetch(`${hashHex}.enc`);
+                // Fetch/Download file .enc tersebut dari folder data/
+                const response = await fetch(`data/${hashHex}.enc`);
                 if (!response.ok) {
                     throw new Error("File tidak ditemukan. Password salah.");
                 }
                 
-                // 3. Jika file ada, Dekripsi isinya menggunakan AES-GCM
                 const encryptedPayload = await response.arrayBuffer();
                 const salt = encryptedPayload.slice(0, 16);
                 const iv = encryptedPayload.slice(16, 28);
@@ -311,37 +302,31 @@
                 const extLen = dataArray[0];
                 const fileContent = dataArray.slice(1 + extLen);
                 
-                // Hasil dekripsi berupa teks (LinkNonton|LinkDownload)
                 const textContent = new TextDecoder().decode(fileContent).trim();
 
-                // Memisahkan kedua link
                 const links = textContent.split('|');
                 decryptedWatchLink = links[0];
-                decryptedDownloadLink = links[1] || links[0]; // Jaga-jaga jika cuma 1 link
+                decryptedDownloadLink = links[1] || links[0]; 
 
-                // Sukses! Buka pop-up pilihan aksi
                 closeVault();
                 document.getElementById('action-modal').classList.add('active');
 
             } catch (err) {
-                // Gagal dekripsi (Password salah atau file tidak ada)
                 errorMsg.classList.remove('hidden');
                 
-                // Animasi Getar (Shake Effect)
                 const modalContent = document.querySelector('#vault-modal .modal-content');
                 modalContent.style.transform = 'scale(0.95) translateX(10px)';
                 setTimeout(() => modalContent.style.transform = 'scale(0.95) translateX(-10px)', 50);
                 setTimeout(() => modalContent.style.transform = 'scale(0.95) translateX(10px)', 100);
                 setTimeout(() => modalContent.style.transform = 'scale(1) translateX(0)', 150);
             } finally {
-                // Kembalikan tombol ke semula
                 btn.innerHTML = originalText;
                 btn.disabled = false;
             }
         }
 
         // ==========================================
-        // 3. LOGIKA TOMBOL AKSI
+        // 4. LOGIKA TOMBOL AKSI
         // ==========================================
         function closeActionModal() {
             document.getElementById('action-modal').classList.remove('active');
@@ -349,13 +334,11 @@
 
         function handleWatchClick() {
             closeActionModal();
-            // Langsung buka link nonton
             window.location.href = decryptedWatchLink;
         }
 
         function handleDownloadClick() {
             closeActionModal();
-            // Langsung buka link download di tab baru
             window.open(decryptedDownloadLink, '_blank');
         }
     </script>
