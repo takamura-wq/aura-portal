@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alat Pencocok Nama File</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-950 text-white min-h-screen flex items-center justify-center p-5 font-sans">
+    <div class="w-full max-w-md bg-gray-900 border border-gray-800 p-6 rounded-2xl shadow-2xl">
+        <div class="flex items-center gap-3 mb-2">
+            <div class="w-10 h-10 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+            </div>
+            <h2 class="text-xl font-bold text-white">Detektif File</h2>
+        </div>
+        <p class="text-xs text-gray-400 mb-6">Masukkan salah satu dari 10 passwordmu untuk mengetahui nama file aslinya di GitHub.</p>
+        
+        <div class="mb-4">
+            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-wider">Masukkan Password</label>
+            <input type="text" id="passInput" class="w-full bg-black border border-gray-800 focus:border-purple-500 rounded-xl p-4 text-white outline-none transition-colors" placeholder="Ketik password di sini..." autocomplete="off">
+        </div>
+        
+        <button onclick="generateHash()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-4 rounded-xl transition-all active:scale-[0.98] mb-6 shadow-[0_0_15px_rgba(168,85,247,0.4)]">
+            CARI NAMA FILE
+        </button>
+        
+        <div class="bg-black/50 border border-gray-800 rounded-xl p-4">
+            <label class="block text-xs font-bold text-gray-500 mb-2 uppercase tracking-wider">Nama File di GitHub:</label>
+            <div class="flex items-center justify-between gap-2">
+                <code id="resultHash" class="text-green-400 text-sm break-all">...</code>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function generateHash() {
+            const pass = document.getElementById('passInput').value.trim();
+            const resultEl = document.getElementById('resultHash');
+            
+            if (!pass) {
+                resultEl.innerText = "Harap masukkan password!";
+                resultEl.className = "text-red-400 text-sm";
+                return;
+            }
+
+            resultEl.innerText = "Memproses...";
+            resultEl.className = "text-gray-400 text-sm";
+
+            try {
+                const encoder = new TextEncoder();
+                const data = encoder.encode(pass);
+                const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+                const hashHex = Array.from(new Uint8Array(hashBuffer))
+                                  .map(b => b.toString(16).padStart(2, '0'))
+                                  .join('');
+                
+                resultEl.innerText = hashHex + ".enc";
+                resultEl.className = "text-green-400 text-sm break-all font-mono";
+            } catch (err) {
+                resultEl.innerText = "Terjadi kesalahan.";
+                resultEl.className = "text-red-400 text-sm";
+            }
+        }
+
+        // Jalankan saat tekan Enter
+        document.getElementById('passInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') generateHash();
+        });
+    </script>
+</body>
+</html>
