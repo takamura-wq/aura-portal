@@ -243,8 +243,8 @@
             const chunk = videoData.slice(i, i + itemsPerDropdown);
             const batchNumber = (i / itemsPerDropdown) + 1;
             const dropdownId = `dropdown-batch-${batchNumber}`;
-            // Buka dropdown pertama secara default
-            const isOpen = batchNumber === 1;
+            // Tutup semua dropdown secara default
+            const isOpen = false;
 
             let itemsHtml = chunk.map(v => `
                 <div class="bg-white/5 rounded-xl p-3 flex items-center gap-3.5 border border-white/5 hover:border-cyber-500/30 transition-colors">
