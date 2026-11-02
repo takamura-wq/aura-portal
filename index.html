@@ -56,7 +56,6 @@
 
         .protected-img { pointer-events: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; -webkit-user-drag: none; }
         
-        /* Smooth dropdown transition */
         .dropdown-content { transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out; max-height: 0; opacity: 0; overflow: hidden; }
         .dropdown-content.open { max-height: 2000px; opacity: 1; }
         
@@ -121,7 +120,6 @@
                     <span class="text-[9px] font-bold text-cyber-400 bg-cyber-500/10 px-2 py-0.5 rounded border border-cyber-500/20">TERENKRIPSI</span>
                 </div>
 
-                <!-- Kontainer untuk Dropdown Video -->
                 <div id="video-list-container" class="flex flex-col gap-3"></div>
             </section>
             
@@ -132,14 +130,14 @@
         </div>
     </div>
 
-    <!-- 1. Modal Brankas (Input Password) -->
+    <!-- Modal Brankas -->
     <div id="vault-modal" class="modal-overlay z-[110]">
         <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[340px] border-t-2 border-t-cyber-500">
             <div class="flex flex-col items-center text-center mb-5">
                 <div class="w-12 h-12 rounded-xl bg-cyber-500/10 text-cyber-400 flex items-center justify-center text-xl mb-3 border border-cyber-500/30">
                     <i class="fas fa-lock"></i>
                 </div>
-                <h3 class="font-bold text-white text-sm">Buka Brankas Video</h3>
+                <h3 class="font-bold text-white text-sm" id="vault-title">Buka Brankas</h3>
                 <p class="text-[10px] text-slate-400 mt-1 bg-white/5 p-2 rounded-lg border border-white/10 mt-3 inline-flex items-center gap-2 text-left">
                     <i class="fas fa-info-circle text-cyber-400 text-lg"></i>
                     <span>Petunjuk: Tonton video YouTube dan cari Password di dalamnya.</span>
@@ -147,7 +145,7 @@
             </div>
             
             <input type="text" id="password-input" class="premium-input mb-5 text-center text-sm font-bold tracking-widest" placeholder="Masukkan Password..." autocomplete="off">
-            <div id="error-msg" class="text-[10px] text-red-400 text-center mb-3 hidden"><i class="fas fa-times-circle"></i> Password salah, silakan coba lagi!</div>
+            <div id="error-msg" class="text-[10px] text-red-400 text-center mb-3 hidden"><i class="fas fa-times-circle"></i> Password salah untuk video ini!</div>
             
             <div class="flex gap-3">
                 <button onclick="closeVault()" class="flex-1 py-3 bg-white/5 text-slate-300 rounded-xl text-xs font-bold hover:bg-white/10 transition-colors">
@@ -160,7 +158,7 @@
         </div>
     </div>
 
-    <!-- 2. Modal Pilihan Aksi (Nonton / Download) -->
+    <!-- Modal Pilihan Aksi -->
     <div id="action-modal" class="modal-overlay z-[120]">
         <div class="modal-content glass-panel p-6 rounded-2xl w-full max-w-[340px] border-t-2 border-t-cyber-400">
             <div class="flex justify-between items-center mb-4">
@@ -203,11 +201,7 @@
     </div>
 
     <script>
-        // ==========================================
-        // 1. DATABASE VIDEO (20 Data Total)
-        // ==========================================
         const videoData = [
-            // Batch 1 (1-10)
             { id: 'v1', title: 'Private 01', img: 'images/1.jpg', yt: 'https://youtu.be/uABjcDlNmeU' },
             { id: 'v2', title: 'Private 02', img: 'images/2.jpg', yt: 'https://youtu.be/HNPSGfxmkaM' },
             { id: 'v3', title: 'Private 03', img: 'images/3.jpg', yt: 'https://youtu.be/LNwtPZd_UZY' },
@@ -218,8 +212,6 @@
             { id: 'v8', title: 'Private 08', img: 'images/8.jpg', yt: 'https://youtu.be/tpdbX7wWDvk' },
             { id: 'v9', title: 'Private 09', img: 'images/9.jpg', yt: 'https://youtu.be/rD44k5CBlmc' },
             { id: 'v10', title: 'Private 10', img: 'images/10.jpg', yt: 'https://youtu.be/d_TclsXFBuY' },
-            
-            // Batch 2 (11-20) - Silakan sesuaikan ID YouTube-nya nanti
             { id: 'v11', title: 'Private 11', img: 'images/11.jpg', yt: 'https://youtu.be/xyz123' },
             { id: 'v12', title: 'Private 12', img: 'images/12.jpg', yt: 'https://youtu.be/xyz123' },
             { id: 'v13', title: 'Private 13', img: 'images/13.jpg', yt: 'https://youtu.be/xyz123' },
@@ -232,9 +224,6 @@
             { id: 'v20', title: 'Private 20', img: 'images/20.jpg', yt: 'https://youtu.be/xyz123' }
         ];
 
-        // ==========================================
-        // 2. RENDER DROPDOWN
-        // ==========================================
         const container = document.getElementById('video-list-container');
         const itemsPerDropdown = 10;
         let renderedHtml = '';
@@ -243,7 +232,6 @@
             const chunk = videoData.slice(i, i + itemsPerDropdown);
             const batchNumber = (i / itemsPerDropdown) + 1;
             const dropdownId = `dropdown-batch-${batchNumber}`;
-            // Tutup semua dropdown secara default
             const isOpen = false;
 
             let itemsHtml = chunk.map(v => `
@@ -263,7 +251,8 @@
                             <a href="${v.yt}" target="_blank" class="flex-1 py-1.5 btn-primary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1.5">
                                 <i class="fab fa-youtube text-[11px]"></i> AMBIL KEY
                             </a>
-                            <button onclick="openVault()" class="flex-1 py-1.5 btn-secondary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1.5">
+                            <!-- PERUBAHAN: Memasukkan ID video ke fungsi openVault -->
+                            <button onclick="openVault('${v.id}', '${v.title}')" class="flex-1 py-1.5 btn-secondary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1.5">
                                 <i class="fas fa-key text-[10px]"></i> BUKA
                             </button>
                         </div>
@@ -296,9 +285,6 @@
 
         container.innerHTML = renderedHtml;
 
-        // ==========================================
-        // 3. FUNGSI TOGGLE DROPDOWN
-        // ==========================================
         function toggleDropdown(id, buttonElement) {
             const content = document.getElementById(id);
             const icon = buttonElement.querySelector('.fa-chevron-down');
@@ -314,11 +300,14 @@
 
         let decryptedWatchLink = '';
         let decryptedDownloadLink = '';
+        
+        // PERUBAHAN: Variabel untuk mengingat video mana yang sedang diklik
+        let currentSelectedVideoId = '';
 
-        // ==========================================
-        // 4. LOGIKA BRANKAS & DEKRIPSI
-        // ==========================================
-        function openVault() {
+        function openVault(videoId, videoTitle) {
+            currentSelectedVideoId = videoId; // Simpan ID Video (misal 'v1')
+            
+            document.getElementById('vault-title').innerText = `Buka ${videoTitle}`;
             document.getElementById('password-input').value = '';
             document.getElementById('error-msg').classList.add('hidden');
             
@@ -349,12 +338,13 @@
             try {
                 const encoder = new TextEncoder();
                 const keyBytes = encoder.encode(input);
-                const hashBuffer = await crypto.subtle.digest('SHA-256', keyBytes);
-                const hashHex = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
                 
-                const response = await fetch(`data/${hashHex}.enc`);
+                // PERUBAHAN UTAMA: 
+                // Sistem kini memanggil file berdasarkan ID video (misal data/v1.enc),
+                // BUKAN memanggil berdasarkan hash dari password.
+                const response = await fetch(`data/${currentSelectedVideoId}.enc`);
                 if (!response.ok) {
-                    throw new Error("File tidak ditemukan. Password salah.");
+                    throw new Error("File tidak ditemukan di server.");
                 }
                 
                 const encryptedPayload = await response.arrayBuffer();
@@ -368,6 +358,7 @@
                     baseKey, { name: 'AES-GCM', length: 256 }, false, ['decrypt']
                 );
 
+                // Jika password (keyBytes) yang dimasukkan salah, proses decrypt di bawah ini akan otomatis ERROR dan lari ke catch()
                 const rawBuffer = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: new Uint8Array(iv) }, cryptoKey, ciphertext);
                 const dataArray = new Uint8Array(rawBuffer);
                 const extLen = dataArray[0];
@@ -383,6 +374,7 @@
                 document.getElementById('action-modal').classList.add('active');
 
             } catch (err) {
+                // Jika terjadi error saat decrypt (karena password salah untuk file ini), tampilkan error
                 errorMsg.classList.remove('hidden');
                 
                 const modalContent = document.querySelector('#vault-modal .modal-content');
@@ -396,9 +388,6 @@
             }
         }
 
-        // ==========================================
-        // 5. LOGIKA TOMBOL AKSI
-        // ==========================================
         function closeActionModal() {
             document.getElementById('action-modal').classList.remove('active');
         }
