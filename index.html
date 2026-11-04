@@ -42,6 +42,10 @@
         .btn-primary:active:not(:disabled) { transform: translateY(1px) scale(0.98); }
         .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
 
+        .btn-bicolink { background: linear-gradient(135deg, #3b82f6, #2563eb); color: #ffffff; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.25); transition: all 0.3s; }
+        .btn-bicolink:hover { box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5); transform: translateY(-1px); filter: brightness(1.1); }
+        .btn-bicolink:active { transform: translateY(1px) scale(0.98); }
+
         .btn-secondary { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; transition: all 0.3s; }
         .btn-secondary:hover { background: rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.4); color: #c084fc; }
         .btn-secondary:active { transform: scale(0.98); }
@@ -140,7 +144,7 @@
                 <h3 class="font-bold text-white text-sm" id="vault-title">Buka Brankas</h3>
                 <p class="text-[10px] text-slate-400 mt-1 bg-white/5 p-2 rounded-lg border border-white/10 mt-3 flex items-start gap-2 text-left">
                     <i class="fas fa-info-circle text-cyber-400 text-sm mt-0.5 shrink-0"></i>
-                    <span>Petunjuk: <b class="text-white">SETIAP VIDEO PUNYA KEY BERBEDA.</b> Jangan gunakan key dari video lain! Tonton video YouTube-nya untuk mencari key khusus video ini.</span>
+                    <span>Petunjuk: <b class="text-white">SETIAP VIDEO PUNYA KEY BERBEDA.</b> Jangan gunakan key dari video lain! Tonton video YouTube-nya atau gunakan WEB KEY.</span>
                 </p>
             </div>
             
@@ -202,26 +206,26 @@
 
     <script>
         const videoData = [
-            { id: 'v1', title: 'Private 01', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/1.jpg', yt: 'https://youtu.be/uABjcDlNmeU' },
-            { id: 'v2', title: 'Private 02', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/2.jpg', yt: 'https://youtu.be/HNPSGfxmkaM' },
-            { id: 'v3', title: 'Private 03', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/3.jpg', yt: 'https://youtu.be/LNwtPZd_UZY' },
-            { id: 'v4', title: 'Private 04', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/4.jpg', yt: 'https://youtu.be/CPiPFr2DBVU' },
-            { id: 'v5', title: 'Private 05', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/5.jpg', yt: 'https://youtu.be/1q_LKJiu0SE' },
-            { id: 'v6', title: 'Private 06', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/6.jpg', yt: 'https://youtu.be/PsOYz9yBrAY' },
-            { id: 'v7', title: 'Private 07', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/7.jpg', yt: 'https://youtu.be/gDhM_QOXuTw' },
-            { id: 'v8', title: 'Private 08', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/8.jpg', yt: 'https://youtu.be/tpdbX7wWDvk' },
-            { id: 'v9', title: 'Private 09', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/9.jpg', yt: 'https://youtu.be/rD44k5CBlmc' },
-            { id: 'v10', title: 'Private 10', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/10.jpg', yt: 'https://youtu.be/d_TclsXFBuY' },
-            { id: 'v11', title: 'Private 11', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/11.jpg', yt: 'https://youtu.be/2adv6dHAbBQ' },
-            { id: 'v12', title: 'Private 12', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/12.jpg', yt: 'https://youtu.be/zEdezRNW7_k' },
-            { id: 'v13', title: 'Private 13', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/13.jpg', yt: 'https://youtu.be/CfhcYxrQ0xQ' },
-            { id: 'v14', title: 'Private 14', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/14.jpg', yt: 'https://youtu.be/xyz123' },
-            { id: 'v15', title: 'Private 15', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/15.jpg', yt: 'https://youtu.be/xyz123' },
-            { id: 'v16', title: 'Private 16', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/16.jpg', yt: 'https://youtu.be/xyz123' },
-            { id: 'v17', title: 'Private 17', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/17.jpg', yt: 'https://youtu.be/xyz123' },
-            { id: 'v18', title: 'Private 18', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/18.jpg', yt: 'https://youtu.be/xyz123' },
-            { id: 'v19', title: 'Private 19', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/19.jpg', yt: 'https://youtu.be/xyz123' },
-            { id: 'v20', title: 'Private 20', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/20.jpg', yt: 'https://youtu.be/xyz123' }
+            { id: 'v1', title: 'Private 01', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/1.jpg', yt: 'https://youtu.be/uABjcDlNmeU', bicolink: 'https://bicolink.com/NUgmzQD' },
+            { id: 'v2', title: 'Private 02', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/2.jpg', yt: 'https://youtu.be/HNPSGfxmkaM', bicolink: 'https://bicolink.com/wiMJv' },
+            { id: 'v3', title: 'Private 03', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/3.jpg', yt: 'https://youtu.be/LNwtPZd_UZY', bicolink: 'https://bicolink.com/ZP2Rfy' },
+            { id: 'v4', title: 'Private 04', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/4.jpg', yt: 'https://youtu.be/CPiPFr2DBVU', bicolink: 'https://bicolink.com/ViCHd' },
+            { id: 'v5', title: 'Private 05', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/5.jpg', yt: 'https://youtu.be/1q_LKJiu0SE', bicolink: 'https://bicolink.com/JrEdJcq' },
+            { id: 'v6', title: 'Private 06', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/6.jpg', yt: 'https://youtu.be/PsOYz9yBrAY', bicolink: 'https://bicolink.com/YEm1b' },
+            { id: 'v7', title: 'Private 07', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/7.jpg', yt: 'https://youtu.be/gDhM_QOXuTw', bicolink: 'https://bicolink.com/J98bI0Hr' },
+            { id: 'v8', title: 'Private 08', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/8.jpg', yt: 'https://youtu.be/tpdbX7wWDvk', bicolink: 'https://bicolink.com/8Tc6Ix' },
+            { id: 'v9', title: 'Private 09', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/9.jpg', yt: 'https://youtu.be/rD44k5CBlmc', bicolink: 'https://bicolink.com/ngYS' },
+            { id: 'v10', title: 'Private 10', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/10.jpg', yt: 'https://youtu.be/d_TclsXFBuY', bicolink: 'https://bicolink.com/1aColXt' },
+            { id: 'v11', title: 'Private 11', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/11.jpg', yt: 'https://youtu.be/2adv6dHAbBQ', bicolink: 'https://bicolink.com/D7ltxmY5Ra' },
+            { id: 'v12', title: 'Private 12', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/12.jpg', yt: 'https://youtu.be/zEdezRNW7_k', bicolink: 'https://bicolink.com/pxQ7wc0l' },
+            { id: 'v13', title: 'Private 13', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/13.jpg', yt: 'https://youtu.be/CfhcYxrQ0xQ', bicolink: 'https://bicolink.com/Vif' },
+            { id: 'v14', title: 'Private 14', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/14.jpg', yt: 'https://youtu.be/xyz123', bicolink: '#' },
+            { id: 'v15', title: 'Private 15', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/15.jpg', yt: 'https://youtu.be/xyz123', bicolink: '#' },
+            { id: 'v16', title: 'Private 16', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/16.jpg', yt: 'https://youtu.be/xyz123', bicolink: '#' },
+            { id: 'v17', title: 'Private 17', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/17.jpg', yt: 'https://youtu.be/xyz123', bicolink: '#' },
+            { id: 'v18', title: 'Private 18', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/18.jpg', yt: 'https://youtu.be/xyz123', bicolink: '#' },
+            { id: 'v19', title: 'Private 19', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/19.jpg', yt: 'https://youtu.be/xyz123', bicolink: '#' },
+            { id: 'v20', title: 'Private 20', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/20.jpg', yt: 'https://youtu.be/xyz123', bicolink: '#' }
         ];
 
         const container = document.getElementById('video-list-container');
@@ -248,10 +252,13 @@
                             <h3 class="text-[12px] sm:text-sm font-bold text-white tracking-wide truncate">${v.title}</h3>
                         </div>
                         <div class="flex gap-2">
-                            <a href="${v.yt}" target="_blank" class="flex-1 py-1.5 btn-primary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1.5">
-                                <i class="fab fa-youtube text-[11px]"></i> AMBIL KEY
+                            <a href="${v.yt}" target="_blank" class="flex-1 py-1.5 btn-primary rounded-lg text-[8px] sm:text-[9px] font-bold text-center flex items-center justify-center gap-1">
+                                <i class="fab fa-youtube text-[10px]"></i> YT KEY
                             </a>
-                            <button onclick="openVault('${v.id}', '${v.title}')" class="flex-1 py-1.5 btn-secondary rounded-lg text-[10px] font-bold text-center flex items-center justify-center gap-1.5">
+                            <a href="${v.bicolink}" target="_blank" class="flex-1 py-1.5 btn-bicolink rounded-lg text-[8px] sm:text-[9px] font-bold text-center flex items-center justify-center gap-1">
+                                <i class="fas fa-link text-[10px]"></i> WEB KEY
+                            </a>
+                            <button onclick="openVault('${v.id}', '${v.title}')" class="flex-1 py-1.5 btn-secondary rounded-lg text-[8px] sm:text-[9px] font-bold text-center flex items-center justify-center gap-1">
                                 <i class="fas fa-key text-[10px]"></i> BUKA
                             </button>
                         </div>
@@ -337,7 +344,6 @@
                 const encoder = new TextEncoder();
                 const keyBytes = encoder.encode(input);
                 
-                // MENGGUNAKAN RAW GITHUB UNTUK MENGAMBIL FILE .enc
                 const response = await fetch(`https://raw.githubusercontent.com/takamura-wq/aura-portal/main/data/${currentSelectedVideoId}.enc`);
                 
                 if (!response.ok) {
