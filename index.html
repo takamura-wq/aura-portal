@@ -339,15 +339,33 @@
         const urlParams = new URLSearchParams(window.location.search);
         const targetVideoId = urlParams.get('id');
 
+        // Fitur Riwayat Lokal (Telah Ditonton)
+        function getUnlockedVideos() {
+            try { return JSON.parse(localStorage.getItem('aura_unlocked_videos')) || []; } 
+            catch (e) { return []; }
+        }
+
+        function markVideoAsUnlocked(id) {
+            const unlocked = getUnlockedVideos();
+            if (!unlocked.includes(id)) {
+                unlocked.push(id);
+                localStorage.setItem('aura_unlocked_videos', JSON.stringify(unlocked));
+            }
+        }
+
         // Fungsi membuat card HTML tunggal untuk sebuah video
         function generateVideoCard(v, isTarget = false) {
             const targetClasses = isTarget 
                 ? 'highlight-target border-cyber-500 bg-cyber-500/10' 
                 : 'bg-white/5 border-white/5 hover:border-cyber-500/30';
                 
+            // Cek apakah video ini sudah pernah berhasil dibuka sebelumnya
+            const isUnlocked = getUnlockedVideos().includes(v.id);
+            const unlockedBadge = isUnlocked ? `<i class="fas fa-check-circle text-green-400 text-[10px] drop-shadow-[0_0_5px_rgba(74,222,128,0.5)]" title="Telah Diakses"></i>` : '';
+
             // Pisahkan isi dalam kartu agar kode lebih rapi
             const innerContent = `
-                <div onclick="openImagePreview('${v.img}', '${v.title}')" class="w-[70px] h-[70px] sm:w-[80px] sm:h-[80px] rounded-xl overflow-hidden shrink-0 relative shadow-inner cursor-pointer group">
+                <div onclick="openImagePreview('${v.img}', '${v.title}')" class="w-[70px] h-[70px] sm:w-[80px] sm:h-[80px] rounded-xl overflow-hidden shrink-0 relative shadow-inner cursor-pointer group ${isUnlocked ? 'opacity-75' : ''}">
                     <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity z-20 flex items-center justify-center backdrop-blur-[2px]">
                         <i class="fas fa-search-plus text-white text-xl drop-shadow-lg"></i>
                     </div>
@@ -360,7 +378,8 @@
                     <div class="flex items-center gap-2 justify-between w-full">
                         <div class="flex items-center gap-2 truncate">
                             <span class="px-1.5 py-0.5 bg-cyber-500/20 text-cyber-400 border border-cyber-500/30 text-[8px] font-bold rounded shadow-sm">VIP</span>
-                            <h3 class="text-[12px] sm:text-sm font-bold text-white tracking-wide truncate">${v.title}</h3>
+                            ${unlockedBadge}
+                            <h3 class="text-[12px] sm:text-sm font-bold ${isUnlocked ? 'text-slate-300' : 'text-white'} tracking-wide truncate">${v.title}</h3>
                         </div>
                         <button onclick="copyVideoLink('${v.id}')" class="w-7 h-7 rounded-full bg-white/5 hover:bg-white/10 text-slate-400 hover:text-cyber-400 flex items-center justify-center transition-colors shrink-0" title="Bagikan link video ini">
                             <i class="fas fa-link text-[10px]"></i>
@@ -593,6 +612,22 @@
                 const links = textContent.split('|');
                 decryptedWatchLink = links[0];
                 decryptedDownloadLink = links[1] || links[0]; 
+
+                // 1. Simpan riwayat bahwa video ini sudah pernah berhasil dibuka
+                markVideoAsUnlocked(currentSelectedVideoId);
+                
+                // 2. Update UI card secara instan agar memunculkan centang hijau (tanpa reload halaman)
+                const cardTitleArea = document.querySelector(`#card-${currentSelectedVideoId} .truncate.flex`);
+                if (cardTitleArea && !cardTitleArea.innerHTML.includes('fa-check-circle')) {
+                    const titleEl = cardTitleArea.querySelector('h3');
+                    if (titleEl) {
+                        titleEl.classList.remove('text-white');
+                        titleEl.classList.add('text-slate-300');
+                        titleEl.insertAdjacentHTML('beforebegin', `<i class="fas fa-check-circle text-green-400 text-[10px] drop-shadow-[0_0_5px_rgba(74,222,128,0.5)]" title="Telah Diakses"></i> `);
+                    }
+                    const imgContainer = document.querySelector(`#card-${currentSelectedVideoId} .w-\\[70px\\]`);
+                    if (imgContainer) imgContainer.classList.add('opacity-75');
+                }
 
                 closeVault();
                 showToast('Akses Terbuka!', 'fas fa-unlock', 'text-cyber-400');
