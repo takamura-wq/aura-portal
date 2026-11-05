@@ -420,7 +420,7 @@
                 `;
             } else {
                 // Cari batch mana yang harus dibuka jika ada target ID
-                let targetBatchNumber = 1;
+                let targetBatchNumber = -1;
                 if (targetVideoId && !isSearchResult) {
                     const targetIndex = data.findIndex(v => v.id === targetVideoId);
                     if (targetIndex !== -1) {
@@ -434,8 +434,8 @@
                     const batchNumber = Math.floor(i / itemsPerDropdown) + 1;
                     const dropdownId = `dropdown-batch-${batchNumber}`;
                     
-                    // Buka batch target secara default, atau batch 1 jika tidak ada target
-                    const isOpen = targetVideoId ? (batchNumber === targetBatchNumber) : (batchNumber === 1);
+                    // Buka batch HANYA JIKA ada targetVideoId dan berada di batch ini (sisanya tertutup false)
+                    const isOpen = targetVideoId ? (batchNumber === targetBatchNumber) : false;
 
                     let itemsHtml = chunk.map(v => generateVideoCard(v, v.id === targetVideoId)).join('');
 
