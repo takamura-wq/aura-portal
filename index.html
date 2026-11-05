@@ -3,6 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- Open Graph / Meta Tags untuk Preview Link (WhatsApp, Telegram) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://aura-portal-two.vercel.app/">
+    <meta property="og:title" content="AURA PORTAL | Pusat Akses VIP">
+    <meta property="og:description" content="Akses daftar video VIP secara aman. Gunakan key untuk membuka brankas rahasia dari KanaaLikeSleeping.">
+    <meta property="og:image" content="https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/logo.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+
     <title>AURA PORTAL | Pusat Akses VIP</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -286,6 +295,9 @@
         </div>
     </div>
 
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-[200] flex flex-col gap-3 pointer-events-none"></div>
+
     <script>
         const videoData = [
             { id: 'v1', title: 'Private 01', img: 'https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/1.jpg', yt: 'https://youtu.be/uABjcDlNmeU', bicolink: 'https://bicolink.com/NUgmzQD' },
@@ -345,9 +357,14 @@
                     <img src="${v.img}" alt="${v.title}" onerror="this.src='https://placehold.co/100x100/1a1a2e/a855f7?text=${v.title}'" class="w-full h-full object-cover protected-img">
                 </div>
                 <div class="flex flex-col flex-1 gap-2">
-                    <div class="flex items-center gap-2">
-                        <span class="px-1.5 py-0.5 bg-cyber-500/20 text-cyber-400 border border-cyber-500/30 text-[8px] font-bold rounded shadow-sm">VIP</span>
-                        <h3 class="text-[12px] sm:text-sm font-bold text-white tracking-wide truncate">${v.title}</h3>
+                    <div class="flex items-center gap-2 justify-between w-full">
+                        <div class="flex items-center gap-2 truncate">
+                            <span class="px-1.5 py-0.5 bg-cyber-500/20 text-cyber-400 border border-cyber-500/30 text-[8px] font-bold rounded shadow-sm">VIP</span>
+                            <h3 class="text-[12px] sm:text-sm font-bold text-white tracking-wide truncate">${v.title}</h3>
+                        </div>
+                        <button onclick="copyVideoLink('${v.id}')" class="w-7 h-7 rounded-full bg-white/5 hover:bg-white/10 text-slate-400 hover:text-cyber-400 flex items-center justify-center transition-colors shrink-0" title="Bagikan link video ini">
+                            <i class="fas fa-link text-[10px]"></i>
+                        </button>
                     </div>
                     <div class="flex gap-2">
                         <a href="${v.yt}" target="_blank" class="flex-1 py-1.5 btn-primary rounded-lg text-[8px] sm:text-[9px] font-bold text-center flex items-center justify-center gap-1">
@@ -578,6 +595,7 @@
                 decryptedDownloadLink = links[1] || links[0]; 
 
                 closeVault();
+                showToast('Akses Terbuka!', 'fas fa-unlock', 'text-cyber-400');
                 document.getElementById('action-modal').classList.add('active');
 
             } catch (err) {
@@ -649,6 +667,57 @@
 
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Fitur Salin Tautan (Copy Link) & Toast Notification
+        function copyVideoLink(id) {
+            const link = window.location.origin + window.location.pathname + '?id=' + id;
+            try {
+                navigator.clipboard.writeText(link).then(() => {
+                    showToast('Link video berhasil disalin!');
+                }).catch(() => fallbackCopyTextToClipboard(link));
+            } catch (err) {
+                fallbackCopyTextToClipboard(link);
+            }
+        }
+
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed"; 
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                showToast('Link video berhasil disalin!');
+            } catch (err) {
+                showToast('Gagal menyalin link!', 'fas fa-times-circle', 'text-red-400');
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function showToast(message, iconClass = 'fas fa-check-circle', colorClass = 'text-green-400') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            toast.className = `glass-panel px-5 py-3 rounded-full flex items-center gap-2.5 shadow-xl transform transition-all duration-300 translate-y-5 opacity-0 bg-cyber-dark/95 border border-white/10`;
+            toast.innerHTML = `<i class="${iconClass} ${colorClass} text-sm"></i> <span class="text-white text-xs font-bold tracking-wide">${message}</span>`;
+            
+            container.appendChild(toast);
+            
+            // Animasi masuk
+            setTimeout(() => {
+                toast.classList.remove('translate-y-5', 'opacity-0');
+                toast.classList.add('translate-y-0', 'opacity-100');
+            }, 10);
+            
+            // Animasi keluar
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-5', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
         }
     </script>
 </body>
