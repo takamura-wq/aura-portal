@@ -50,8 +50,9 @@
         .btn-secondary:hover { background: rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.4); color: #c084fc; }
         .btn-secondary:active { transform: scale(0.98); }
 
-        .premium-input { background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 12px 14px; width: 100%; border-radius: 10px; font-family: 'JetBrains Mono', monospace; outline: none; transition: all 0.3s; }
+        .premium-input { background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 12px 14px; width: 100%; border-radius: 10px; font-family: 'Plus Jakarta Sans', sans-serif; outline: none; transition: all 0.3s; }
         .premium-input:focus { border-color: #a855f7; background: rgba(168, 85, 247, 0.05); }
+        .premium-input.mono { font-family: 'JetBrains Mono', monospace; }
 
         .modal-overlay { position: fixed; inset: 0; background: rgba(3, 3, 5, 0.7); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 20px; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
@@ -61,7 +62,7 @@
         .protected-img { pointer-events: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; -webkit-user-drag: none; }
         
         .dropdown-content { transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out; max-height: 0; opacity: 0; overflow: hidden; }
-        .dropdown-content.open { max-height: 2000px; opacity: 1; }
+        .dropdown-content.open { max-height: 3000px; opacity: 1; }
         
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
@@ -127,8 +128,17 @@
                     <ul class="text-[10px] text-slate-300 space-y-1.5 relative z-10 list-disc pl-3 marker:text-amber-500/50">
                         <li><b class="text-white">1 Video = 1 Key Khusus</b>. Jangan tukar key antar video (pasti otomatis ditolak).</li>
                         <li>Dapatkan key dengan menonton video <b class="text-white">YouTube</b> yang sesuai.</li>
-                        <li>Mau nonton duluan sebelum tayang di YT? Pakai tombol <b class="text-blue-400">WEB KEY</b> (Bicolink). <span class="opacity-75 italic">(Cari tutorial lewati Bicolink di YT jika bingung)</span>.</li>
+                        <!-- UPDATE: Tautan tutorial Bicolink sekarang bisa diklik -->
+                        <li>Mau nonton duluan sebelum tayang di YT? Pakai tombol <b class="text-blue-400">WEB KEY</b> (Bicolink). <a href="https://youtu.be/8j7Cl4EYpUE" target="_blank" class="text-blue-400 hover:text-blue-300 underline underline-offset-2 italic transition-colors">Tonton tutorial lewati Bicolink di sini</a>.</li>
                     </ul>
+                </div>
+
+                <!-- UPDATE: Search Bar Ditambahkan -->
+                <div class="mb-5 relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <input type="text" id="search-input" class="premium-input pl-11 text-sm bg-cyber-500/5" placeholder="Cari video (contoh: Private 15)..." autocomplete="off">
                 </div>
 
                 <div class="flex items-center justify-between mb-4">
@@ -162,7 +172,7 @@
                 </p>
             </div>
             
-            <input type="text" id="password-input" class="premium-input mb-5 text-center text-sm font-bold tracking-widest" placeholder="Masukkan key khusus video ini..." autocomplete="off">
+            <input type="text" id="password-input" class="premium-input mono mb-5 text-center text-sm font-bold tracking-widest" placeholder="Masukkan key khusus video ini..." autocomplete="off">
             <div id="error-msg" class="text-[10px] text-red-400 text-center mb-3 hidden"><i class="fas fa-times-circle"></i> Password salah! Key dari video lain TIDAK AKAN BISA digunakan di sini.</div>
             
             <div class="flex gap-3">
@@ -268,15 +278,10 @@
 
         const container = document.getElementById('video-list-container');
         const itemsPerDropdown = 10;
-        let renderedHtml = '';
 
-        for (let i = 0; i < videoData.length; i += itemsPerDropdown) {
-            const chunk = videoData.slice(i, i + itemsPerDropdown);
-            const batchNumber = (i / itemsPerDropdown) + 1;
-            const dropdownId = `dropdown-batch-${batchNumber}`;
-            const isOpen = false;
-
-            let itemsHtml = chunk.map(v => `
+        // Fungsi membuat card HTML tunggal untuk sebuah video
+        function generateVideoCard(v) {
+            return `
                 <div class="bg-white/5 rounded-xl p-3 flex items-center gap-3.5 border border-white/5 hover:border-cyber-500/30 transition-colors">
                     <div onclick="openImagePreview('${v.img}', '${v.title}')" class="w-[70px] h-[70px] sm:w-[80px] sm:h-[80px] rounded-xl overflow-hidden shrink-0 relative shadow-inner cursor-pointer group">
                         <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity z-20 flex items-center justify-center backdrop-blur-[2px]">
@@ -305,33 +310,100 @@
                         </div>
                     </div>
                 </div>
-            `).join('');
-
-            renderedHtml += `
-                <div class="glass-panel rounded-2xl overflow-hidden">
-                    <button onclick="toggleDropdown('${dropdownId}', this)" class="w-full p-4 flex justify-between items-center text-white hover:bg-white/5 transition-colors">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-cyber-500/20 text-cyber-400 flex items-center justify-center">
-                                <i class="fas fa-folder-open text-xs"></i>
-                            </div>
-                            <div class="text-left">
-                                <h3 class="font-bold text-sm">Batch ${batchNumber}</h3>
-                                <p class="text-[10px] text-slate-400">Video ${i + 1} - ${Math.min(i + itemsPerDropdown, videoData.length)}</p>
-                            </div>
-                        </div>
-                        <i class="fas fa-chevron-down text-slate-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}"></i>
-                    </button>
-                    <div id="${dropdownId}" class="dropdown-content ${isOpen ? 'open' : ''}">
-                        <div class="p-3 pt-0 flex flex-col gap-3">
-                            ${itemsHtml}
-                        </div>
-                    </div>
-                </div>
             `;
         }
 
-        container.innerHTML = renderedHtml;
+        // Fungsi render sistematis berdasarkan data list (batch default vs pencarian)
+        function renderVideos(data, isSearchResult = false) {
+            let renderedHtml = '';
+            
+            if (data.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8">
+                        <div class="w-16 h-16 rounded-full bg-white/5 text-slate-500 flex items-center justify-center text-3xl mx-auto mb-3">
+                            <i class="fas fa-search-minus"></i>
+                        </div>
+                        <h3 class="text-white text-sm font-bold mb-1">Tidak Ditemukan</h3>
+                        <p class="text-[10px] text-slate-400">Coba cari dengan kata kunci lain.</p>
+                    </div>
+                `;
+                return;
+            }
 
+            if (isSearchResult) {
+                // Tampilan datar jika sedang mencari (agar tidak perlu buka tutup dropdown)
+                const itemsHtml = data.map(v => generateVideoCard(v)).join('');
+                renderedHtml = `
+                    <div class="glass-panel rounded-2xl overflow-hidden border border-cyber-500/30">
+                        <div class="w-full p-4 flex justify-between items-center bg-cyber-500/10 border-b border-white/5">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-cyber-500/20 text-cyber-400 flex items-center justify-center">
+                                    <i class="fas fa-search text-xs"></i>
+                                </div>
+                                <div class="text-left">
+                                    <h3 class="font-bold text-sm text-white">Hasil Pencarian</h3>
+                                    <p class="text-[10px] text-slate-400">Menemukan ${data.length} kecocokan</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-3 flex flex-col gap-3">
+                            ${itemsHtml}
+                        </div>
+                    </div>
+                `;
+            } else {
+                // Tampilan Batch Default
+                for (let i = 0; i < data.length; i += itemsPerDropdown) {
+                    const chunk = data.slice(i, i + itemsPerDropdown);
+                    const batchNumber = Math.floor(i / itemsPerDropdown) + 1;
+                    const dropdownId = `dropdown-batch-${batchNumber}`;
+                    // Buka batch pertama secara default, sisanya tutup
+                    const isOpen = batchNumber === 1;
+
+                    let itemsHtml = chunk.map(v => generateVideoCard(v)).join('');
+
+                    renderedHtml += `
+                        <div class="glass-panel rounded-2xl overflow-hidden">
+                            <button onclick="toggleDropdown('${dropdownId}', this)" class="w-full p-4 flex justify-between items-center text-white hover:bg-white/5 transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-cyber-500/20 text-cyber-400 flex items-center justify-center">
+                                        <i class="fas fa-folder-open text-xs"></i>
+                                    </div>
+                                    <div class="text-left">
+                                        <h3 class="font-bold text-sm">Batch ${batchNumber}</h3>
+                                        <p class="text-[10px] text-slate-400">Video ${i + 1} - ${Math.min(i + itemsPerDropdown, data.length)}</p>
+                                    </div>
+                                </div>
+                                <i class="fas fa-chevron-down text-slate-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}"></i>
+                            </button>
+                            <div id="${dropdownId}" class="dropdown-content ${isOpen ? 'open' : ''}">
+                                <div class="p-3 pt-0 flex flex-col gap-3">
+                                    ${itemsHtml}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            container.innerHTML = renderedHtml;
+        }
+
+        // Jalankan render awal
+        renderVideos(videoData, false);
+
+        // Event listener untuk kolom pencarian
+        document.getElementById('search-input').addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase().trim();
+            if (query === '') {
+                renderVideos(videoData, false); // Tampilkan ulang batch jika kosong
+            } else {
+                const filteredData = videoData.filter(v => v.title.toLowerCase().includes(query));
+                renderVideos(filteredData, true); // Tampilkan flat list pencarian
+            }
+        });
+
+        // Script untuk logika dropdown batch
         function toggleDropdown(id, buttonElement) {
             const content = document.getElementById(id);
             const icon = buttonElement.querySelector('.fa-chevron-down');
@@ -345,9 +417,9 @@
             }
         }
 
+        // Variabel state untuk kriptografi dan kontrol UI
         let decryptedWatchLink = '';
         let decryptedDownloadLink = '';
-        
         let currentSelectedVideoId = '';
 
         function openVault(videoId, videoTitle) {
