@@ -19,6 +19,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     
+    <!-- Catatan: Untuk production sungguhan, disarankan menggunakan file CSS Tailwind yang sudah di-build, bukan CDN ini -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -43,8 +44,9 @@
         .bg-ambient { position: fixed; inset: 0; background: radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.08) 0%, transparent 60%); z-index: -2; pointer-events: none; }
         .bg-grid { position: fixed; inset: 0; background-size: 30px 30px; background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px); z-index: -3; mask-image: linear-gradient(to bottom, black 20%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%); }
 
-        .glass-panel { background: rgba(10, 10, 14, 0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-        .glass-panel:hover { border-color: rgba(168, 85, 247, 0.3); background: rgba(255, 255, 255, 0.02); }
+        /* OPTIMASI: Efek blur dikurangi dari 12px menjadi 6px, opacity background dinaikkan agar teks tetap terbaca tanpa memberatkan GPU */
+        .glass-panel { background: rgba(10, 10, 14, 0.75); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); transition: all 0.3s ease; }
+        .glass-panel:hover { border-color: rgba(168, 85, 247, 0.3); background: rgba(255, 255, 255, 0.04); }
 
         .btn-primary { background: linear-gradient(135deg, #ef4444, #dc2626); color: #ffffff; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.25); transition: all 0.3s; }
         .btn-primary:hover:not(:disabled) { box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5); transform: translateY(-1px); filter: brightness(1.1); }
@@ -63,15 +65,18 @@
         .premium-input:focus { border-color: #a855f7; background: rgba(168, 85, 247, 0.05); }
         .premium-input.mono { font-family: 'JetBrains Mono', monospace; }
 
-        .modal-overlay { position: fixed; inset: 0; background: rgba(3, 3, 5, 0.7); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 20px; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(3, 3, 5, 0.7); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 20px; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-content { transform: scale(0.95); opacity: 0; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
         .modal-overlay.active .modal-content { transform: scale(1); opacity: 1; }
 
         .protected-img { pointer-events: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; -webkit-user-drag: none; }
         
-        .dropdown-content { transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out; max-height: 0; opacity: 0; overflow: hidden; }
-        .dropdown-content.open { max-height: 3000px; opacity: 1; }
+        /* OPTIMASI: Mengganti max-height yang berat dengan CSS Grid & Visibility */
+        .dropdown-wrapper { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+        .dropdown-wrapper.open { grid-template-rows: 1fr; }
+        .dropdown-inner { overflow: hidden; opacity: 0; transition: opacity 0.35s ease, visibility 0.35s; visibility: hidden; }
+        .dropdown-wrapper.open .dropdown-inner { opacity: 1; visibility: visible; }
         
         @keyframes pulseGlow {
             0%, 100% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.4); border-color: rgba(168, 85, 247, 0.5); background-color: rgba(168, 85, 247, 0.1); }
@@ -89,9 +94,10 @@
     <div class="bg-ambient"></div>
     <div class="bg-grid"></div>
 
-    <div class="w-full max-w-[480px] min-h-screen bg-cyber-dark/80 backdrop-blur-3xl border-x border-white/5 relative z-10 flex flex-col shadow-2xl">
+    <!-- OPTIMASI: backdrop-blur-3xl (berat) diganti menjadi backdrop-blur-md, dan bg opacity disesuaikan -->
+    <div class="w-full max-w-[480px] min-h-screen bg-cyber-dark/90 backdrop-blur-md border-x border-white/5 relative z-10 flex flex-col shadow-2xl">
         
-        <header class="sticky top-0 z-50 bg-cyber-dark/90 backdrop-blur-md border-b border-white/5 px-5 py-4 flex justify-between items-center">
+        <header class="sticky top-0 z-50 bg-cyber-dark/95 backdrop-blur-sm border-b border-white/5 px-5 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-cyber-400 shadow-inner">
                     <i class="fas fa-compass text-lg"></i>
@@ -116,8 +122,8 @@
                         <i class="fas fa-crown text-[#FFD700] text-[32px] absolute top-[-6px] right-[-10px] z-30 drop-shadow-[0_3px_15px_rgba(255,215,0,0.8)] transform rotate-[35deg]"></i>
                         
                         <div class="w-full h-full rounded-full overflow-hidden bg-cyber-dark relative flex items-center justify-center">
-                            <!-- Logo diambil secara optimal dari CDN JSDelivr GitHub Anda -->
-                            <img src="https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/logo.jpg" alt="KanaaLikeSleeping" onerror="this.src='https://placehold.co/200x200/0a0a0e/a855f7?text=KLS'" class="w-full h-full object-cover">
+                            <!-- OPTIMASI: Ditambahkan atribut loading="lazy" dan decoding="async" -->
+                            <img src="https://cdn.jsdelivr.net/gh/takamura-wq/aura-portal/images/logo.jpg" alt="KanaaLikeSleeping" onerror="this.src='https://placehold.co/200x200/0a0a0e/a855f7?text=KLS'" loading="lazy" decoding="async" class="w-full h-full object-cover">
                             <!-- Efek pendaran bulan (spherical moon glow) -->
                             <div class="absolute inset-0 rounded-full shadow-[inset_-8px_-8px_20px_rgba(168,85,247,0.4)] pointer-events-none border border-white/10"></div>
                         </div>
@@ -176,12 +182,11 @@
                     <ul class="text-[10px] text-slate-300 space-y-1.5 relative z-10 list-disc pl-3 marker:text-amber-500/50">
                         <li><b class="text-white">1 Video = 1 Key Khusus</b>. Jangan tukar key antar video (pasti otomatis ditolak).</li>
                         <li>Dapatkan key dengan menonton video <b class="text-white">YouTube</b> yang sesuai.</li>
-                        <!-- UPDATE: Tautan tutorial Bicolink sekarang bisa diklik -->
                         <li>Mau nonton duluan sebelum tayang di YT? Pakai tombol <b class="text-blue-400">WEB KEY</b> (Bicolink). <a href="https://youtu.be/8j7Cl4EYpUE" target="_blank" class="text-blue-400 hover:text-blue-300 underline underline-offset-2 italic transition-colors">Tonton tutorial lewati Bicolink di sini</a>.</li>
                     </ul>
                 </div>
 
-                <!-- UPDATE: Search Bar Ditambahkan -->
+                <!-- Search Bar -->
                 <div class="mb-5 relative">
                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
                         <i class="fas fa-search"></i>
@@ -207,7 +212,7 @@
     </div>
 
     <!-- Tombol Back to Top -->
-    <button id="back-to-top" onclick="scrollToTop()" class="fixed bottom-6 right-6 w-11 h-11 rounded-full bg-cyber-500/80 hover:bg-cyber-500 text-white flex items-center justify-center shadow-[0_0_20px_rgba(168,85,247,0.5)] border border-white/20 transition-all duration-300 opacity-0 pointer-events-none translate-y-4 z-40 backdrop-blur-md active:scale-95" title="Kembali ke atas">
+    <button id="back-to-top" onclick="scrollToTop()" class="fixed bottom-6 right-6 w-11 h-11 rounded-full bg-cyber-500/80 hover:bg-cyber-500 text-white flex items-center justify-center shadow-[0_0_20px_rgba(168,85,247,0.5)] border border-white/20 transition-all duration-300 opacity-0 pointer-events-none translate-y-4 z-40 backdrop-blur-sm active:scale-95" title="Kembali ke atas">
         <i class="fas fa-arrow-up text-sm"></i>
     </button>
 
@@ -288,7 +293,8 @@
                 <i class="fas fa-times text-lg"></i>
             </button>
             <div class="w-full relative shadow-[0_10px_40px_rgba(0,0,0,0.5)] rounded-xl overflow-hidden border border-white/10">
-                <img id="preview-image" src="" alt="Preview" class="w-full max-h-[75vh] object-contain bg-cyber-dark protected-img relative z-0">
+                <!-- OPTIMASI: Ditambahkan atribut loading="lazy" -->
+                <img id="preview-image" src="" alt="Preview" loading="lazy" class="w-full max-h-[75vh] object-contain bg-cyber-dark protected-img relative z-0">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
                 <h3 id="preview-title" class="absolute bottom-4 left-4 right-4 text-white font-bold text-sm drop-shadow-md text-center"></h3>
             </div>
@@ -369,11 +375,10 @@
                 ? 'highlight-target border-cyber-500 bg-cyber-500/10' 
                 : 'bg-white/5 border-white/5 hover:border-cyber-500/30';
                 
-            // Cek apakah video ini sudah pernah berhasil dibuka sebelumnya
             const isUnlocked = getUnlockedVideos().includes(v.id);
             const unlockedBadge = isUnlocked ? `<i class="fas fa-check-circle text-green-400 text-[10px] drop-shadow-[0_0_5px_rgba(74,222,128,0.5)]" title="Telah Diakses"></i>` : '';
 
-            // Pisahkan isi dalam kartu agar kode lebih rapi
+            // OPTIMASI: loading="lazy" dan decoding="async" disematkan pada tag img
             const innerContent = `
                 <div onclick="openImagePreview('${v.img}', '${v.title}')" class="w-[70px] h-[70px] sm:w-[80px] sm:h-[80px] rounded-xl overflow-hidden shrink-0 relative shadow-inner cursor-pointer group ${isUnlocked ? 'opacity-75' : ''}">
                     <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity z-20 flex items-center justify-center backdrop-blur-[2px]">
@@ -382,7 +387,7 @@
                     <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10 flex items-end justify-center pb-1 pointer-events-none">
                         <i class="fas fa-lock text-white/50 text-[10px]"></i>
                     </div>
-                    <img src="${v.img}" alt="${v.title}" onerror="this.src='https://placehold.co/100x100/1a1a2e/a855f7?text=${v.title}'" class="w-full h-full object-cover protected-img">
+                    <img src="${v.img}" alt="${v.title}" onerror="this.src='https://placehold.co/100x100/1a1a2e/a855f7?text=${v.title}'" loading="lazy" decoding="async" class="w-full h-full object-cover protected-img">
                 </div>
                 <div class="flex flex-col flex-1 gap-2">
                     <div class="flex items-center gap-2 justify-between w-full">
@@ -409,7 +414,6 @@
                 </div>
             `;
 
-            // Jika ini adalah video yang dicari dari URL, tambahkan header kuning menyatu agar tidak terpotong
             if (isTarget) {
                 return `
                 <div id="card-${v.id}" class="rounded-xl flex flex-col border transition-colors overflow-hidden relative ${targetClasses}">
@@ -423,7 +427,6 @@
                 `;
             }
 
-            // Jika bukan video yang dicari, render versi standar
             return `
                 <div id="card-${v.id}" class="rounded-xl p-3 flex items-center gap-3.5 border transition-colors relative ${targetClasses}">
                     ${innerContent}
@@ -431,7 +434,7 @@
             `;
         }
 
-        // Fungsi render sistematis berdasarkan data list (batch default vs pencarian)
+        // Fungsi render sistematis berdasarkan data list
         function renderVideos(data, isSearchResult = false) {
             let renderedHtml = '';
             
@@ -449,7 +452,6 @@
             }
 
             if (isSearchResult) {
-                // Tampilan datar jika sedang mencari (agar tidak perlu buka tutup dropdown)
                 const itemsHtml = data.map(v => generateVideoCard(v)).join('');
                 renderedHtml = `
                     <div class="glass-panel rounded-2xl overflow-hidden border border-cyber-500/30 animate-fade-up">
@@ -470,7 +472,6 @@
                     </div>
                 `;
             } else {
-                // Cari batch mana yang harus dibuka jika ada target ID
                 let targetBatchNumber = -1;
                 if (targetVideoId && !isSearchResult) {
                     const targetIndex = data.findIndex(v => v.id === targetVideoId);
@@ -479,13 +480,11 @@
                     }
                 }
 
-                // Tampilan Batch Default
                 for (let i = 0; i < data.length; i += itemsPerDropdown) {
                     const chunk = data.slice(i, i + itemsPerDropdown);
                     const batchNumber = Math.floor(i / itemsPerDropdown) + 1;
                     const dropdownId = `dropdown-batch-${batchNumber}`;
                     
-                    // Buka batch HANYA JIKA ada targetVideoId dan berada di batch ini (sisanya tertutup false)
                     const isOpen = targetVideoId ? (batchNumber === targetBatchNumber) : false;
 
                     let itemsHtml = chunk.map(v => generateVideoCard(v, v.id === targetVideoId)).join('');
@@ -504,9 +503,11 @@
                                 </div>
                                 <i class="fas fa-chevron-down text-slate-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}"></i>
                             </button>
-                            <div id="${dropdownId}" class="dropdown-content ${isOpen ? 'open' : ''}">
-                                <div class="p-3 pt-0 flex flex-col gap-3">
-                                    ${itemsHtml}
+                            <div id="${dropdownId}" class="dropdown-wrapper ${isOpen ? 'open' : ''}">
+                                <div class="dropdown-inner">
+                                    <div class="p-3 pt-0 flex flex-col gap-3">
+                                        ${itemsHtml}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -516,32 +517,28 @@
 
             container.innerHTML = renderedHtml;
 
-            // Auto scroll ke target setelah render selesai
             if (targetVideoId && !isSearchResult) {
                 setTimeout(() => {
                     const targetEl = document.getElementById(`card-${targetVideoId}`);
                     if (targetEl) {
                         targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }
-                }, 300); // Jeda sejenak untuk memastikan animasi berjalan lancar
+                }, 300);
             }
         }
 
-        // Jalankan render awal
         renderVideos(videoData, false);
 
-        // Event listener untuk kolom pencarian
         document.getElementById('search-input').addEventListener('input', function(e) {
             const query = e.target.value.toLowerCase().trim();
             if (query === '') {
-                renderVideos(videoData, false); // Tampilkan ulang batch jika kosong
+                renderVideos(videoData, false);
             } else {
                 const filteredData = videoData.filter(v => v.title.toLowerCase().includes(query));
-                renderVideos(filteredData, true); // Tampilkan flat list pencarian
+                renderVideos(filteredData, true);
             }
         });
 
-        // Script untuk logika dropdown batch
         function toggleDropdown(id, buttonElement) {
             const content = document.getElementById(id);
             const icon = buttonElement.querySelector('.fa-chevron-down');
@@ -555,7 +552,6 @@
             }
         }
 
-        // Variabel state untuk kriptografi dan kontrol UI
         let decryptedWatchLink = '';
         let decryptedDownloadLink = '';
         let currentSelectedVideoId = '';
@@ -623,10 +619,8 @@
                 decryptedWatchLink = links[0];
                 decryptedDownloadLink = links[1] || links[0]; 
 
-                // 1. Simpan riwayat bahwa video ini sudah pernah berhasil dibuka
                 markVideoAsUnlocked(currentSelectedVideoId);
                 
-                // 2. Update UI card secara instan agar memunculkan centang hijau (tanpa reload halaman)
                 const cardTitleArea = document.querySelector(`#card-${currentSelectedVideoId} .truncate.flex`);
                 if (cardTitleArea && !cardTitleArea.innerHTML.includes('fa-check-circle')) {
                     const titleEl = cardTitleArea.querySelector('h3');
@@ -698,7 +692,6 @@
             }, 300);
         }
 
-        // Logika Tombol Back to Top
         window.addEventListener('scroll', () => {
             const backToTopBtn = document.getElementById('back-to-top');
             if (window.scrollY > 300) {
@@ -714,7 +707,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Fitur Salin Tautan (Copy Link) & Toast Notification
         function copyVideoLink(id) {
             const link = window.location.origin + window.location.pathname + '?id=' + id;
             try {
@@ -751,13 +743,11 @@
             
             container.appendChild(toast);
             
-            // Animasi masuk
             setTimeout(() => {
                 toast.classList.remove('translate-y-5', 'opacity-0');
                 toast.classList.add('translate-y-0', 'opacity-100');
             }, 10);
             
-            // Animasi keluar
             setTimeout(() => {
                 toast.classList.remove('translate-y-0', 'opacity-100');
                 toast.classList.add('translate-y-5', 'opacity-0');
