@@ -19,8 +19,76 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     
-    <!-- Memanggil CSS Statis super ringan hasil build -->
-    <link href="style.css" rel="stylesheet">
+    <!-- Catatan: Untuk production sungguhan, disarankan menggunakan file CSS Tailwind yang sudah di-build, bukan CDN ini -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+                    colors: { cyber: { 400: '#c084fc', 500: '#a855f7', 600: '#9333ea', dark: '#050508' } },
+                    animation: { 
+                        'fade-up': 'fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        fadeUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #030305; color: #e2e8f0; min-height: 100vh; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+        
+        .bg-ambient { position: fixed; inset: 0; background: radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.08) 0%, transparent 60%); z-index: -2; pointer-events: none; }
+        .bg-grid { position: fixed; inset: 0; background-size: 30px 30px; background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px); z-index: -3; mask-image: linear-gradient(to bottom, black 20%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 20%, transparent 100%); }
+
+        /* OPTIMASI: Efek blur dikurangi dari 12px menjadi 6px, opacity background dinaikkan agar teks tetap terbaca tanpa memberatkan GPU */
+        .glass-panel { background: rgba(10, 10, 14, 0.75); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); border: 1px solid rgba(255, 255, 255, 0.06); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); transition: all 0.3s ease; }
+        .glass-panel:hover { border-color: rgba(168, 85, 247, 0.3); background: rgba(255, 255, 255, 0.04); }
+
+        .btn-primary { background: linear-gradient(135deg, #ef4444, #dc2626); color: #ffffff; box-shadow: 0 4px 15px rgba(239, 68, 68, 0.25); transition: all 0.3s; }
+        .btn-primary:hover:not(:disabled) { box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5); transform: translateY(-1px); filter: brightness(1.1); }
+        .btn-primary:active:not(:disabled) { transform: translateY(1px) scale(0.98); }
+        .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        .btn-bicolink { background: linear-gradient(135deg, #3b82f6, #2563eb); color: #ffffff; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.25); transition: all 0.3s; }
+        .btn-bicolink:hover { box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5); transform: translateY(-1px); filter: brightness(1.1); }
+        .btn-bicolink:active { transform: translateY(1px) scale(0.98); }
+
+        .btn-secondary { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; transition: all 0.3s; }
+        .btn-secondary:hover { background: rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.4); color: #c084fc; }
+        .btn-secondary:active { transform: scale(0.98); }
+
+        .premium-input { background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); color: #fff; padding: 12px 14px; width: 100%; border-radius: 10px; font-family: 'Plus Jakarta Sans', sans-serif; outline: none; transition: all 0.3s; }
+        .premium-input:focus { border-color: #a855f7; background: rgba(168, 85, 247, 0.05); }
+        .premium-input.focus-amber:focus { border-color: #f59e0b; background: rgba(245, 158, 11, 0.05); }
+        .premium-input.mono { font-family: 'JetBrains Mono', monospace; }
+
+        .modal-overlay { position: fixed; inset: 0; background: rgba(3, 3, 5, 0.7); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 100; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 20px; }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
+        .modal-content { transform: scale(0.95); opacity: 0; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .modal-overlay.active .modal-content { transform: scale(1); opacity: 1; }
+
+        .protected-img { pointer-events: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; -webkit-user-drag: none; }
+        
+        /* OPTIMASI: Mengganti max-height yang berat dengan CSS Grid & Visibility */
+        .dropdown-wrapper { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+        .dropdown-wrapper.open { grid-template-rows: 1fr; }
+        .dropdown-inner { overflow: hidden; opacity: 0; transition: opacity 0.35s ease, visibility 0.35s; visibility: hidden; }
+        .dropdown-wrapper.open .dropdown-inner { opacity: 1; visibility: visible; }
+        
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.4); border-color: rgba(168, 85, 247, 0.5); background-color: rgba(168, 85, 247, 0.1); }
+            50% { box-shadow: 0 0 30px rgba(168, 85, 247, 0.8); border-color: rgba(168, 85, 247, 1); background-color: rgba(168, 85, 247, 0.2); }
+        }
+        .highlight-target { animation: pulseGlow 2s infinite; border-width: 2px !important; }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+    </style>
 </head>
 
 <body class="flex justify-center">
